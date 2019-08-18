@@ -1,3 +1,11 @@
+# Misc
+
+# Images
+/view/img/*
+
+# tern project
+.tern*
+
 # Logs
 logs
 *.log

@@ -1,0 +1,59 @@
+<h5 id="disclaimerBanner">
+  SFSU Software Engineering Project for CSC 648-848 (Team 2), Summer 2019. For Demonstration Purposes Only.
+</h5>
+
+<!-- Standard dark navbar - collapsable into reduced menu for small screen sizes: -->
+<nav id="navbar" class="navbar navbar-expand-md navbar-dark sticky-top" style="background-color: #248ea9;">
+  <a class="navbar-brand" href="/">Site Name</a>
+
+  <form class="form-inline mx-auto" action="/search-results" method="get">
+    <div class="input-group"style="min-width: 100px; margin-right: 30px;" >
+      <input class="form-control" id="searchBox" style="min-width: 75px;" type="search" placeholder="Search" aria-label="Search" name="user_entry">
+      <div class="input-group-append">
+        <button class="btn btn btn-outline-light" type="submit"><span class="fa fa-search"></span></button>
+      </div>
+    </div>
+  </form>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleSection" aria-controls="collapsibleSection" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- collapsable portion of the navbar: -->
+  <div class="collapse navbar-collapse" id="collapsibleSection">
+    <span class="navbar-nav ml-auto">
+
+      <li class="nav-item">
+        <button class="btn btn btn-outline-light my-2 my-sm-0" style="min-width: 25px" type="submit" onclick="window.location.href = '/add-or-do-something'">
+          <span class="fas fa-plus-circle"></span>
+          <span>Add/Do Something</span>
+        </button>
+      </li>
+
+      <li id="welcomeBox" class="nav-item">
+        <span id="welcomeText" class="nav-link" style="cursor: default;"></span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+
+      <li class="nav-item">
+        <a id="adminBtn" class="nav-link" href="/admin" >Admin</a>
+      </li>
+
+      <li id="loginBtn" class="nav-item">
+        <a class="nav-link" href="/login">
+        <span class="fa fa-user inline-block"></span> Login</a>
+      </li>
+
+      <li id="registerBtn" class="nav-item">
+        <a class="nav-link" href="/register">
+        <span class="fas fa-sign-in-alt"></span> Register</a>
+      </li>
+
+      <li id="logoutBtn" class="nav-item">
+        <span class="nav-link" style="cursor: pointer;" onclick="logout()" >Logout</span>
+      </li>
+    </span>
+  </div>
+</nav>

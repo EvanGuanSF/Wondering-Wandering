@@ -1,0 +1,9 @@
+#disclaimerBanner {
+  background-color: black;
+  color:white;
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  text-align: center;
+  padding: 2px;
+  margin-bottom: 0px;
+}

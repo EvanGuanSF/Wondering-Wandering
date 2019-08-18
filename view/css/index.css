@@ -1,0 +1,151 @@
+/*
+Color Scheme:
+
+:Darkest:
+NAVY PURPLE
+#8A4FFF
+BLUE JEANS
+#5BC0EB
+SATIN SHEEN GOLD
+#CBA135
+#F3EFE0
+:Lightest:
+
+:Darker:
+RAISIN BLACK
+#252627
+BLEU DE FRANCE
+#3C91E6
+ROSE TAUPE
+#904E55
+PALE CORNFLOWER BLUE
+#ADBDFF
+KHAKI (HTML/CSS) (KHAKI)
+#BFB48F
+ALABASTER
+#F2EFE9
+:Lighter:
+*/
+:root {
+  --blackish: #252627;
+  --purply: #8A4FFF;
+  --dblueish: #5BC0EB;
+  --lavenderish: #ADBDFF;
+  --rosey: #904E55;
+  --gold: #CBA135;
+  --khaki: #BFB48F;
+  --whiteish: #F2EFE9;
+}
+
+html,
+body {
+  height:fill;
+  margin: 0;
+  padding: 0;
+  height:100%;
+  color: var(--blackish) !important;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+#map-col {
+  background-color: var(--khaki);
+  padding: 10px;
+  padding-right: 5px;
+}
+
+#scrollable-col {
+  background-color: var(--khaki);
+  padding: 10px;
+  padding-left: 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#cardContainer {
+}
+
+#footer {
+  background-color: var(--blackish);
+}
+
+.content-col {
+  /* Diagnostic border */
+  /* border: 1px solid red; */
+  padding: 15px;
+}
+
+.card-img-top-container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--rosey);
+}
+
+.card {
+  height: 300px;
+  padding: 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: var(--rosey);
+}
+
+.card-img-top {
+  height: 300px;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  object-fit:scale-down;
+}
+
+.card-body {
+  background-color: var(--whiteish);
+  padding: 1px;
+  margin: 1px;
+  height: 300px;
+}
+
+.card-body > h5, p, a {
+  font-size: 14px;
+  padding: 1px;
+  margin: 1px;
+}
+
+.card-text {
+  width: 100%;
+  height: 85%;
+  margin: 1px;
+  background-color: var(--lavenderish);
+  overflow-y: auto;
+  overflow-x: none;
+  text-overflow: ellipsis;
+}
+
+.btn.content-link-button {
+  height: fill;
+  width: 100%;
+  line-height: 12px;
+  background-color: var(--khaki);
+  border: 2px solid;
+  border-color: var(--dblueish);
+  padding: 10px;
+  margin: 3px;
+}
+
+.btn.content-link-button:hover {
+  background-color: var(--dblueish);
+  border-color: var(--dblueish);
+}
+
+.btn.content-link-button:visited {
+  border-color: var(--purply);
+}
+
+.card-separator {
+  min-height: 5px;
+  float: left;
+  clear:both;
+  background-color: var(--blackish);
+}
