@@ -78,22 +78,11 @@ $(window).on('navbarLoadedEvent', function(){
 })
 
 
+// Makes a request to the server for card data and creates cards accordingly.
 function createDemoCards() {
-
-    // var xmlReq = new XMLHttpRequest()
-    //
-    // xmlReq.onload = function () {
-    //   if (xmlReq.status == 200)
-    //     createTableAdmin(xmlReq.response)
-    // }
-    //
-    // xmlReq.open('GET', '/adminSearch', true)
-    // xmlReq.responseType = 'json'
-    // xmlReq.send(null)
-
-
   var xmlResponse = new XMLHttpRequest()
 
+  // Wait for a response.
   xmlResponse.onreadystatechange = function() {
     if (xmlResponse.readyState == 4 && xmlResponse.status == 200)
     {
@@ -107,6 +96,8 @@ function createDemoCards() {
       reponseAsJSON.forEach((item, index) => {
         // Check the extension of the file and create an
         // image or video element according to that file format.
+
+        // Image case.
         if (item.fileExt === 'jpg' ||
             item.fileExt === 'jpeg' ||
             item.fileExt === 'png' ||
@@ -115,9 +106,6 @@ function createDemoCards() {
             item.fileExt === 'webp' ||
             item.fileExt === 'apng' ||
             item.fileExt === 'gif') {
-          // Show the file name.
-          console.log(item)
-
           $('#cardContainer').append(
             "<div class=\"card justify-content-center text-center\" style=\"\">" +
               "<div class=\"container-fluid p-0 m-0\">" +
@@ -144,11 +132,10 @@ function createDemoCards() {
               "</div>" +
             "</div>"
           )
-        } else if (item.fileExt === 'mp4' ||
+        }
+        // Video case.
+        else if (item.fileExt === 'mp4' ||
             item.fileExt === 'webm') {
-          // Show the file name.
-          console.log(item)
-
           $('#cardContainer').append(
             "<div class=\"card justify-content-center text-center\" style=\"\">" +
               "<div class=\"container-fluid p-0 m-0\">" +
@@ -181,144 +168,7 @@ function createDemoCards() {
     }
   }
 
+  // Send the request for data.
   xmlResponse.open("GET", '/getCardInfo', true); // true for asynchronous
   xmlResponse.send(null);
-
-
-  // $('#cardContainer').append(
-  //   "<div class=\"card justify-content-center text-center\" style=\"\">" +
-  //     "<div class=\"container-fluid p-0 m-0\">" +
-  //       "<div class=\"row p-0 m-0 content-col-row\">" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0\">" +
-  //           "<div class=\"content-grid-unit\">" +
-  //             "<video src=\"img/09.webm\" class=\"justify-content-center text-center p-0 m-0\" " +
-  //             "alt=\"img/09.webm\" type=\"video/webm\" autoplay=\"true\" loop=\"true\" muted=\"true\">" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-  //           "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-  //             "<div id=\"text-spacer\">" +
-  //               "<p class=\"card-text text-left p-0 m-0\"" + ">09.webm " +
-  //               "Block Block Block ".repeat(50) + ".</p>" +
-  //               "<a href=\"img/09.webm\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-  //             "</div>" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //       "</div>" +
-  //     "</div>" +
-  //   "</div>"
-  // )
-  //
-  //
-  // $('#cardContainer').append(
-  //   "<div class=\"card justify-content-center text-center\" style=\"\">" +
-  //     "<div class=\"container-fluid p-0 m-0\">" +
-  //       "<div class=\"row p-0 m-0 content-col-row\">" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 content-col-row\">" +
-  //           "<div class=\"content-grid-unit\">" +
-  //             "<video src=\"img/08.webm\" class=\"justify-content-center text-center p-0 m-0\" " +
-  //             "alt=\"img/08.webm\" type=\"video/webm\" autoplay=\"true\" loop=\"true\" muted=\"true\">" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-  //           "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-  //             "<div id=\"text-spacer\">" +
-  //               "<p class=\"card-text text-left p-0 m-0\"" + ">08.webm " +
-  //               "Block Block Block ".repeat(50) + ".</p>" +
-  //               "<a href=\"img/08.webm\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-  //             "</div>" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //       "</div>" +
-  //     "</div>" +
-  //   "</div>")
-  //
-  //
-  // $('#cardContainer').append(
-  //   "<div class=\"card justify-content-center text-center\" style=\"\">" +
-  //     "<div class=\"container-fluid p-0 m-0\">" +
-  //       "<div class=\"row p-0 m-0 content-col-row\">" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 content-col-row\">" +
-  //           "<div class=\"content-grid-unit\">" +
-  //             "<video src=\"img/05.mp4\" class=\"justify-content-center text-center p-0 m-0\" " +
-  //             "alt=\"img/05.mp4\" type=\"video/mp4\" autoplay=\"true\" loop=\"true\" muted=\"true\">" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-  //           "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-  //             "<div id=\"text-spacer\">" +
-  //               "<p class=\"card-text text-left p-0 m-0\"" + ">05.mp4 " +
-  //               "Block Block Block ".repeat(50) + ".</p>" +
-  //               "<a href=\"img/05.mp4\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-  //             "</div>" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //       "</div>" +
-  //     "</div>" +
-  //   "</div>")
-  //
-  //
-  // $('#cardContainer').append(
-  //   "<div class=\"card justify-content-center text-center\" style=\"\">" +
-  //     "<div class=\"container-fluid p-0 m-0\">" +
-  //       "<div class=\"row p-0 m-0\">" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0\">" +
-  //           "<div class=\"content-grid-unit\">" +
-  //             "<img src=\"img/01.png\" class=\"card-img-top justify-content-center text-center p-0 m-0\" " +
-  //             "alt=\"img/01.png\">" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-  //           "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-  //             "<div id=\"text-spacer\">" +
-  //               "<p class=\"card-text text-left p-0 m-0\"" + ">01.png " +
-  //               "Block Block Block ".repeat(50) + ".</p>" +
-  //               "<a href=\"img/01.png\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-  //             "</div>" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //       "</div>" +
-  //     "</div>" +
-  //   "</div>"
-  // )
-
-
-  // $('#cardContainer').append(
-  //   "<div class=\"card justify-content-center text-center\" style=\"\">" +
-  //     "<div class=\"container-fluid p-0 m-0\">" +
-  //       "<div class=\"row p-0 m-0\">" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0\">" +
-  //           "<div class=\"card-img-top-container\">" +
-  //             "<img src=\"img/" + ((i % 10) + 1) + "\" class=\"card-img-top justify-content-center text-center p-0 m-0\" " +
-  //             "alt=\"img/" + ((i % 10) + 1) + "\">" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //         "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-  //           "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-  //             "<div id=\"text-spacer\">" +
-  //               "<p class=\"card-text text-left p-0 m-0\"" + ">" + ("00000" + (i + 1)).substr(-5,5) + " " +
-  //               "Block Block Block ".repeat(50) + ".</p>" +
-  //               "<a href=\"img/" + ((i % 10) + 1) + "\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-  //             "</div>" +
-  //           "</div>" +
-  //         "</div>" +
-  //
-  //       "</div>" +
-  //     "</div>" +
-  //   "</div>" +
-  // "</div>"
 }
