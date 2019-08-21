@@ -2,9 +2,12 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const router = require('./routes/routes.js')
 
 // Set the base directory for all resource requests.
-app.use(express.static(__dirname + '/view'))
+app.use(express.static(__dirname + '/views/public'))
+// Let's use routes in this file as well.
+app.use(router)
 
 // Start server by listening on predefined port.
 app.listen(port, function () {

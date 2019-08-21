@@ -35,6 +35,8 @@ ALABASTER
   --gold: #CBA135;
   --khaki: #BFB48F;
   --whiteish: #F2EFE9;
+
+  --pixelHeight: 300px;
 }
 
 html,
@@ -78,33 +80,45 @@ body {
   padding: 15px;
 }
 
-.card-img-top-container {
-  width: 100%;
-  height: 100%;
+.content-grid-unit{
+  height: var(--pixelHeight);
+  max-height: 300px;
   background-color: var(--rosey);
 }
 
 .card {
-  height: 300px;
+border: 1px solid red;
+  height: var(--pixelHeight);
   padding: 2px;
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: var(--rosey);
 }
 
+.card-img-top-container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--rosey);
+}
+
 .card-img-top {
-  height: 300px;
+  height: var(--pixelHeight);
   width: 100%;
   padding: 0px;
   margin: 0px;
   object-fit:scale-down;
 }
 
+video {
+  width: 100%;
+  height: var(--pixelHeight);
+}
+
 .card-body {
   background-color: var(--whiteish);
   padding: 1px;
   margin: 1px;
-  height: 300px;
+  height: var(--pixelHeight);
 }
 
 .card-body > h5, p, a {
@@ -114,7 +128,7 @@ body {
 }
 
 #text-spacer {
-  height: 300px;
+  height: var(--pixelHeight);
   padding: 3px;
   padding-bottom: 0px;
   margin: 0px;

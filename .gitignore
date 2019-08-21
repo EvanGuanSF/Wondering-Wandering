@@ -1,7 +1,7 @@
 # Misc
 
 # Images
-/view/img/*
+/views/public/img/*
 
 # tern project
 .tern*
