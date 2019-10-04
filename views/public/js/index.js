@@ -107,7 +107,7 @@ function createDemoCards() {
             item.fileExt === 'apng' ||
             item.fileExt === 'gif') {
           $('#cardContainer').append(
-            "<div class=\"card justify-content-center text-center\" style=\"\">" +
+            "<div class=\"card shadow-sm justify-content-center text-center\" style=\"\">" +
               "<div class=\"container-fluid p-0 m-0\">" +
                 "<div class=\"row p-0 m-0\">" +
 
@@ -137,7 +137,7 @@ function createDemoCards() {
         else if (item.fileExt === 'mp4' ||
             item.fileExt === 'webm') {
           $('#cardContainer').append(
-            "<div class=\"card justify-content-center text-center\" style=\"\">" +
+            "<div class=\"card shadow-sm justify-content-center text-center\" style=\"\">" +
               "<div class=\"container-fluid p-0 m-0\">" +
                 "<div class=\"row p-0 m-0 content-col-row\">" +
 
