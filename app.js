@@ -1,7 +1,7 @@
 // Initialize the application and set listening port.
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 80
 const router = require('./routes/routes.js')
 
 // Set the base directory for all resource requests.
