@@ -2,6 +2,16 @@
 <html>
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PW9PXHNG6Z"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PW9PXHNG6Z');
+  </script>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -37,7 +47,6 @@
       <!-- Col 1. -->
       <div id="map-col" class="col-lg-6 justify-content-center text-center content-col">
         <div class="h-100 d-flex flex-column">
-          <div id="map" class="shadow-sm"></div>
         </div>
       </div>
 
@@ -100,31 +109,8 @@
   </footer>
 
   <script>
-    var map;
-    // Initialize the map.
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 37.7749, lng: -122.4194},
-        zoom: 12, // Bigger number = higher zoom. Float values accepted.
-        gestureHandling: 'greedy', // Enable mousewheel zoom.
-        streetViewControl: false, // Disable street view.
-        mapTypeId: 'roadmap', // Hybrid map (satellite + roads).
-        styles: [{ // This styling removes points of interest to declutter the map.
-          featureType: 'poi',
-          stylers: [{
-            visibility: 'off'
-          }]
-        }]
-      })
-    }
     createDemoCards()
-
-
-
   </script>
-
-  <!-- Asynchronously load the map. -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyuM-hX7dGj7gXBfLXyuwvAEhZo4sxj18&callback=initMap" async defer></script>
 </body>
 
 </html>
