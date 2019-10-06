@@ -1,6 +1,9 @@
 # Misc
 /ignore folder
 
+# Authentication
+db_config.js
+
 # Images
 /views/public/img/*
 

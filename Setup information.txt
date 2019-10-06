@@ -1,0 +1,49 @@
+-------------------------
+
+# Setting up port forwarding on the Linux machine to route port 80 (default http) requests to the node.js standard port 3000 instead.
+# localhost/loopback routing
+sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 3000
+# Append the above command minus sudo to rc.local to do this operation whenever the machine reboots.
+sudo nano /etc/rc.local
+iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 3000
+
+# external routing
+sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 3000
+
+-------------------------
+
+# Setting up mysql.
+# On the Linux command line:
+sudo yum/apt-get install mysql-Server
+mysql_secure_installation
+mysql -u root -p
+
+# Now log in using the password you just created and arrive at mysql command line.
+# Remove the user and their privileges if they exist.
+DROP USER 'user'@'localhost';
+FLUSH PRIVILEGES;
+
+DROP USER 'user'@'%';
+FLUSH PRIVILEGES;
+
+# Make the user and grant them full access to the database from any location. (mysql command line)
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'user's_password';
+GRANT ALL PRIVILEGES ON database.table TO 'user'@'localhost';
+FLUSH PRIVILEGES;
+
+CREATE USER 'user'@'%' IDENTIFIED BY 'user's_password';
+GRANT ALL PRIVILEGES ON database.table TO 'user'@'%';
+FLUSH PRIVILEGES;
+
+# Show permissions for the user.
+SHOW GRANTS FOR 'user'@'localhost';
+SHOW GRANTS FOR 'user'@'%';
+
+# Restart mysql server.
+sudo systemctl restart mysqld
+
+# Enable access through the firewall (linux command line)
+firewall-cmd --permanent --add-service=mysql
+firewall-cmd --reload
+
+-------------------------
