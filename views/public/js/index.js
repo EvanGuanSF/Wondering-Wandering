@@ -1,18 +1,17 @@
 // Variables for viewable screen pixel dimensions.
 var winWidth = $(this).outerWidth()
 var winHeight = $(this).outerHeight()
-var disclaimerHeight = $('#disclaimerBanner').outerHeight()
 var navbarHeight = $('#navbar').outerHeight()
 var footerHeight = $('#footer').outerHeight()
+var projects = []
 
 // This funtion calculates and returns the pixel offset of the navbar and footer.
 function getHeaderAndFooterDisplacements() {
   this.winHeight = $(this).outerHeight()
-  this.disclaimerHeight = $('#disclaimerBanner').outerHeight()
   this.navbarHeight = $('#navbar').outerHeight()
   this.footerHeight = $('#footer').outerHeight()
 
-  return (this.winHeight - this.disclaimerHeight - this.navbarHeight - this.footerHeight)
+  return (this.winHeight - this.navbarHeight - this.footerHeight)
 }
 
 // This function adjusts the layout of the content based on height and orientation.
@@ -50,21 +49,6 @@ function setContainerHeight() {
       })
     }
   }
-
-  // Set the text of the footer.
-  $('#widthText').html($(this).outerWidth())
-  $('#heightText').html($(this).outerHeight())
-  $('#disclaimerHeightText').html($('#disclaimerBanner').outerHeight())
-  $('#navHeightText').html($('#navbar').outerHeight())
-  $('#footerHeightText').html($('#footer').outerHeight())
-
-
-  $('#oh1').html('map outerWidth ' + $('#map-col').outerWidth())
-  $('#oh2').html('scrollable outerWidth ' + $('#scrollable-col').outerWidth())
-  $('#oh3').html('map outerHeight ' + $('#map-col').outerHeight())
-  $('#oh4').html('scrollable outerHeight ' + $('#scrollable-col').outerHeight())
-  $('#oh5').html('map height ' + $('#map-col').height())
-  $('#oh6').html('scrollable height ' + $('#scrollable-col').height())
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
@@ -77,25 +61,28 @@ $(window).on('navbarLoadedEvent', function(){
   setContainerHeight()
 })
 
-
 // Makes a request to the server for card data and creates cards accordingly.
-function createDemoCards() {
+function createProjectCards() {
   var xmlResponse = new XMLHttpRequest()
 
   // Wait for a response.
   xmlResponse.onreadystatechange = function() {
     if (xmlResponse.readyState == 4 && xmlResponse.status == 200)
     {
-      var reponseAsJSON = JSON.parse(xmlResponse.response)
+      projects = JSON.parse(xmlResponse.response)
 
       // The path to the media file from the JSON.
       var mediaPath
       // The file extension of the file.
       var mediaType
 
-      reponseAsJSON.forEach((item, index) => {
+      projects.forEach((item, index) => {
         // Check the extension of the file and create an
         // image or video element according to that file format.
+
+        var mediaContentHTML = ""
+        item.fileExt = item.projectImage.split('.').pop()
+        item.filePath = "img\\" + item.projectImage
 
         // Image case.
         if (item.fileExt === 'jpg' ||
@@ -106,69 +93,70 @@ function createDemoCards() {
             item.fileExt === 'webp' ||
             item.fileExt === 'apng' ||
             item.fileExt === 'gif') {
-          $('#cardContainer').append(
-            "<div class=\"card shadow-sm justify-content-center text-center\" style=\"\">" +
-              "<div class=\"container-fluid p-0 m-0\">" +
-                "<div class=\"row p-0 m-0\">" +
-
-                  "<div class=\"col-sm-6 p-0 m-0\">" +
-                    "<div class=\"content-grid-unit\">" +
-                      "<img src=\"" + item.filePath + "\" class=\"card-img-top justify-content-center text-center p-0 m-0\" " +
-                      "alt=\"" + item.filePath + "\">" +
-                    "</div>" +
-                  "</div>" +
-
-                  "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-                    "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-                      "<div id=\"text-spacer\">" +
-                        "<p class=\"card-text text-left p-0 m-0\"" + ">" + item.filePath + " " +
-                        "Block Block Block ".repeat(50) + ".</p>" +
-                        "<a href=\"" + item.filePath + "\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-                      "</div>" +
-                    "</div>" +
-                  "</div>" +
-
-                "</div>" +
-              "</div>" +
-            "</div>"
-          )
+          mediaContentHTML =
+            "<img src=\"" + item.filePath + "\" class=\"card-img-top justify-content-center text-center p-0 m-0\" " +
+            "alt=\"" + item.filePath + "\">"
         }
         // Video case.
         else if (item.fileExt === 'mp4' ||
-            item.fileExt === 'webm') {
-          $('#cardContainer').append(
-            "<div class=\"card shadow-sm justify-content-center text-center\" style=\"\">" +
-              "<div class=\"container-fluid p-0 m-0\">" +
-                "<div class=\"row p-0 m-0 content-col-row\">" +
-
-                  "<div class=\"col-sm-6 p-0 m-0\">" +
-                    "<div class=\"content-grid-unit\">" +
-                      "<video src=\"" + item.filePath + "\" class=\"justify-content-center text-center p-0 m-0\" " +
-                      "alt=\"" + item.filePath + "\" type=\"video\"" + item.fileExt + " autoplay=\"true\" loop=\"true\" muted=\"true\">" +
-                    "</div>" +
-                  "</div>" +
-
-                  "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-                    "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-                      "<div id=\"text-spacer\">" +
-                        "<p class=\"card-text text-left p-0 m-0\"" + ">" + item.filePath + " " +
-                        "Block Block Block ".repeat(50) + ".</p>" +
-                        "<a href=\"" + item.filePath + "\" class=\"btn p-0 m-0 content-link-button\">Full Size</a>" +
-                      "</div>" +
-                    "</div>" +
-                  "</div>" +
-
-                "</div>" +
-              "</div>" +
-            "</div>"
-          )
+                 item.fileExt === 'webm') {
+          mediaContentHTML =
+            "<video src=\"" + item.filePath + "\" class=\"justify-content-center text-center p-0 m-0\" " +
+            "alt=\"" + item.filePath + "\" type=\"video\"" + item.fileExt + " autoplay=\"true\" loop=\"true\" muted=\"true\">"
         }
+
+        $('#cardContainer').append(
+          "<div onclick=viewProjectDetails(" + item.projectID + ") id=" + item.projectID + " class=\"card shadow justify-content-center text-center\" style=\"\">" +
+            "<div class=\"container-fluid p-0 m-0\">" +
+              "<div class=\"row p-0 m-0 content-col-row\">" +
+
+                "<div class=\"col-sm-6 p-0 m-0\">" +
+                  "<div class=\"content-grid-unit\">" +
+                    mediaContentHTML +
+                  "</div>" +
+                "</div>" +
+
+                "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
+                  "<div class=\"card-body p-0 m-0 justify-content-center\">" +
+                    "<div id=\"text-spacer\">" +
+                      "<b><p class=\"card-title p-0 m-0\">" + item.projectName + "</p></b>" +
+                      "<p class=\"card-text text-left p-0 m-0\"" + ">" + item.projectDetails + "</p>" +
+                      "<b><p class=\"card-title p-0 m-0\">Click for more details</p></b>" +
+                      // "<a href=\"" + item.filePath + "\" class=\"btn p-0 m-0 content-link-button\">More Details</a>" +
+                    "</div>" +
+                  "</div>" +
+                "</div>" +
+
+              "</div>" +
+            "</div>" +
+          "</div>"
+        )
+
         console.log(item.filePath)
       })
     }
   }
 
   // Send the request for data.
-  xmlResponse.open("GET", '/getCardInfo', true); // true for asynchronous
+  xmlResponse.open("GET", '/getProjectInfo', true); // true for asynchronous
   xmlResponse.send(null);
+}
+
+// Takes a card-click event, scrolls to the map, finds the marker with the same id,
+// and triggers a click event to zoom in on it.
+function viewProjectDetails(cardID) {
+  //If a map exists, highlight the report on the map
+  var contentwindow = document.getElementById('map')
+
+  console.log("card " + cardID + " clicked.")
+
+  // Loop through and find the marker with given id.
+  projects.forEach(function (project) {
+    if (project['porjectID'] == cardID) {
+      // Fire the click event to show the infowindow popup.
+      // google.maps.event.trigger(marker, 'click')
+
+      // Change the left/top pane to show the project details.
+    }
+  })
 }

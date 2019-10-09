@@ -2,7 +2,7 @@
 /ignore folder
 
 # Authentication
-db_config.js
+dbConfig.js
 
 # Images
 /views/public/img/*

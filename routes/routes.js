@@ -10,6 +10,7 @@ const https = require('https')
 // Our endpoints.
 const index = require('../controllers/index.js')
 
+const dbQuery = require('../controllers/dbQuery.js')
 
 /**
  * This endpoint returns a JSON list of image paths
@@ -19,6 +20,26 @@ const index = require('../controllers/index.js')
  */
 router.get('/getCardInfo', (req, res) => {
   index.getCardInfo()
+    .then(function (result) {
+      console.log('returning result: ', result)
+      res.status(200)
+      res.send(result)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.status(404)
+      res.send('failed.')
+    })
+})
+
+/**
+ * This endpoint returns a JSON list of image paths
+ *
+ * @param none
+ * @return {JSON} {projectID, projectName, projectURL, projectImage, projectDetails}
+ */
+router.get('/getProjectInfo', (req, res) => {
+  dbQuery.getProjectInfo()
     .then(function (result) {
       console.log('returning result: ', result)
       res.status(200)

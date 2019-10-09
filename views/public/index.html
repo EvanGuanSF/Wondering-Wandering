@@ -34,7 +34,7 @@
   <script src="js/loadnavbar.js"></script>
 </head>
 
-<body>
+<body onload="createProjectCards()">
   <!-- These are placeholders that will be replaced. -->
   <style id="navStyle"></style>
   <div id="navbar"></div>
@@ -45,54 +45,50 @@
     <div id="contentRow" class="row">
       <!-- A col goes vertically, top-bottom. -->
       <!-- Col 1. -->
-      <div id="map-col" class="col-lg-6 justify-content-center text-center content-col">
+      <div id="details-col" class="col-lg-6 content-col">
         <div class="h-100 d-flex flex-column">
+<pre style="white-space: pre-wrap;">
+<h2 class="text-center"><b>Hi, I'm Evan Guan.</b></h2>
+This website is a resume and portfolio of sorts that highlights several projects that I have been involved in.
+
+I...:
+
+- Acquired a Bachelor of Science Computer Science from San Francisco State University in 2019.
+
+- Am comfortable with programming languages and computer technologies such as:
+  c
+  c++
+  c#
+  Java
+  JavaScript
+  Python
+  HTML
+  CSS
+  Node.js
+  Amazon AWS
+  MySQL
+  GitHub
+  Postman
+  Google APIs (Maps, Analytics, ReCAPTCHA)
+  Unity Game Engine
+  Terminals, CLIs, SSH, etc.
+
+- Am familiar with computer science and programming related concepts such as:
+  Scrum
+  MVC
+  REST
+  Procedural, object-oriented, functional, and logic programming paradigms
+
+- Am naturally curious and occasionally obsessed with details due in large part to my love of video games and figuring out what makes them tick.
+</pre>
         </div>
       </div>
 
       <!-- Col 2. -->
       <div id="scrollable-col" class="col-lg-6 justify-content-center text-center content-col">
         <div class="d-flex flex-column flex-row">
-
-          <div style="background-color: green">
-            <h1>--------------------</h1>
-          </div>
-
           <div id="cardContainer" class="card-container">
           </div>
-
-          <div style="background-color: green">
-            <h1>--------------------</h1>
-          </div>
-
-
-          <!-- <div style="background-color: green">
-            <h1>--------------------</h1>
-            <h1>--------------------</h1>
-            <h1 id="oh1">01</h1>
-            <h1 id="oh2">02</h1>
-            <h1 id="oh3">03</h1>
-            <h1 id="oh4">04</h1>
-            <h1 id="oh5">05</h1>
-            <h1 id="oh6">06</h1>
-            <h1>07</h1>
-            <h1>08</h1>
-            <h1>09</h1>
-            <h1>10</h1>
-            <h1>11</h1>
-            <h1>12</h1>
-            <h1>13</h1>
-            <h1>14</h1>
-            <h1>15</h1>
-            <h1>16</h1>
-            <h1>17</h1>
-            <h1>18</h1>
-            <h1>19</h1>
-            <h1>20</h1>
-            <h1>--------------------</h1>
-            <h1>--------------------</h1>
-          </div> -->
-
         </div>
       </div>
     </div>
@@ -100,17 +96,7 @@
 
   <!-- The footer element for the page. -->
   <footer id="footer" class="text-center justify-content-center fixed-bottom">
-      <span class="text-white">viewableDimensions:
-        <span class="text-white" id="widthText">width</span>x<span class="text-white" id="heightText">height</span>
-        disclaimerHeight:<span class="text-white" id="disclaimerHeightText">navHeight   </span>
-        navbarHeight:<span class="text-white" id="navHeightText">navHeight   </span>
-        footerHeight:<span class="text-white" id="footerHeightText">navHeight   </span>
-      </span>
   </footer>
-
-  <script>
-    createDemoCards()
-  </script>
 </body>
 
 </html>

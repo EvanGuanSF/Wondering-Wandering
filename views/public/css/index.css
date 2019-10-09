@@ -53,14 +53,14 @@ body {
   width: 100%;
 }
 
-#map-col {
-  background-color: var(--khaki);
+#details-col {
+  background-color: var(--whiteish);
   padding: 10px;
   padding-right: 5px;
 }
 
 #scrollable-col {
-  background-color: var(--khaki);
+  background-color: var(--whiteish);
   padding: 10px;
   padding-left: 5px;
   overflow-y: scroll;
@@ -83,22 +83,21 @@ body {
 .content-grid-unit{
   height: var(--pixelHeight);
   max-height: 300px;
-  background-color: var(--rosey);
+  background-color: var(--whiteish);
 }
 
 .card {
-border: 1px solid red;
   height: var(--pixelHeight);
-  padding: 2px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: var(--rosey);
+  /* padding: 2px; */
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: var(--whiteish);
 }
 
 .card-img-top-container {
   width: 100%;
   height: 100%;
-  background-color: var(--rosey);
+  background-color: var(--whiteish);
 }
 
 .card-img-top {
@@ -134,11 +133,19 @@ video {
   margin: 0px;
 }
 
+.card-title {
+  height: 7%;
+  margin: 0px;
+  background-color: var(--whiteish);
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
 .card-text {
   width: fill;
-  height: 90%;
+  height: 83%;
   margin: 0px;
-  background-color: var(--lavenderish);
+  background-color: var(--whiteish);
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
