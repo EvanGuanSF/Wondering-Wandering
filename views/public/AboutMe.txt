@@ -19,11 +19,11 @@ This website is a resume and portfolio of sorts that highlights several projects
   • MySQL
   • GitHub
   • Postman
-  • Google APIs (Maps, Analytics, ReCAPTCHA)
+  • Google APIs (Maps, Analytics, reCAPTCHA)
   • Unity Game Engine
   • Virtual machines using VMware and VirtualBox
   • Terminals, CLIs, SSH, etc.
-  • Livestreaming via Open Broadcaster Software to Twtich.tv and Youtube
+  • Livestreaming via Open Broadcaster Software to Twtich.tv and YouTube
 
 - am familiar with computer science and programming related concepts such as:
   • Scrum
