@@ -126,6 +126,8 @@ video {
 }
 
 #text-spacer {
+  display: inline-block;
+  overflow-x: scroll;
   height: var(--pixelHeight);
   padding: 3px;
   padding-bottom: 0px;
@@ -136,7 +138,7 @@ video {
   height: 7%;
   margin: 0px;
   background-color: var(--whiteish);
-  overflow-x: hidden;
+  overflow-x: auto;
   text-overflow: ellipsis;
 }
 
@@ -145,7 +147,7 @@ video {
   height: 83%;
   margin: 0px;
   background-color: var(--whiteish);
-  overflow-x: hidden;
+  overflow-x: auto;
   text-overflow: ellipsis;
 }
 
@@ -153,6 +155,7 @@ video {
   width: 100%;
   height: 7%;
   line-height: 12px;
+  overflow-x: auto;
 
   font-weight: 600;
 

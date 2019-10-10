@@ -98,20 +98,16 @@ function createProjectCards() {
             '<div class=\'container-fluid p-0 m-0\'>' +
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 
-                '<div class=\'col-sm-6 p-0 m-0\'>' +
+                '<div class=\'col-6 p-0 m-0\'>' +
                   '<div class=\'content-grid-unit\'>' +
                     mediaContentHTML +
                   '</div>' +
                 '</div>' +
 
-                '<div class=\'col-sm-6 p-0 m-0 justify-content-center\'>' +
-                  '<div class=\'card-body p-0 m-0 justify-content-center\'>' +
-                    '<div id=\'text-spacer\'>' +
-                      '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
-                      '<p class=\'card-text text-left p-0 m-0\'>' + item.projectDetails + '</p>' +
-                      '<b><p class=\'card-title p-0 m-0\'>Click for more details</p></b>' +
-                    '</div>' +
-                  '</div>' +
+                '<div class=\'card-body col-6 p-0 m-0\'>' +
+                    '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
+                    '<p class=\'card-text text-left p-0 m-0\'>' + item.projectDetails + '</p>' +
+                    '<b><p class=\'card-title p-0 m-0\'>Click for more details</p></b>' +
                 '</div>' +
 
               '</div>' +
