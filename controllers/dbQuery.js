@@ -15,7 +15,6 @@ exports.getProjectInfo = function () {
         console.log('Query results:\n', rows);
       else
         console.log('Error while performing Query.');
-
       resolve(rows)
     });
   })

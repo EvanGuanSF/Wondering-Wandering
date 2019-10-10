@@ -14,12 +14,6 @@ app.use(router)
 
 // Start server by listening on predefined port.
 app.listen(port, function () {
-  // Connect to our database.
-  db.connect(function(err) {
-    if (err) throw err
-      console.log("Connected to projects database!")
-  })
-
   console.log(`App.js is up and listening on port ${port}.`)
 })
 

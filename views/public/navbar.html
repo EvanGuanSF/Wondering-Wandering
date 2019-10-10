@@ -1,21 +1,10 @@
 <!-- Standard dark navbar - collapsable into reduced menu for small screen sizes: -->
 <nav id="navbar" class="navbar navbar-expand-md navbar-dark sticky-top shadow">
-  <a class="navbar-brand"><h4><b>Wondering Wandering</b></h4></a>
+    <a class="navbar-brand"><h4><b>Wondering Wandering</b></h4></a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleSection" aria-controls="collapsibleSection" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <!-- collapsable portion of the navbar: -->
-  <div class="collapse navbar-collapse" id="collapsibleSection">
     <span class="navbar-nav ml-auto">
-
-      <li id="welcomeBox" class="nav-item">
-        <span id="welcomeText" class="nav-link" style="cursor: default;"></span>
-      </li>
       <li class="nav-item">
-        <a class="nav-link" href="">About Me</a>
+        <label class="btn btn-outline-dark btn-block" onClick="viewProjectDetails(0)" style="border: 0"><b>About Me</b></label>
       </li>
     </span>
-  </div>
 </nav>

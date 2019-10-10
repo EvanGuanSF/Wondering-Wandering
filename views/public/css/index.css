@@ -57,17 +57,16 @@ body {
   background-color: var(--whiteish);
   padding: 10px;
   padding-right: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #scrollable-col {
   background-color: var(--whiteish);
   padding: 10px;
   padding-left: 5px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
-}
-
-#cardContainer {
 }
 
 #footer {

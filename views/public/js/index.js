@@ -4,6 +4,9 @@ var winHeight = $(this).outerHeight()
 var navbarHeight = $('#navbar').outerHeight()
 var footerHeight = $('#footer').outerHeight()
 var projects = []
+var aboutMeString = ''
+
+
 
 // This funtion calculates and returns the pixel offset of the navbar and footer.
 function getHeaderAndFooterDisplacements() {
@@ -61,6 +64,14 @@ $(window).on('navbarLoadedEvent', function(){
   setContainerHeight()
 })
 
+// Load the about me info from the file and put it into the details div.
+$(document).ready(function() {
+  $.get('AboutMe.txt', function (response) {
+    aboutMeString = response;
+    $('#detailContents').html(aboutMeString)
+  });
+})
+
 // Makes a request to the server for card data and creates cards accordingly.
 function createProjectCards() {
   var xmlResponse = new XMLHttpRequest()
@@ -80,65 +91,40 @@ function createProjectCards() {
         // Check the extension of the file and create an
         // image or video element according to that file format.
 
-        var mediaContentHTML = ""
-        item.fileExt = item.projectImage.split('.').pop()
-        item.filePath = "img\\" + item.projectImage
-
-        // Image case.
-        if (item.fileExt === 'jpg' ||
-            item.fileExt === 'jpeg' ||
-            item.fileExt === 'png' ||
-            item.fileExt === 'bmp' ||
-            item.fileExt === 'svg' ||
-            item.fileExt === 'webp' ||
-            item.fileExt === 'apng' ||
-            item.fileExt === 'gif') {
-          mediaContentHTML =
-            "<img src=\"" + item.filePath + "\" class=\"card-img-top justify-content-center text-center p-0 m-0\">"
-        }
-        // Video case.
-        else if (item.fileExt === 'mp4' ||
-                 item.fileExt === 'webm') {
-          mediaContentHTML =
-            "<video src=\"" + item.filePath + "\" class=\"justify-content-center text-center p-0 m-0\" " +
-            "\" type=\"video\" autoplay=\"true\" loop=\"true\" muted=\"true\">"
-        }
+        var mediaContentHTML = createMediaElementWithFilenName(item.projectImage)
 
         $('#cardContainer').append(
-          "<div onclick=viewProjectDetails(" + item.projectID + ") id=" + item.projectID + " class=\"card shadow justify-content-center text-center\" style=\"\">" +
-            "<div class=\"container-fluid p-0 m-0\">" +
-              "<div class=\"row p-0 m-0 content-col-row\">" +
+          '<div onclick=viewProjectDetails(' + item.projectID + ') id=' + item.projectID + ' class=\'card shadow justify-content-center text-center\' style=\'\'>' +
+            '<div class=\'container-fluid p-0 m-0\'>' +
+              '<div class=\'row p-0 m-0 content-col-row\'>' +
 
-                "<div class=\"col-sm-6 p-0 m-0\">" +
-                  "<div class=\"content-grid-unit\">" +
+                '<div class=\'col-sm-6 p-0 m-0\'>' +
+                  '<div class=\'content-grid-unit\'>' +
                     mediaContentHTML +
-                  "</div>" +
-                "</div>" +
+                  '</div>' +
+                '</div>' +
 
-                "<div class=\"col-sm-6 p-0 m-0 justify-content-center\">" +
-                  "<div class=\"card-body p-0 m-0 justify-content-center\">" +
-                    "<div id=\"text-spacer\">" +
-                      "<b><p class=\"card-title p-0 m-0\">" + item.projectName + "</p></b>" +
-                      "<p class=\"card-text text-left p-0 m-0\"" + ">" + item.projectDetails + "</p>" +
-                      "<b><p class=\"card-title p-0 m-0\">Click for more details</p></b>" +
-                      // "<a href=\"" + item.filePath + "\" class=\"btn p-0 m-0 content-link-button\">More Details</a>" +
-                    "</div>" +
-                  "</div>" +
-                "</div>" +
+                '<div class=\'col-sm-6 p-0 m-0 justify-content-center\'>' +
+                  '<div class=\'card-body p-0 m-0 justify-content-center\'>' +
+                    '<div id=\'text-spacer\'>' +
+                      '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
+                      '<p class=\'card-text text-left p-0 m-0\'>' + item.projectDetails + '</p>' +
+                      '<b><p class=\'card-title p-0 m-0\'>Click for more details</p></b>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
 
-              "</div>" +
-            "</div>" +
-          "</div>"
+              '</div>' +
+            '</div>' +
+          '</div>'
         )
-
-        console.log(item.filePath)
       })
     }
   }
 
   // Send the request for data.
-  xmlResponse.open("GET", '/getProjectInfo', true); // true for asynchronous
-  xmlResponse.send(null);
+  xmlResponse.open('GET', '/getProjectInfo', true) // true for asynchronous
+  xmlResponse.send(null)
 }
 
 // Takes a card-click event, scrolls to the map, finds the marker with the same id,
@@ -147,15 +133,87 @@ function viewProjectDetails(cardID) {
   //If a map exists, highlight the report on the map
   var contentwindow = document.getElementById('map')
 
-  console.log("card " + cardID + " clicked.")
 
-  // Loop through and find the marker with given id.
-  projects.forEach(function (project) {
-    if (project['porjectID'] == cardID) {
-      // Fire the click event to show the infowindow popup.
-      // google.maps.event.trigger(marker, 'click')
+  // If the about button is clicked, it will be a special case.
+  // We will use the information we saved at the loading of the page to populate the details div.
+  if (cardID === 0) {
+    $('#detailContents').html(aboutMeString)
+  } else {
+    // Otherwise, loop through the returned projects JSON and find the marker with given id.
+    for(var project of projects) {
+      if (project['projectID'] == cardID) {
+        // Get the proper media element.
+        var mediaContentHTML = createMediaElementWithFilenName(project.projectImage)
+        // Format the roles output.
+        var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
+        // Format the project technologies output.
+        var projectLanguagesAndTechnologies = project.projectLanguagesAndTechnologies.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
+        // Format the html for the project's dedicated website html elements.
+        // If the site doesn't exist, then we don't show a link.
+        var secondaryURLHTML = ''
+        if(project.projectSecondaryURL != '') {
+          secondaryURLHTML =
+            '<a href=\'' + project.projectSecondaryURL + '\'><b>Project Website</b></a>' +
+            '<br>'
+        }
 
-      // Change the left/top pane to show the project details.
+        $('#detailContents').html(
+          '<div class=\'card shadow justify-content-center text-center\' style=\'\'>' +
+            '<div class=\'container-fluid p-0 m-0\'>' +
+              '<div class=\'row p-0 m-0\'>' +
+
+                '<div class=\'col-12 p-0 m-0\'>' +
+                  '<div class=\'content-grid-unit\'>' +
+                    mediaContentHTML +
+                    '<div class=\'container-fluid\' style=\'overflow: auto\'>' +
+                      '<b><h1 class=\'p-0 m-0\'>' + project.projectName + '</h1></b>' +
+                      '<br>' +
+                      '<p class=\'text-left p-0 m-0\'>' + project.projectDetails + '</p>' +
+                      '<br>' +
+                      '<p class=\'text-left p-0 m-0\'><b>Personal reponsibilities and role(s):</b><br>' + projectRoles + '</p>' +
+                      '<br>' +
+                      '<p class=\'text-left p-0 m-0\'><b>Programming languages and computer technologies personally used:</b><br>' + projectLanguagesAndTechnologies + '</p>' +
+                      '<br>' +
+                      secondaryURLHTML +
+                      '<a href=\'' + project.projectURL + '\'><b>Github Repository</b></a>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+
+              '</div>' +
+            '</div>' +
+          '</div>'
+        )
+
+        break
+      }
     }
-  })
+  }
+}
+
+function createMediaElementWithFilenName(fileName) {
+  var fileExt = fileName.split('.').pop()
+  var filePath = 'img\\' + fileName
+
+  // Image case.
+  if (fileExt === 'jpg' ||
+      fileExt === 'jpeg' ||
+      fileExt === 'png' ||
+      fileExt === 'bmp' ||
+      fileExt === 'svg' ||
+      fileExt === 'webp' ||
+      fileExt === 'apng' ||
+      fileExt === 'gif') {
+    mediaContentHTML =
+      '<img src=\'' + filePath + '\' class=\'card-img-top justify-content-center text-center p-0 m-0\'>'
+  }
+  // Video case.
+  else if (fileExt === 'mp4' ||
+           fileExt === 'webm') {
+    mediaContentHTML =
+      '<video src=\'' + filePath + '\' class=\'justify-content-center text-center p-0 m-0\' ' +
+      '\' type=\'video\' autoplay=\'true\' loop=\'true\' muted=\'true\'>'
+  }
+
+  return mediaContentHTML
 }
