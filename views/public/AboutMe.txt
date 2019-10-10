@@ -2,10 +2,10 @@
 <h2 class="text-center"><b>Hi, I'm Evan Guan.</b></h2>
 This website is a resume and portfolio of sorts that highlights several projects that I have been involved in.
 
-<b>I...</b>
-- Acquired a Bachelor of Science Computer Science from San Francisco State University in 2019.
+<h5>I...</h5>
+- acquired a Bachelor of Science Computer Science from San Francisco State University in August 2019.
 
-- Am comfortable with programming languages and computer technologies such as:
+- am comfortable with and have used programming languages and computer technologies such as:
   • c
   • c++
   • c#
@@ -21,13 +21,19 @@ This website is a resume and portfolio of sorts that highlights several projects
   • Postman
   • Google APIs (Maps, Analytics, ReCAPTCHA)
   • Unity Game Engine
+  • Virtual machines using VMware and VirtualBox
   • Terminals, CLIs, SSH, etc.
+  • Livestreaming via Open Broadcaster Software to Twtich.tv and Youtube
 
-- Am familiar with computer science and programming related concepts such as:
+- am familiar with computer science and programming related concepts such as:
   • Scrum
   • MVC
   • REST
   • Procedural, object-oriented, functional, and logic programming paradigms
+  • Dynamic programming
+  • Machine learning (one semester)
 
-- Am naturally curious and occasionally obsessed with details due in large part to a love of video games and figuring out what makes them tick.
+- am naturally curious and occasionally become obsessed with details due in large part to a love of video games and figuring out what makes them tick.
+
+- am generally a quick learner and can pick up new technologies and languages rapidly.
 </pre>
