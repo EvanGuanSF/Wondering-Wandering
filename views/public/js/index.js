@@ -94,15 +94,14 @@ function createProjectCards() {
             item.fileExt === 'apng' ||
             item.fileExt === 'gif') {
           mediaContentHTML =
-            "<img src=\"" + item.filePath + "\" class=\"card-img-top justify-content-center text-center p-0 m-0\" " +
-            "alt=\"" + item.filePath + "\">"
+            "<img src=\"" + item.filePath + "\" class=\"card-img-top justify-content-center text-center p-0 m-0\">"
         }
         // Video case.
         else if (item.fileExt === 'mp4' ||
                  item.fileExt === 'webm') {
           mediaContentHTML =
             "<video src=\"" + item.filePath + "\" class=\"justify-content-center text-center p-0 m-0\" " +
-            "alt=\"" + item.filePath + "\" type=\"video\"" + item.fileExt + " autoplay=\"true\" loop=\"true\" muted=\"true\">"
+            "\" type=\"video\" autoplay=\"true\" loop=\"true\" muted=\"true\">"
         }
 
         $('#cardContainer').append(
