@@ -148,12 +148,20 @@ function viewProjectDetails(cardID) {
         var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
         // Format the project technologies output.
         var projectLanguagesAndTechnologies = project.projectLanguagesAndTechnologies.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
-        // Format the html for the project's dedicated website html elements.
-        // If the site doesn't exist, then we don't show a link.
+        // Format the html for the project's dedicated website link html elements.
+        // If the link doesn't exist, then we don't show a link.
         var secondaryURLHTML = ''
-        if(project.projectSecondaryURL != '') {
+        if(project.projectSecondaryURL != '' && project.projectSecondaryURL != null) {
           secondaryURLHTML =
             '<a href=\'' + project.projectSecondaryURL + '\'><b>Project Website</b></a>' +
+            '<br>'
+        }
+        // Format the html for the project's extra info link html elements.
+        // If the link doesn't exist, then we don't show a link.
+        var tertiaryURLHTML = ''
+        if(project.projectTertiaryURL != '' && project.projectTertiaryURL != null) {
+          tertiaryURLHTML =
+            '<a href=\'' + project.projectTertiaryURL + '\'><b>More Information</b></a>' +
             '<br>'
         }
 
@@ -172,10 +180,11 @@ function viewProjectDetails(cardID) {
                       '<br>' +
                       '<p class=\'text-left p-0 m-0\'><b>Personal reponsibilities and role(s):</b><br>' + projectRoles + '</p>' +
                       '<br>' +
-                      '<p class=\'text-left p-0 m-0\'><b>Programming languages and computer technologies personally used:</b><br>' + projectLanguagesAndTechnologies + '</p>' +
+                      '<p class=\'text-left p-0 m-0\'><b>Programming languages and computer technologies personally used in project:</b><br>' + projectLanguagesAndTechnologies + '</p>' +
                       '<br>' +
                       secondaryURLHTML +
-                      '<a href=\'' + project.projectURL + '\'><b>Github Repository</b></a>' +
+                      tertiaryURLHTML +
+                      '<a href=\'' + project.projectURL + '\'><b>GitHub Repository</b></a>' +
                     '</div>' +
                   '</div>' +
                 '</div>' +
