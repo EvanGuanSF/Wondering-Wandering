@@ -1,8 +1,9 @@
 <pre style="white-space: pre-wrap;">
 <h2 class="text-center"><b>Hi, I'm Evan Guan.</b></h2>
+<h5 class="text-center">My pseudonym in most online circles is <b>Jammy</b>.</h5>
 This website is a resume and portfolio of sorts that highlights several projects that I have been involved in.
 
-<h5>I...</h5>
+<h5>In addition, I...</h5>
 - acquired a Bachelor of Science Computer Science from San Francisco State University in August 2019.
 
 - am comfortable with and have used programming languages and computer technologies such as:
@@ -24,6 +25,7 @@ This website is a resume and portfolio of sorts that highlights several projects
   • Virtual machines using VMware and VirtualBox
   • Terminals, CLIs, SSH, etc.
   • Livestreaming via Open Broadcaster Software to Twtich.tv and YouTube
+  • Website building services like SquareSpace, e.g. <a href='http://www.jammypajamies.com/' target='_blank'>my other webpage</a>
 
 - am familiar with computer science and programming related concepts such as:
   • MVC
@@ -35,4 +37,6 @@ This website is a resume and portfolio of sorts that highlights several projects
 - am naturally curious and occasionally become obsessed with details due in large part to a love of video games and figuring out what makes them tick.
 
 - am generally a quick learner and can pick up new technologies and languages rapidly.
+
+<b>To get in touch with me, send me a ping on <a href='https://www.facebook.com/evan.guan.54' target='_blank'>Facebook</a> or contact my gmail at jammypajamies.</b>
 </pre>
