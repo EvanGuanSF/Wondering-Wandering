@@ -3,7 +3,7 @@
 <h5 class="text-center">My pseudonym in most online circles is <b>Jammy</b>.</h5>
 This website is a resume and portfolio of sorts that highlights several projects that I have been involved in.
 
-<h5>In addition, I...</h5>
+<h5><b>I...</b></h5>
 - acquired a Bachelor of Science Computer Science from San Francisco State University in August 2019.
 
 - am comfortable with and have used programming languages and computer technologies such as:
@@ -38,5 +38,5 @@ This website is a resume and portfolio of sorts that highlights several projects
 
 - am generally a quick learner and can pick up new technologies and languages rapidly.
 
-<b>To get in touch with me, send me a ping on <a href='https://www.facebook.com/evan.guan.54' target='_blank'>Facebook</a> or contact my gmail at jammypajamies.</b>
+<h5>To get in touch with me, send me a ping on <a href='https://www.facebook.com/evan.guan.54' target='_blank'>Facebook</a> or contact my gmail at jammypajamies.</h5>
 </pre>

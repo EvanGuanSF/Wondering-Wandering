@@ -107,7 +107,7 @@ function createProjectCards() {
                 '<div class=\'card-body col-6 p-0 m-0\'>' +
                     '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
                     '<p class=\'card-text text-left p-0 m-0\'>' + item.projectDetails + '</p>' +
-                    '<b><p class=\'card-title p-0 m-0\'>Click for more details</p></b>' +
+                    '<b><p class=\'card-title p-0 m-0\'>Click this card for more details</p></b>' +
                 '</div>' +
 
               '</div>' +
