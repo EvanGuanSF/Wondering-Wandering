@@ -24,6 +24,7 @@ This website is a resume and portfolio of sorts that highlights several projects
   • Unity Game Engine
   • Virtual machines using VMware and VirtualBox
   • Terminals, CLIs, SSH, etc.
+  • File sharing and collaboration via Google Drive and Google Docs
   • Livestreaming via Open Broadcaster Software to Twtich.tv and YouTube
   • Website building services like SquareSpace, e.g. <a href='http://www.jammypajamies.com/' target='_blank'>my other webpage</a>
 
@@ -38,5 +39,6 @@ This website is a resume and portfolio of sorts that highlights several projects
 
 - am generally a quick learner and can pick up new technologies and languages rapidly.
 
-<h5>To get in touch with me, send me a ping on <a href='https://www.facebook.com/evan.guan.54' target='_blank'>Facebook</a> or contact my gmail at jammypajamies.</h5>
+
+<h5>To get in touch with me, send me a ping on <a href='https://www.facebook.com/evan.guan.54' target='_blank'><font size='+2'>Facebook</font></a> or contact my gmail at jammypajamies.</h5>
 </pre>
