@@ -144,6 +144,14 @@ function viewProjectDetails(cardID) {
         var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
         // Format the project technologies output.
         var projectLanguagesAndTechnologies = project.projectLanguagesAndTechnologies.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
+
+        // Format the html for the project's primary source link html elements.
+        // If the link doesn't exist, then we don't show a link.
+        var primaryURLHTML = ''
+        if(project.projectURL != '' && project.projectURL != null) {
+          primaryURLHTML =
+            '<a href=\'' + project.projectURL + '\'><b>Repository</b></a>'
+        }
         // Format the html for the project's dedicated website link html elements.
         // If the link doesn't exist, then we don't show a link.
         var secondaryURLHTML = ''
@@ -180,7 +188,7 @@ function viewProjectDetails(cardID) {
                       '<br>' +
                       secondaryURLHTML +
                       tertiaryURLHTML +
-                      '<a href=\'' + project.projectURL + '\'><b>GitHub Repository</b></a>' +
+                      primaryURLHTML +
                     '</div>' +
                   '</div>' +
                 '</div>' +
