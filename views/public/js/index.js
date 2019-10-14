@@ -6,6 +6,7 @@ var footerHeight = $('#footer').outerHeight()
 var projects = []
 var aboutMeString = ''
 
+var previouslyClickedCardID = 0
 
 
 // This funtion calculates and returns the pixel offset of the navbar and footer.
@@ -91,10 +92,10 @@ function createProjectCards() {
         // Check the extension of the file and create an
         // image or video element according to that file format.
 
-        var mediaContentHTML = createMediaElementWithFilenName(item.projectImage)
+        var mediaContentHTML = createMediaElementWithFilenName(item.projectImage, 'normalCard')
 
         $('#cardContainer').append(
-          '<div onclick=viewProjectDetails(' + item.projectID + ') id=' + item.projectID + ' class=\'card shadow justify-content-center text-center\' style=\'\'>' +
+          '<div onclick=\'viewProjectDetails(' + item.projectID + '); highlightCard(' + item.projectID + ')\' id=' + item.projectID + ' class=\'card-bg card shadow justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
             '<div class=\'container-fluid p-0 m-0\'>' +
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 
@@ -105,9 +106,9 @@ function createProjectCards() {
                 '</div>' +
 
                 '<div class=\'card-body col-6 p-0 m-0\'>' +
-                    '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
-                    '<p class=\'card-text text-left p-0 m-0\'>' + item.projectDetails + '</p>' +
-                    '<b><p class=\'card-title p-0 m-0\'>Click this card for more details</p></b>' +
+                  '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
+                  '<p class=\'card-text text-left\'>' + item.projectDetails + '</p>' +
+                  '<b><p class=\'card-title p-0 m-0\'>Click this card for more details</p></b>' +
                 '</div>' +
 
               '</div>' +
@@ -129,7 +130,6 @@ function viewProjectDetails(cardID) {
   //If a map exists, highlight the report on the map
   var contentwindow = document.getElementById('map')
 
-
   // If the about button is clicked, it will be a special case.
   // We will use the information we saved at the loading of the page to populate the details div.
   if (cardID === 0) {
@@ -139,7 +139,7 @@ function viewProjectDetails(cardID) {
     for(var project of projects) {
       if (project['projectID'] == cardID) {
         // Get the proper media element.
-        var mediaContentHTML = createMediaElementWithFilenName(project.projectImage)
+        var mediaContentHTML = createMediaElementWithFilenName(project.projectImage, 'largeCard')
         // Format the roles output.
         var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
         // Format the project technologies output.
@@ -170,8 +170,8 @@ function viewProjectDetails(cardID) {
         }
 
         $('#detailContents').html(
-          '<div class=\'card shadow justify-content-center text-center\' style=\'\'>' +
-            '<div class=\'container-fluid p-0 m-0\'>' +
+          '<div class=\'card shadow justify-content-center text-center\'>' +
+            '<div class=\'container-fluid justify-content-center text-center p-0 m-0\'>' +
               '<div class=\'row p-0 m-0\'>' +
 
                 '<div class=\'col-12 p-0 m-0\'>' +
@@ -204,7 +204,9 @@ function viewProjectDetails(cardID) {
   }
 }
 
-function createMediaElementWithFilenName(fileName) {
+// Creates the media element html given a file name and its extension and
+// also the type of element (in a card or in the details column).
+function createMediaElementWithFilenName(fileName, elementType) {
   var fileExt = fileName.split('.').pop()
   var filePath = 'img\\' + fileName
 
@@ -217,8 +219,13 @@ function createMediaElementWithFilenName(fileName) {
       fileExt === 'webp' ||
       fileExt === 'apng' ||
       fileExt === 'gif') {
-    mediaContentHTML =
-      '<img src=\'' + filePath + '\' class=\'card-img-top justify-content-center text-center p-0 m-0\'>'
+    if (elementType == 'normalCard') {
+      mediaContentHTML =
+        '<img src=\'' + filePath + '\' class=\'card-img-top justify-content-center text-center p-0 m-0\'>'
+    } else if (elementType == 'largeCard'){
+      mediaContentHTML =
+        '<img src=\'' + filePath + '\' class=\'card-img-top-large justify-content-center text-center p-0 m-0\'>'
+    }
   }
   // Video case.
   else if (fileExt === 'mp4' ||
@@ -229,4 +236,18 @@ function createMediaElementWithFilenName(fileName) {
   }
 
   return mediaContentHTML
+}
+
+// Handles background color highlighting and resotration of project cards.
+function highlightCard(cardID) {
+  // Reset the color of the previous card if applicable.
+  if(previouslyClickedCardID > 0) {
+    $('#' + previouslyClickedCardID).css({'background-color': 'var(--whiteish)'})
+  }
+  // Set the color of the new card if applicable.
+  if(cardID > 0) {
+    $('#' + cardID).css({'background-color': 'var(--lavenderish)'})
+  }
+  // Set the previously clicked card id for future use.
+  previouslyClickedCardID = cardID
 }

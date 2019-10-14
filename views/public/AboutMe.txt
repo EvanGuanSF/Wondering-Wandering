@@ -1,4 +1,4 @@
-<pre style="white-space: pre-wrap;">
+<pre style="white-space: pre-wrap; margin-top: 15px; margin-bottom: 15px;">
 <h2 class="text-center"><b>Hi, I'm Evan Guan.</b></h2>
 <h5 class="text-center">My pseudonym in most online circles is <b>Jammy</b>.</h5>
 This website is a resume and portfolio of sorts that highlights several projects that I have been involved in.
@@ -18,7 +18,7 @@ This website is a resume and portfolio of sorts that highlights several projects
   • Node.js
   • Amazon AWS
   • MySQL
-  • GitHub
+  • <a href='https://github.com/JammyPajamies' target='_blank'>GitHub</a>
   • Postman
   • Google APIs (Maps, Analytics, reCAPTCHA)
   • Unity Game Engine
@@ -40,5 +40,5 @@ This website is a resume and portfolio of sorts that highlights several projects
 - am generally a quick learner and can pick up new technologies and languages rapidly.
 
 
-<h5>To get in touch with me, send me a ping on <a href='https://www.facebook.com/evan.guan.54' target='_blank'><font size='+2'>Facebook</font></a> or contact my gmail at jammypajamies.</h5>
+<h5>To get in touch with me, send me a ping on <a href='https://www.linkedin.com/in/evan-guan-72b630194/' target='_blank'><font size='+2'>LinkedIn</font></a>, <a href='https://www.facebook.com/evan.guan.54' target='_blank'><font size='+2'>Facebook</font></a>, or contact my gmail at jammypajamies.</h5>
 </pre>

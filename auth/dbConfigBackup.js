@@ -2,7 +2,7 @@
 // to the database.
 const mysql = require('mysql')
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: 'subdomain.domain.domainextension',
   user: 'db_user',
   password: 'user_pw',
