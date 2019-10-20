@@ -40,3 +40,7 @@ ALABASTER
 #navbar {
   background-color: var(--rosey);
 }
+
+#navbar label {
+  margin: 0;
+}
