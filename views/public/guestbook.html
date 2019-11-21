@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src='https://www.googletagmanager.com/gtag/js?id=G-PW9PXHNG6Z'></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-PW9PXHNG6Z');
+  </script>
+
+  <!-- Required meta tags -->
+  <meta charset='utf-8'>
+  <meta http-equiv='content-type' content='text/html; charset=UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title></title>
+
+  <!-- Bootstrap CSS -->
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+  <!-- Our CSS -->
+  <link href='css/guestbook.css' rel='stylesheet'>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous'></script>
+  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous'></script>
+
+  <!-- Our scripts -->
+  <script src='js/guestbook.js'></script>
+  <script src='js/loadnavbar.js'></script>
+
+  <!-- google reCAPTCHA script -->
+  <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+</head>
+
+<body onload=''>
+  <!-- These are placeholders that will be replaced. -->
+  <style id='navStyle'></style>
+  <div id='navbar'></div>
+
+  <!-- We need a container to stop the row from overflowing. -->
+  <div class='container-fluid'>
+    <!-- A row goes horizontally, left-right. -->
+    <div class='row'>
+      <!-- A col goes vertically, top-bottom. -->
+      <div id='scrollable-col' class='col-lg-12 justify-content-center text-center content-col shadow'>
+        <div class='d-flex flex-column flex-row'>
+          <br>
+          <h1>Guestbook</h1>
+          <br>
+          <div><b>Please feel free to leave a comment below.</b></div>
+
+
+          <div class='container'>
+            <div class='row'>
+              <!--- Padding column --->
+              <div class='col-lg-3 justify-content-center text-center'></div>
+
+              <div class='col-lg-6 justify-content-center text-center'>
+
+                <form id='comment-submission-form' action='/submitComment' method='post' role='form' enctype='application/json'>
+                  <!-- Detail entry -->
+                  <br>
+                  <hr>
+                  <div class='form-group'>
+                    <input type='text' class='form-control' name='guestName' id='guestNameEntry' placeholder='Name'>
+                    <strong style='color: red'><div id='guestNameValidity'></div></strong>
+                  </div>
+
+                  <div class='form-group'>
+                    <textarea type='text' class='form-control' name='guestComment' id='guestCommentEntry' placeholder='Comment (300 characters max)' rows='3' maxlength=300></textarea>
+                    <strong style='color: red'><div id='guestCommentValidity'></div></strong>
+                  </div>
+
+                  <!--- Captcha section --->
+                  <div class='form-group' style='display: inline-block'>
+                    <div id='captchaElement' class='g-recaptcha'  data-sitekey='6Ld-2sMUAAAAAOEHB0AioqRN-lJc0NTqBOTXjbTL' data-callback='onReCAPTCHASuccess'></div>
+                  </div>
+
+                  <!--- Submit button --->
+                  <br>
+                  <button id='submitButton' type='button' class='btn-outline-dark mx-auto' style='border-width: 2px;'>Submit comment</button>
+                  <hr>
+                  <br>
+
+                </form> <!-- report submission form -->
+
+                <!--
+                <div style='background-color: green'>
+                  <h1>Previous Entries:</h1>
+                  <h1>--------------------</h1>
+                  <h1 id='oh1'>01</h1>
+                  <h1 id='oh2'>02</h1>
+                  <h1 id='oh3'>03</h1>
+                  <h1 id='oh4'>04</h1>
+                  <h1 id='oh5'>05</h1>
+                  <h1 id='oh6'>06</h1>
+                  <h1>07</h1>
+                  <h1>08</h1>
+                  <h1>09</h1>
+                  <h1>10</h1>
+                  <h1>11</h1>
+                  <h1>12</h1>
+                  <h1>13</h1>
+                  <h1>14</h1>
+                  <h1>15</h1>
+                  <h1>16</h1>
+                  <h1>17</h1>
+                  <h1>18</h1>
+                  <h1>19</h1>
+                  <h1>20</h1>
+                  <h1>--------------------</h1>
+                  <h1>--------------------</h1>
+                </div>
+                -->
+
+              </div>
+
+              <!--- Padding column --->
+              <div  class='col-lg-3 justify-content-center text-center'></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- The footer element for the page. -->
+  <footer id='footer' class='text-center justify-content-center fixed-bottom'>
+  </footer>
+</body>
+
+</html>

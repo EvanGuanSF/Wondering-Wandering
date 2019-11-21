@@ -37,10 +37,40 @@ ALABASTER
   --whiteish: #F2EFE9;
 }
 
+a {
+  color: var(--blackish) !important;
+  font-size: 18;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--lavenderish) !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+label {
+  color: var(--blackish) !important;
+  font-size: 18;
+}
+
+label:hover {
+  color: var(--lavenderish) !important;
+  cursor: pointer;
+}
+
+.navbar-brand {
+  font-size: 24;
+}
+
 #navbar {
   background-color: var(--rosey);
 }
 
 #navbar label {
+  margin: 0;
+}
+
+#navbar a {
   margin: 0;
 }

@@ -2,9 +2,6 @@
 var winWidth = $(this).outerWidth()
 var winHeight = $(this).outerHeight()
 var navbarHeight = $('#navbar').outerHeight()
-var footerHeight = $('#footer').outerHeight()
-var projects = []
-var aboutMeString = ''
 
 var previouslyClickedCardID = 0
 
@@ -13,46 +10,18 @@ var previouslyClickedCardID = 0
 function getHeaderAndFooterDisplacements() {
   this.winHeight = $(this).outerHeight()
   this.navbarHeight = $('#navbar').outerHeight()
-  this.footerHeight = $('#footer').outerHeight()
 
-  return (this.winHeight - this.navbarHeight - this.footerHeight)
+  return (this.winHeight - this.navbarHeight)
 }
 
 // This function adjusts the layout of the content based on height and orientation.
 function setContainerHeight() {
-  // 'Normal' large display case.
-  if($(this).outerWidth() <= 992) {
-    // Check orientaion of device by looking at window dimensions.
-    if($(this).outerWidth() < $(this).outerHeight()) {
-      // Portrait orientation display case. (i.e. phone)
-      $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() / 2 + 'px',
-        'width': $(this).outerWidth() + 'px'
-      })
-    } else {
-      // Landscape orientation display case. (i.e. phone)
-      $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() + 'px',
-        'width': $(this).outerWidth() / 2 + 'px'
-      })
-    }
-  } else {
-    // Check orientaion of device by looking at window dimensions.
-    if($(this).outerWidth() < $(this).outerHeight()) {
-      // Portrait orientation display case. (i.e. rotated display)
-      $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() + 'px'
-      })
-      $('#scrollable-col').css({
-        'width': $(this).outerWidth() + 'px'
-      })
-    } else {
-      // Landscape orientation display case. (i.e. normal desktop)
-      $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() + 'px'
-      })
-    }
-  }
+  $('#scrollable-col').css({
+    'height': getHeaderAndFooterDisplacements() + 'px'
+  })
+  $('#scrollable-col').css({
+    'width': $(this).outerWidth() + 'px'
+  })
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
@@ -65,12 +34,42 @@ $(window).on('navbarLoadedEvent', function(){
   setContainerHeight()
 })
 
-// Load the about me info from the file and put it into the details div.
+// Add ready handlers.
 $(document).ready(function() {
-  $.get('AboutMe.txt', function (response) {
-    aboutMeString = response;
-    $('#detailContents').html(aboutMeString)
-  });
+  // Click event on the submit button.
+  $('#submitButton').click(function () {
+    console.log('Submitting comment.')
+    event.preventDefault();
+    console.log($('#comment-submission-form'))
+    var canSubmit = true
+
+    // Go in bottom-up order so we can show the top-most form error first.
+    // One-way mechanism, if it gets set to false it stays that way,
+    // while still allowing us to run all the tests.
+    // if(!isCaptchaValid() && true) {
+    //   canSubmit = false
+    // }
+    // if(!isFileValid() && true) {
+    //   canSubmit = false
+    // }
+    // if(!isCoordValid() && true) {
+    //   canSubmit = false
+    // }
+    // if(!isDetailsValid() && true) {
+    //   canSubmit = false
+    // }
+    // if(!isLocationIDValid() && true) {
+    //   canSubmit = false
+    // }
+    // if(!isCategoryIDValid() && true) {
+    //   canSubmit = false
+    // }
+
+    // One final check.
+    if (canSubmit) {
+      $('#comment-submission-form').submit()
+    }
+  })
 })
 
 // Makes a request to the server for card data and creates cards accordingly.
@@ -204,40 +203,6 @@ function viewProjectDetails(cardID) {
   }
 }
 
-// Creates the media element html given a file name and its extension and
-// also the type of element (in a card or in the details column).
-function createMediaElementWithFilenName(fileName, elementType) {
-  var fileExt = fileName.split('.').pop()
-  var filePath = 'img\\' + fileName
-
-  // Image case.
-  if (fileExt === 'jpg' ||
-      fileExt === 'jpeg' ||
-      fileExt === 'png' ||
-      fileExt === 'bmp' ||
-      fileExt === 'svg' ||
-      fileExt === 'webp' ||
-      fileExt === 'apng' ||
-      fileExt === 'gif') {
-    if (elementType == 'normalCard') {
-      mediaContentHTML =
-        '<img src=\'' + filePath + '\' class=\'card-img-top justify-content-center text-center p-0 m-0\'>'
-    } else if (elementType == 'largeCard'){
-      mediaContentHTML =
-        '<img src=\'' + filePath + '\' class=\'card-img-top-large justify-content-center text-center p-0 m-0\'>'
-    }
-  }
-  // Video case.
-  else if (fileExt === 'mp4' ||
-           fileExt === 'webm') {
-    mediaContentHTML =
-      '<video src=\'' + filePath + '\' class=\'justify-content-center text-center p-0 m-0\' ' +
-      '\' type=\'video\' autoplay=\'true\' loop=\'true\' muted=\'true\'>'
-  }
-
-  return mediaContentHTML
-}
-
 // Handles background color highlighting and resotration of project cards.
 function highlightCard(cardID) {
   // Reset the color of the previous card if applicable.
@@ -253,6 +218,5 @@ function highlightCard(cardID) {
 }
 
 function viewAboutMe() {
-  viewProjectDetails(0, this);
-  highlightCard(0);
+  $(location).attr('href', '/')
 }

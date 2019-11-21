@@ -6,11 +6,6 @@ $(document).ready(function() {
     $("#navbar").replaceWith(navbarHTML)
   })
 
-  // Laod the styling for the navbar.
-  $.get('navbarstylelinks.html', function(navbarStyleLinks) {
-    $('head').append(navbarStyleLinks)
-  })
-
   // Laod the CSS for the navbar.
   $('head').append('<link rel="stylesheet" href="css/navbar.css" type="text/css"/>')
 

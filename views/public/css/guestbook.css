@@ -53,18 +53,9 @@ body {
   width: 100%;
 }
 
-#details-col {
-  background-color: var(--whiteish);
-  padding: 10px;
-  padding-right: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 #scrollable-col {
   background-color: var(--whiteish);
   padding: 10px;
-  padding-left: 5px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -79,17 +70,9 @@ body {
   padding: 15px;
 }
 
-.content-col-row:hover {
-  background-color: var(--gold);
-}
-
 .content-grid-unit{
   height: var(--pixelHeight);
   max-height: 300px;
-}
-
-.content-col-row:hover {
-  cursor: pointer;
 }
 
 .card {
@@ -119,11 +102,6 @@ body {
   padding: 0px;
   margin: 0px;
   object-fit:scale-down;
-}
-
-video {
-  width: 100%;
-  height: var(--pixelHeight);
 }
 
 .card-body {

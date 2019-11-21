@@ -20,7 +20,7 @@ app.listen(port, function () {
 // GET index.
 app.get('/', function (req, res) {
   // Log the request.
-  console.log('GET request to the homepage')
+  console.log('GET request for the homepage')
   // Return successful get request status.
   res.status(200)
   // Send the index file via path relative to the one we defined above.
