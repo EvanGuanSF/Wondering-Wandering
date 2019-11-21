@@ -16,7 +16,7 @@ router.use(bodyParser.json())
 // Our controllers/endpoints.
 const index = require('../controllers/indexController.js')
 const guestbook = require('../controllers/guestbookController.js')
-const captcha = require('../controllers/captcha.js')
+const captcha = require('../controllers/captchaController.js')
 const dbQuery = require('../controllers/dbQuery.js')
 
 // GET guestbook.

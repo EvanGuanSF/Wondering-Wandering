@@ -14,7 +14,7 @@ exports.getCaptchaValidationStatus = function (params, callback) {
 
   // req.connection.remoteAddress will provide IP address of connected user.
   var verificationUrl =
-      'https://www.google.com/recaptcha/api/siteverify?secret=' + secretKey +
+      'https://www.google.com/recaptcha/api/siteverify?secret=' + captchaSecretKey +
       '&response=' + captchaToken + '&remoteip=' + userIPAdress
 
   // Send verification request to Google. Response will be true/false for pass/fail respectively.
