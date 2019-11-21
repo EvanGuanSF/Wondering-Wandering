@@ -2,7 +2,7 @@
 /ignore folder
 
 # Authentication
-dbConfig.js
+auth/dbConfig.js
 auth/recaptchaKey.json
 
 # Images
