@@ -75,10 +75,6 @@ router.get('/getProjectInfo', (req, res) => {
  */
 router.post('/submitComment', (req, res) => {
   console.log('Comment submission endpoint.')
-  console.log(req.body.guestName)
-  console.log(req.body.guestComment)
-  console.log(req.body['g-recaptcha-response'])
-  console.log(captchaSecretKey)
   // ---------- BEGIN FORM VALIDATION SECTION ----------
   // if (!formValidation.validateCommentSubmissionForm(req.body)) {
   //   res.status(422)
