@@ -3,6 +3,7 @@
 
 # Authentication
 dbConfig.js
+auth/recaptchaKey.json
 
 # Images
 /views/public/img/*
