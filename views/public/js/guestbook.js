@@ -58,6 +58,7 @@ $(document).ready(function() {
 // Makes a request to the server for card data and creates cards accordingly.
 function createCommentCards() {
   var xmlResponse = new XMLHttpRequest()
+  cardNumber = 0
 
   // Wait for a response.
   xmlResponse.onreadystatechange = function() {
@@ -74,14 +75,19 @@ function createCommentCards() {
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 
                 '<div class=\'card-body col-12 p-0 m-0\'>' +
-                  '<b><p class=\'card-title p-0 m-0\'>' + comment.guestName + '</p></b>' +
-                  '<p class=\'card-text text-left\'>' + comment.guestComment + '</p>' +
+                  '<b><p class=\'card-title p-0 m-0\' id=\'cardTitleNumber' + cardNumber + '\'></p></b>' +
+                  '<p class=\'card-text text-left\' id=\'cardTextNumber' + cardNumber + '\'></p>' +
                 '</div>' +
 
               '</div>' +
             '</div>' +
           '</div>'
         )
+        
+        $('#cardTitleNumber' + cardNumber).text(comment.guestName)
+        $('#cardTextNumber' + cardNumber).text(comment.guestComment)
+
+        cardNumber++
       })
     }
   }
@@ -89,86 +95,6 @@ function createCommentCards() {
   // Send the request for data.
   xmlResponse.open('GET', '/getComments', true) // true for asynchronous
   xmlResponse.send(null)
-}
-
-// Takes a card-click event, scrolls to the map, finds the marker with the same id,
-// and triggers a click event to zoom in on it.
-function viewProjectDetails(cardID) {
-  //If a map exists, highlight the report on the map
-  var contentwindow = document.getElementById('map')
-
-  // If the about button is clicked, it will be a special case.
-  // We will use the information we saved at the loading of the page to populate the details div.
-  if (cardID === 0) {
-    $('#detailContents').html(aboutMeString)
-  } else {
-    // Otherwise, loop through the returned projects JSON and find the marker with given id.
-    for(var project of projects) {
-      if (project['projectID'] == cardID) {
-        // Get the proper media element.
-        var mediaContentHTML = createMediaElementWithFilenName(project.projectImage, 'largeCard')
-        // Format the roles output.
-        var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
-        // Format the project technologies output.
-        var projectLanguagesAndTechnologies = project.projectLanguagesAndTechnologies.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
-
-        // Format the html for the project's primary source link html elements.
-        // If the link doesn't exist, then we don't show a link.
-        var primaryURLHTML = ''
-        if(project.projectURL != '' && project.projectURL != null) {
-          primaryURLHTML =
-            '<a href=\'' + project.projectURL + '\'><b>Repository</b></a>'
-        }
-        // Format the html for the project's dedicated website link html elements.
-        // If the link doesn't exist, then we don't show a link.
-        var secondaryURLHTML = ''
-        if(project.projectSecondaryURL != '' && project.projectSecondaryURL != null) {
-          secondaryURLHTML =
-            '<a href=\'' + project.projectSecondaryURL + '\'><b>Project Website</b></a>' +
-            '<br>'
-        }
-        // Format the html for the project's extra info link html elements.
-        // If the link doesn't exist, then we don't show a link.
-        var tertiaryURLHTML = ''
-        if(project.projectTertiaryURL != '' && project.projectTertiaryURL != null) {
-          tertiaryURLHTML =
-            '<a href=\'' + project.projectTertiaryURL + '\'><b>More Information</b></a>' +
-            '<br>'
-        }
-
-        $('#detailContents').html(
-          '<div class=\'card shadow justify-content-center text-center\'>' +
-            '<div class=\'container-fluid justify-content-center text-center p-0 m-0\'>' +
-              '<div class=\'row p-0 m-0\'>' +
-
-                '<div class=\'col-12 p-0 m-0\'>' +
-                  '<div class=\'content-grid-unit\'>' +
-                    mediaContentHTML +
-                    '<div class=\'container-fluid\' style=\'overflow: auto\'>' +
-                      '<b><h1 class=\'p-0 m-0\'>' + project.projectName + '</h1></b>' +
-                      '<br>' +
-                      '<p class=\'text-left p-0 m-0\'>' + project.projectDetails + '</p>' +
-                      '<br>' +
-                      '<p class=\'text-left p-0 m-0\'><b>Personal reponsibilities and role(s):</b><br>' + projectRoles + '</p>' +
-                      '<br>' +
-                      '<p class=\'text-left p-0 m-0\'><b>Programming languages and computer technologies personally used in project:</b><br>' + projectLanguagesAndTechnologies + '</p>' +
-                      '<br>' +
-                      secondaryURLHTML +
-                      tertiaryURLHTML +
-                      primaryURLHTML +
-                    '</div>' +
-                  '</div>' +
-                '</div>' +
-
-              '</div>' +
-            '</div>' +
-          '</div>'
-        )
-
-        break
-      }
-    }
-  }
 }
 
 // Handles background color highlighting and resotration of project cards.
