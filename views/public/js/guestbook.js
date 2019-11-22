@@ -70,7 +70,7 @@ function createCommentCards() {
         // Check the extension of the file and create an
         // image or video element according to that file format.
         $('#cardContainer').append(
-          '<div class=\'card-bg card shadow-sm justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
+          '<div class=\'card-bg card shadow-sm justify-content-center text-center\' style=\'background-color: var(--khaki)\'>' +
             '<div class=\'container-fluid p-0 m-0\'>' +
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 

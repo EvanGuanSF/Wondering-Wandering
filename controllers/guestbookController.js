@@ -14,15 +14,6 @@ const captcha = require('../controllers/captchaController.js')
 const dbQuery = require('../controllers/dbQuery.js')
 
 exports.insertComment = function (req, res) {
-  // ---------- BEGIN FORM VALIDATION SECTION ----------
-  // if (!formValidation.validateCommentSubmissionForm(req.body)) {
-  //   res.status(422)
-  //   res.send('Report form validation failed!')
-  //   console.log('Report form validation failed!')
-  //   return
-  // }
-  // ---------- END FORM VALIDATION SECTION ----------
-
   // ---------- BEGIN CAPTCHA VALIDATION SECTION ----------
   // g-recaptcha-response is the token that is generated when the user succeeds
   // in a captcha challenge.
@@ -38,39 +29,39 @@ exports.insertComment = function (req, res) {
       // console.log('Captcha invalid: ', err)
       // res.status(422)
       // res.send('Error creating comment.')
-      return
+      // return
     } else {
-      // If we get here, then the token is valid.
+      // If we get here, then the token is valid, so validate the data and then send it to the database.
+      // ---------- BEGIN FORM VALIDATION SECTION ----------
+      if(!isGuestNameValid(req.body.guestName) || !isGuestCommentValid(req.body.guestComment)) {
+        console.log('Error creating comment: invalid guest name and/or comment')
+        res.status(422)
+        return
+      }
+
+      guestName = validator.trim(req.body.guestName)
+      console.log(req.body.guestName + ' -> ' + guestName)
+      guestComment = validator.trim(req.body.guestComment)
+      console.log(req.body.guestComment + ' -> ' + guestComment)
+      // ---------- END FORM VALIDATION SECTION ----------
 
       // ---------- BEGIN COMMENT INSERTION SECTION ----------
-        if(!isGuestNameValid(req.body.guestName) || !isGuestCommentValid(req.body.guestComment)) {
-          console.log('Error creating comment: invalid guest name and/or comment')
+      // Build the query.
+      var sql = 'INSERT INTO ?? (??, ??) VALUES (?, ?)'
+      var inserts = ['guestbook', 'guestName', 'guestComment', guestName, guestComment]
+      var query = mysql.format(sql, inserts)
+
+      dbQuery.executeQuery(query)
+        .then(function (result) {
+          res.status(200)
+          res.redirect('guestbook.html')
+          return
+        })
+        .catch(function(err) {
+          console.log('Error creating comment: ' + err)
           res.status(422)
           return
-        }
-
-        //
-        guestName = req.body.guestName.replace(/'/g, "''").replace(/\\/g, "\\\\")
-        console.log(req.body.guestName + ' -> ' + guestName)
-        guestComment = req.body.guestComment.replace(/'/g, "''").replace(/\\/g, "\\\\")
-        console.log(req.body.guestComment + ' -> ' + guestComment)
-
-        // Build the query.
-        var sql = 'INSERT INTO ?? (??, ??) VALUES (?, ?)'
-        var inserts = ['guestbook', 'guestName', 'guestComment', guestName, guestComment]
-        var query = mysql.format(sql, inserts)
-
-        dbQuery.executeQuery(query)
-          .then(function (result) {
-            res.status(200)
-            res.redirect('guestbook.html')
-            return
-          })
-          .catch(function(err) {
-            console.log('Error creating comment: ' + err)
-            res.status(422)
-            return
-          })
+        })
       // ---------- END COMMENT INSERTION SECTION ----------
     }
   })
@@ -95,7 +86,6 @@ exports.selectComments = function (req, res) {
       res.send('Failed to receive project data.')
     })
 }
-
 
 // Validate guest name input.
 function isGuestNameValid (name) {
