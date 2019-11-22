@@ -70,7 +70,7 @@ function createCommentCards() {
         // Check the extension of the file and create an
         // image or video element according to that file format.
         $('#cardContainer').append(
-          '<div class=\'card-bg card shadow justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
+          '<div class=\'card-bg card shadow-sm justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
             '<div class=\'container-fluid p-0 m-0\'>' +
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 
@@ -83,7 +83,7 @@ function createCommentCards() {
             '</div>' +
           '</div>'
         )
-        
+
         $('#cardTitleNumber' + cardNumber).text(comment.guestName)
         $('#cardTextNumber' + cardNumber).text(comment.guestComment)
 
@@ -95,24 +95,6 @@ function createCommentCards() {
   // Send the request for data.
   xmlResponse.open('GET', '/getComments', true) // true for asynchronous
   xmlResponse.send(null)
-}
-
-// Handles background color highlighting and resotration of project cards.
-function highlightCard(cardID) {
-  // Reset the color of the previous card if applicable.
-  if(previouslyClickedCardID > 0) {
-    $('#' + previouslyClickedCardID).css({'background-color': 'var(--whiteish)'})
-  }
-  // Set the color of the new card if applicable.
-  if(cardID > 0) {
-    $('#' + cardID).css({'background-color': 'var(--lavenderish)'})
-  }
-  // Set the previously clicked card id for future use.
-  previouslyClickedCardID = cardID
-}
-
-function viewAboutMe() {
-  $(location).attr('href', '/')
 }
 
 // Validate guest name input.
