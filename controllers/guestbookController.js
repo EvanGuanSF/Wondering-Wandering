@@ -14,34 +14,6 @@ const captcha = require('../controllers/captchaController.js')
 const dbQuery = require('../controllers/dbQuery.js')
 
 exports.insertComment = function (req, res) {
-  if(!isGuestNameValid(req.body.guestName) || !isGuestCommentValid(req.body.guestComment)) {
-    console.log('Error creating comment: invalid guest name and/or comment')
-    res.status(422)
-    return
-  }
-
-  //
-  guestName = req.body.guestName.replace(/'/g, "''").replace(/\\/g, "\\\\")
-  console.log(req.body.guestName + ' -> ' + guestName)
-  guestComment = req.body.guestComment.replace(/'/g, "''").replace(/\\/g, "\\\\")
-  console.log(req.body.guestComment + ' -> ' + guestComment)
-
-  // Build the query.
-  var sql = 'INSERT INTO ?? (??, ??) VALUES (?, ?)'
-  var inserts = ['guestbook', 'guestName', 'guestComment', guestName, guestComment]
-  var query = mysql.format(sql, inserts)
-
-  dbQuery.executeQuery(query)
-    .then(function (result) {
-      res.status(200)
-      res.redirect('guestbook.html')
-      return
-    })
-    .catch(function(err) {
-      console.log('Error creating comment: ' + err)
-      res.status(422)
-      return
-    })
   // ---------- BEGIN FORM VALIDATION SECTION ----------
   // if (!formValidation.validateCommentSubmissionForm(req.body)) {
   //   res.status(422)
@@ -71,26 +43,34 @@ exports.insertComment = function (req, res) {
       // If we get here, then the token is valid.
 
       // ---------- BEGIN COMMENT INSERTION SECTION ----------
-      guestName = req.body.guestName.replace(/'/g, "''").replace(/\\/g, "\\\\")
-      console.log(req.body.guestName + ' -> ' + guestName)
-      guestComment = req.body.guestComment.replace(/'/g, "''").replace(/\\/g, "\\\\")
-      console.log(req.body.guestComment + ' -> ' + guestComment)
-
-      var sql = 'INSERT INTO ?? (??, ??) VALUES (?, ?)'
-      var inserts = ['guestbook', 'guestName', 'guestComment', guestName, guestComment]
-      var query = mysql.format(sql, inserts)
-
-      dbQuery.executeQuery(query)
-        .then(function (result) {
-          res.status(200)
-          res.redirect('guestbook.html')
-          return
-        })
-        .catch(function(err) {
-          console.log('Error creating comment: ' + err)
+        if(!isGuestNameValid(req.body.guestName) || !isGuestCommentValid(req.body.guestComment)) {
+          console.log('Error creating comment: invalid guest name and/or comment')
           res.status(422)
           return
-        })
+        }
+
+        //
+        guestName = req.body.guestName.replace(/'/g, "''").replace(/\\/g, "\\\\")
+        console.log(req.body.guestName + ' -> ' + guestName)
+        guestComment = req.body.guestComment.replace(/'/g, "''").replace(/\\/g, "\\\\")
+        console.log(req.body.guestComment + ' -> ' + guestComment)
+
+        // Build the query.
+        var sql = 'INSERT INTO ?? (??, ??) VALUES (?, ?)'
+        var inserts = ['guestbook', 'guestName', 'guestComment', guestName, guestComment]
+        var query = mysql.format(sql, inserts)
+
+        dbQuery.executeQuery(query)
+          .then(function (result) {
+            res.status(200)
+            res.redirect('guestbook.html')
+            return
+          })
+          .catch(function(err) {
+            console.log('Error creating comment: ' + err)
+            res.status(422)
+            return
+          })
       // ---------- END COMMENT INSERTION SECTION ----------
     }
   })
