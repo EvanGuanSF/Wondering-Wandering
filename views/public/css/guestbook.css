@@ -36,7 +36,7 @@ ALABASTER
   --khaki: #BFB48F;
   --whiteish: #F2EFE9;
 
-  --pixelHeight: 300px;
+  --pixelHeight: 200px;
 }
 
 html,
@@ -48,9 +48,8 @@ body {
   color: var(--blackish) !important;
 }
 
-#map {
-  height: 100%;
-  width: 100%;
+textarea {
+  resize: none;
 }
 
 #scrollable-col {
@@ -60,54 +59,15 @@ body {
   overflow-x: hidden;
 }
 
-#footer {
-  background-color: var(--blackish);
-}
-
-.content-col {
-  /* Diagnostic border */
-  /* border: 1px solid red; */
-  padding: 15px;
-}
-
 .content-grid-unit{
   height: var(--pixelHeight);
-  max-height: 300px;
+  max-height: 200px;
 }
 
 .card {
-  height: var(--pixelHeight);
-  /* padding: 2px; */
+  height: auto;
   margin-top: 15px;
   margin-bottom: 15px;
-}
-
-.card-img-top-container {
-  width: 100%;
-  height: 100%;
-}
-
-.card-img-top {
-  height: var(--pixelHeight);
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-  object-fit:scale-down;
-}
-
-.card-img-top-large {
-  background-color: var(--whiteish);
-  height: var(--pixelHeight);
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-  object-fit:scale-down;
-}
-
-.card-body {
-  padding: 1px;
-  margin: 1px;
-  height: var(--pixelHeight);
 }
 
 .card-body > h5, p, a {
@@ -116,17 +76,7 @@ body {
   margin: 0px;
 }
 
-#text-spacer {
-  display: inline-block;
-  overflow-x: scroll;
-  height: var(--pixelHeight);
-  padding: 3px;
-  padding-bottom: 0px;
-  margin: 0px;
-}
-
 .card-title {
-  height: 7%;
   margin: 0px;
   overflow-x: auto;
   text-overflow: ellipsis;
@@ -134,11 +84,8 @@ body {
 
 .card-text {
   width: fill;
-  height: 83%;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 10px;
+  margin-bottom: 10px;
   overflow-x: auto;
   text-overflow: ellipsis;
 }

@@ -33,11 +33,14 @@
   <script src='js/guestbook.js'></script>
   <script src='js/loadnavbar.js'></script>
 
-  <!-- google reCAPTCHA script -->
+  <!-- Google reCAPTCHA script -->
   <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+
+  <!-- String sanitization/validation library -->
+  <script src="js/validator.min.js"></script>
 </head>
 
-<body onload=''>
+<body onload='createCommentCards()'>
   <!-- These are placeholders that will be replaced. -->
   <style id='navStyle'></style>
   <div id='navbar'></div>
@@ -72,7 +75,7 @@
                   </div>
 
                   <div class='form-group'>
-                    <textarea type='text' class='form-control' name='guestComment' id='guestCommentEntry' placeholder='Comment (300 characters max)' rows='3' maxlength=300></textarea>
+                    <textarea type='text' class='form-control' name='guestComment' id='guestCommentEntry' placeholder='Comment (500 characters max)' rows='5' maxlength=300></textarea>
                     <strong style='color: red'><div id='guestCommentValidity'></div></strong>
                   </div>
 
@@ -88,6 +91,11 @@
                   <br>
 
                 </form> <!-- report submission form -->
+
+                <div class='d-flex flex-column flex-row'>
+                  <div id='cardContainer' class='card-container'>
+                  </div>
+                </div>
 
                 <!--
                 <div style='background-color: green'>

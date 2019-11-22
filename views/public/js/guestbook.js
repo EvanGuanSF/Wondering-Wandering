@@ -40,30 +40,13 @@ $(document).ready(function() {
   $('#submitButton').click(function () {
     console.log('Submitting comment.')
     event.preventDefault();
-    console.log($('#comment-submission-form'))
     var canSubmit = true
 
+    // Form validation.
     // Go in bottom-up order so we can show the top-most form error first.
-    // One-way mechanism, if it gets set to false it stays that way,
-    // while still allowing us to run all the tests.
-    // if(!isCaptchaValid() && true) {
-    //   canSubmit = false
-    // }
-    // if(!isFileValid() && true) {
-    //   canSubmit = false
-    // }
-    // if(!isCoordValid() && true) {
-    //   canSubmit = false
-    // }
-    // if(!isDetailsValid() && true) {
-    //   canSubmit = false
-    // }
-    // if(!isLocationIDValid() && true) {
-    //   canSubmit = false
-    // }
-    // if(!isCategoryIDValid() && true) {
-    //   canSubmit = false
-    // }
+    if (!isGuestNameValid() || !isGuestCommentValid()) {
+      canSubmit = false
+    }
 
     // One final check.
     if (canSubmit) {
@@ -73,41 +56,26 @@ $(document).ready(function() {
 })
 
 // Makes a request to the server for card data and creates cards accordingly.
-function createProjectCards() {
+function createCommentCards() {
   var xmlResponse = new XMLHttpRequest()
 
   // Wait for a response.
   xmlResponse.onreadystatechange = function() {
     if (xmlResponse.readyState == 4 && xmlResponse.status == 200)
     {
-      projects = JSON.parse(xmlResponse.response)
+      comments = JSON.parse(xmlResponse.response)
 
-      // The path to the media file from the JSON.
-      var mediaPath
-      // The file extension of the file.
-      var mediaType
-
-      projects.forEach((item, index) => {
+      comments.forEach((comment, index) => {
         // Check the extension of the file and create an
         // image or video element according to that file format.
-
-        var mediaContentHTML = createMediaElementWithFilenName(item.projectImage, 'normalCard')
-
         $('#cardContainer').append(
-          '<div onclick=\'viewProjectDetails(' + item.projectID + '); highlightCard(' + item.projectID + ')\' id=' + item.projectID + ' class=\'card-bg card shadow justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
+          '<div class=\'card-bg card shadow justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
             '<div class=\'container-fluid p-0 m-0\'>' +
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 
-                '<div class=\'col-6 p-0 m-0\'>' +
-                  '<div class=\'content-grid-unit\'>' +
-                    mediaContentHTML +
-                  '</div>' +
-                '</div>' +
-
-                '<div class=\'card-body col-6 p-0 m-0\'>' +
-                  '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
-                  '<p class=\'card-text text-left\'>' + item.projectDetails + '</p>' +
-                  '<b><p class=\'card-title p-0 m-0\'>Click this card for more details</p></b>' +
+                '<div class=\'card-body col-12 p-0 m-0\'>' +
+                  '<b><p class=\'card-title p-0 m-0\'>' + comment.guestName + '</p></b>' +
+                  '<p class=\'card-text text-left\'>' + comment.guestComment + '</p>' +
                 '</div>' +
 
               '</div>' +
@@ -119,7 +87,7 @@ function createProjectCards() {
   }
 
   // Send the request for data.
-  xmlResponse.open('GET', '/getProjectInfo', true) // true for asynchronous
+  xmlResponse.open('GET', '/getComments', true) // true for asynchronous
   xmlResponse.send(null)
 }
 
@@ -219,4 +187,34 @@ function highlightCard(cardID) {
 
 function viewAboutMe() {
   $(location).attr('href', '/')
+}
+
+// Validate guest name input.
+function isGuestNameValid () {
+  console.log('checking name: ' + $('#guestNameEntry').val())
+  if (validator.isLength($('#guestNameEntry').val() + '', { min: 2, max: 40 })) {
+    // Be sure to empty the field of past errors if there were any.
+    $('#guestNameValidity').html('')
+    return true
+  } else {
+    // Display error and scroll to the field.
+    $('#guestNameValidity').html('Please enter your name. (2-40 characters)')
+    $('#guestNameEntry')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+    return false
+  }
+}
+
+// Validate guest comment input.
+function isGuestCommentValid () {
+  console.log('checking comment: ' + $('#guestCommentEntry').val())
+  if (validator.isLength($('#guestCommentEntry').val() + '', { min: 2, max: 500 })) {
+    // Be sure to empty the field of past errors if there were any.
+    $('#guestCommentValidity').html('')
+    return true
+  } else {
+    // Display error and scroll to the field.
+    $('#guestCommentValidity').html('Please enter your comment. (2-40 characters)')
+    $('#guestCommentEntry')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+    return false
+  }
 }
