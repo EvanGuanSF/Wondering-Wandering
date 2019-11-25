@@ -57,3 +57,7 @@ ALABASTER
 #navbar {
   background-color: var(--rosey);
 }
+
+#subtitle {
+  color: var(--whiteish);
+}

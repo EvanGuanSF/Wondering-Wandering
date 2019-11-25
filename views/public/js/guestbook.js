@@ -89,6 +89,10 @@ function createCommentCards() {
     })
 }
 
+function viewAboutMe() {
+  $(location).attr('href', '/')
+}
+
 // Validate guest name input.
 function isGuestNameValid () {
   console.log('checking name: ' + $('#guestNameEntry').val())
