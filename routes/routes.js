@@ -16,6 +16,7 @@ router.use(bodyParser.json())
 // Our controllers/endpoints.
 const index = require('../controllers/indexController.js')
 const guestbook = require('../controllers/guestbookController.js')
+const navbar = require('../controllers/navbarController.js')
 const dbQuery = require('../controllers/dbQuery.js')
 
 // GET guestbook.
@@ -26,25 +27,6 @@ router.get('/guestbook', function (req, res) {
   res.status(200)
   // Send the index file via path relative to the one we defined above.
   res.sendFile(path.resolve('views/public/guestbook.html'))
-})
-
-/**
- * This endpoint returns a JSON list of image paths
- *
- * @param none
- * @return {JSON} {imagePath}
- */
-router.get('/getCardInfo', (req, res) => {
-  index.getCardInfo()
-    .then(function (result) {
-      res.status(200)
-      res.send(result)
-    })
-    .catch(function(err) {
-      console.log(err)
-      res.status(404)
-      res.send('failed.')
-    })
 })
 
 /**
@@ -78,4 +60,15 @@ router.post('/submitComment', (req, res) => {
 router.get('/getComments', (req, res) => {
   console.log('Getting comments.')
   guestbook.selectComments(req, res)
+})
+
+/**
+ * This endpoint gets comments from the database.
+ *
+ * @param {}
+ * @return {JSON} {guestName, guestComment}
+ */
+router.get('/getRandomSubtitle', (req, res) => {
+  console.log('Getting random subtitle.')
+  navbar.getRandomSubtitle(req, res)
 })

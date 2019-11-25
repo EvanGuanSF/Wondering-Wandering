@@ -75,13 +75,10 @@ $(document).ready(function() {
 
 // Makes a request to the server for card data and creates cards accordingly.
 function createProjectCards() {
-  var xmlResponse = new XMLHttpRequest()
-
-  // Wait for a response.
-  xmlResponse.onreadystatechange = function() {
-    if (xmlResponse.readyState == 4 && xmlResponse.status == 200)
-    {
-      projects = JSON.parse(xmlResponse.response)
+  // Use jQuery to make the request and then handle the data on good data return.
+  $.get('/getProjectInfo')
+    .done(function(data)  {
+      projects = data
 
       // The path to the media file from the JSON.
       var mediaPath
@@ -116,12 +113,7 @@ function createProjectCards() {
           '</div>'
         )
       })
-    }
-  }
-
-  // Send the request for data.
-  xmlResponse.open('GET', '/getProjectInfo', true) // true for asynchronous
-  xmlResponse.send(null)
+    })
 }
 
 // Takes a card-click event, scrolls to the map, finds the marker with the same id,

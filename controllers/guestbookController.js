@@ -1,6 +1,3 @@
-
-// TODO: Getting and formatting guestbook data to give to user.
-
 // Add additional middleware imports.
 const mysql = require('mysql')
 const validator = require('validator')

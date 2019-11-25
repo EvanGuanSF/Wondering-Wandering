@@ -9,6 +9,11 @@ $(document).ready(function() {
   // Laod the CSS for the navbar.
   $('head').append('<link rel="stylesheet" href="css/navbar.css" type="text/css"/>')
 
+  // Load the subtitle for the navbar.
+  $.get('/getRandomSubtitle')
+    .done(function(data)  {
+      $('#subtitle').text(data[0].subtitle)
+    })
 })
 
 // Sleep function workaround. Must be called from an async function.
@@ -21,17 +26,6 @@ function sleep (time) {
 async function checkNavbarFinishedLoaded() {
   var navbarTimer
   console.time(navbarTimer)
-
-  // Single trigger mode.
-  // while(true) {
-  //   await sleep(250)
-  //   initialNavbarHeight = $('#navbar').outerHeight()
-  //   $(window).trigger('navbarLoadedEvent')
-  // }
-  // console.timeLog(navbarTimer)
-  // console.log(initialNavbarHeight, $('#navbar').outerHeight())
-  // $(window).trigger('navbarLoadedEvent')
-  // }
 
   // Continuous trigger mode. 5 seconds total.
   for(i = 0; i < 60; i++) {

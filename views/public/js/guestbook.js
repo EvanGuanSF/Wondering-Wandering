@@ -57,14 +57,11 @@ $(document).ready(function() {
 
 // Makes a request to the server for card data and creates cards accordingly.
 function createCommentCards() {
-  var xmlResponse = new XMLHttpRequest()
-  cardNumber = 0
-
-  // Wait for a response.
-  xmlResponse.onreadystatechange = function() {
-    if (xmlResponse.readyState == 4 && xmlResponse.status == 200)
-    {
-      comments = JSON.parse(xmlResponse.response)
+  // Use jQuery to make the request and then handle the data on good data return.
+  $.get('/getComments')
+    .done(function(data)  {
+      comments = data
+      cardNumber = 0
 
       comments.forEach((comment, index) => {
         // Check the extension of the file and create an
@@ -89,12 +86,7 @@ function createCommentCards() {
 
         cardNumber++
       })
-    }
-  }
-
-  // Send the request for data.
-  xmlResponse.open('GET', '/getComments', true) // true for asynchronous
-  xmlResponse.send(null)
+    })
 }
 
 // Validate guest name input.

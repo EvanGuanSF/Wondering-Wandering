@@ -1,26 +1,14 @@
-// We need these modules to access directory
-// and filename information.
-const path = require('path');
-const filesystem = require('fs');
-
-// Combine the directory of the node server with the
-// path that contains our media files.
-const directoryPath = path.join(__dirname, '../views/public/img')
-
 // Add additional middleware imports.
 const mysql = require('mysql')
 //const sqlstring = require('sqlstring');
 
-// JSON parser.
-const bodyParser = require('body-parser')
-
 // Our controllers/endpoints.
 const dbQuery = require('../controllers/dbQuery.js')
 
-exports.selectProjectInfo = function (req, res) {
+exports.getRandomSubtitle = function (req, res) {
   // Build the query.
-  var sql = 'SELECT * FROM ?? ORDER BY ? ?'
-  var inserts = ['projects', 'projectID', 'ASC']
+  var sql = 'SELECT ?? FROM ?? ORDER BY Rand() Limit 1'
+  var inserts = ['subtitle', 'subtitles']
   var query = mysql.format(sql, inserts)
 
   // Execute
