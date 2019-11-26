@@ -1,4 +1,3 @@
-
 // Define Express and make a router.
 const express = require('express')
 const router = express.Router()
@@ -7,6 +6,9 @@ module.exports = router
 // Add additional middleware imports.
 const https = require('https')
 const path = require('path')
+const rateLimit = require("express-rate-limit")
+const redisStore = require('rate-limit-redis')
+const redis = require('redis')
 
 // JSON parser.
 const bodyParser = require('body-parser')
@@ -19,8 +21,42 @@ const guestbook = require('../controllers/guestbookController.js')
 const navbar = require('../controllers/navbarController.js')
 const dbQuery = require('../controllers/dbQuery.js')
 
+
+// Limiter for webpages.
+const pageLimiter = rateLimit({
+  store: new redisStore({
+    client: redis.createClient(),
+    expiry: 60, // seconds - how long each rate limiting window exists for.
+    resetExpiryOnChange: false
+  }),
+  max: 30, // limit each IP to max requests per windowMs
+  message: 'Please wait to perform more actions.'
+})
+
+// Limiter for MySQL APIs.
+const mysqlApiLimiter = rateLimit({
+  store: new redisStore({
+    client: redis.createClient(),
+    expiry: 60, // seconds - how long each rate limiting window exists for.
+    resetExpiryOnChange: false
+  }),
+  max: 90, // limit each IP to max requests per windowMs
+  message: 'Please wait to perform more actions.'
+})
+
+
+// GET index.
+router.get('/', pageLimiter, function (req, res) {
+  // Log the request.
+  console.log('GET request for the homepage')
+  // Return successful get request status.
+  res.status(200)
+  // Send the index file via path relative to the one we defined above.
+  res.sendFile('index.html')
+})
+
 // GET guestbook.
-router.get('/guestbook', function (req, res) {
+router.get('/guestbook', pageLimiter, function (req, res) {
   // Log the request.
   console.log('GET request for guestbook')
   // Return successful get request status.
@@ -35,7 +71,7 @@ router.get('/guestbook', function (req, res) {
  * @param none
  * @return {JSON} {projectID, projectName, projectURL, projectSecondaryURL, projectTertiaryURL, projectImage, projectDetails, projectLanguagesAndTechnologies, projectRole}
  */
-router.get('/getProjectInfo', (req, res) => {
+router.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
   console.log('Project Info Request endpoint.')
   index.selectProjectInfo(req, res)
 })
@@ -46,7 +82,7 @@ router.get('/getProjectInfo', (req, res) => {
  * @param {JSON} {guestName, guestComment, reCAPTCHAToken}
  * @return {URL} {guestBookURL}
  */
-router.post('/submitComment', (req, res) => {
+router.post('/submitComment', mysqlApiLimiter, (req, res) => {
   console.log('Comment submission endpoint.')
   guestbook.insertComment(req, res)
 })
@@ -57,7 +93,7 @@ router.post('/submitComment', (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-router.get('/getComments', (req, res) => {
+router.get('/getComments', mysqlApiLimiter, (req, res) => {
   console.log('Getting comments.')
   guestbook.selectComments(req, res)
 })
@@ -68,7 +104,7 @@ router.get('/getComments', (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-router.get('/getRandomSubtitle', (req, res) => {
+router.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
   console.log('Getting random subtitle.')
   navbar.getRandomSubtitle(req, res)
 })

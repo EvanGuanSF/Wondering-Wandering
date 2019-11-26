@@ -5,7 +5,6 @@ var navbarHeight = $('#navbar').outerHeight()
 
 var previouslyClickedCardID = 0
 
-
 // This funtion calculates and returns the pixel offset of the navbar and footer.
 function getHeaderAndFooterDisplacements() {
   this.winHeight = $(this).outerHeight()

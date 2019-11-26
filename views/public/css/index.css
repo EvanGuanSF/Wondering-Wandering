@@ -54,15 +54,17 @@ body {
 }
 
 #details-col {
-  background-color: var(--whiteish);
   padding: 10px;
   padding-right: 5px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-#scrollable-col {
+#contentRow {
   background-color: var(--whiteish);
+}
+
+#scrollable-col {
   padding: 10px;
   padding-left: 5px;
   overflow-y: auto;
