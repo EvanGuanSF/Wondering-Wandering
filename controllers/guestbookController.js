@@ -23,15 +23,15 @@ exports.insertComment = function (req, res) {
   captcha.getCaptchaValidationStatus(captchaValidationParams, function (err, result) {
     // If the verification process failed, tell the user and do not enter data into DB.
     if (err || !result) {
-      // console.log('Captcha invalid: ', err)
-      // res.status(422)
-      // res.send('Error creating comment.')
-      // return
+      console.log('Error creating comment: Captcha from ' + req.connection.remoteAddress + ' invalid.\n', err)
+      res.status(422)
+      res.send('Error creating comment: Captcha token invalid.')
+      return
     } else {
       // If we get here, then the token is valid, so validate the data and then send it to the database.
       // ---------- BEGIN FORM VALIDATION SECTION ----------
       if(!isGuestNameValid(req.body.guestName) || !isGuestCommentValid(req.body.guestComment)) {
-        console.log('Error creating comment: invalid guest name and/or comment')
+        console.log('Error creating comment: Invalid guest name and/or comment')
         res.status(422)
         return
       }
@@ -50,12 +50,13 @@ exports.insertComment = function (req, res) {
 
       dbQuery.executeQuery(query)
         .then(function (result) {
+          console.log('Comment from ' + req.connection.remoteAddress + ' created successfully.\n')
           res.status(200)
           res.redirect('guestbook.html')
           return
         })
         .catch(function(err) {
-          console.log('Error creating comment: ' + err)
+          console.log('Error creating commen from ' + req.connection.remoteAddress + '.\n', err)
           res.status(422)
           return
         })
