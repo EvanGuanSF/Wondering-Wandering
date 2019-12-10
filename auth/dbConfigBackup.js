@@ -5,8 +5,8 @@ const mysql = require('mysql')
 const db = mysql.createPool({
   host: 'subdomain.domain.domainextension',
   user: 'db_user',
-  password: 'user_pw',
-  database: 'optional_db_to_use'
+  password: 'db_user_pw',
+  database: 'general_db'
 })
 
 module.exports = db
