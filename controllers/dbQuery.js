@@ -7,8 +7,12 @@ exports.executeQuery = function (query) {
     console.log(query)
 
     db.query(query, function(err, rows, fields) {
-      if (!err)
-        console.log('Query results:\n', rows);
+      if (!err) {
+        console.log('Query ok.');
+        rows.forEach((row, index) => {
+          console.log(row.projectName)
+        })
+      }
       else
         console.log('Error while performing Query: ' + err);
       resolve(rows)

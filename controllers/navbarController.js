@@ -7,7 +7,8 @@ const dbQuery = require('../controllers/dbQuery.js')
 
 exports.getRandomSubtitle = function (req, res) {
   // Build the query.
-  var sql = 'SELECT ?? FROM ?? ORDER BY Rand() Limit 1'
+  var orderByClause = 'Rand() Limit 1'
+  var sql = 'SELECT ?? FROM ?? ORDER BY ' + orderByClause
   var inserts = ['subtitle', 'subtitles']
   var query = mysql.format(sql, inserts)
 

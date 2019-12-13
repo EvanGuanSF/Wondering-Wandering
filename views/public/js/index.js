@@ -84,15 +84,60 @@ function createProjectCards() {
       var mediaPath
       // The file extension of the file.
       var mediaType
+      // The current category.
+      var currentCategory
+      var categoriesMatch = false
+      var currentCategoryID = 0
+      var currentCategoryContainerIDString
 
       projects.forEach((item, index) => {
         // Check the extension of the file and create an
         // image or video element according to that file format.
+        var mediaContentHTML = createMediaElementWithFileName(item.projectImage, 'normalCard')
 
-        var mediaContentHTML = createMediaElementWithFilenName(item.projectImage, 'normalCard')
+        // Check the category of the project.
+        categoriesMatch = currentCategory == item.projectCategory ? true : false
+        if (!categoriesMatch) {
+          // Increment the currentCategoryID as needed.
+          currentCategoryID++
+        }
+        // Update the strings for building HTML elements.
+        currentCategory = item.projectCategory
+        currentCategoryContainerIDString = 'categoryContainer' + currentCategoryID
+        currentCardCategoryIDString = 'cardCategory' + currentCategoryID
 
-        $('#cardContainer').append(
-          '<div onclick=\'viewProjectDetails(' + item.projectID + '); highlightCard(' + item.projectID + ')\' id=' + item.projectID + ' class=\'card-bg card shadow justify-content-center text-center\' style=\'background-color: var(--whiteish)\'>' +
+        // Create the category container if needed.
+        if (!categoriesMatch) {
+          console.log('Creating categoryContainer #' + currentCategoryID)
+          $('#cardContainer').append(
+            '<div id=\'' + currentCategoryContainerIDString + '\' class=\'p-0 m-0\'>' +
+              '<div class=\'container p-0 m-0\'>' +
+                '<div class=\'row p-0 m-0\'>' +
+
+                  '<div class=\'col-6 p-0 m-0 text-left\'>' +
+                    '<p class=\'project-category-identifier\'><b>Project Type: ' + currentCategory + '</b></p>' +
+                  '</div>' +
+
+                  '<div class=\'col-6 p-0 m-0 text-right\'>' +
+                    '<a class=\'categoryContainer category-collapse-button\' data-toggle=\'collapse\' href=\'.' + currentCardCategoryIDString +
+                    '\' role=\'button\' aria-expanded=\'true\' aria-controls=\'collapse\'><b>' +
+                      'Toggle Category' +
+                    '</a>' +
+                  '</div>' +
+
+                '</div>' +
+              '</div>' +
+            '</div>'
+          )
+        }
+
+        // Now attach the card to the current category container.
+        console.log('Appending item #' + index + ' to ' + currentCategoryContainerIDString + ': ' + item.projectName)
+        $('#' + currentCategoryContainerIDString).append(
+          '<div onclick=\'viewProjectDetails(' + (index + 1) + '); highlightCard(' + (index + 1) + ')\' id=' + (index + 1) +
+          ' class=\'collapse show card-bg card shadow justify-content-center text-center ' + currentCardCategoryIDString +
+          '\' style=\'background-color: var(--whiteish)\'>' +
+
             '<div class=\'container-fluid p-0 m-0\'>' +
               '<div class=\'row p-0 m-0 content-col-row\'>' +
 
@@ -109,8 +154,7 @@ function createProjectCards() {
                 '</div>' +
 
               '</div>' +
-            '</div>' +
-          '</div>'
+            '</div>'
         )
       })
     })
@@ -131,7 +175,7 @@ function viewProjectDetails(cardID) {
     for(var project of projects) {
       if (project['projectID'] == cardID) {
         // Get the proper media element.
-        var mediaContentHTML = createMediaElementWithFilenName(project.projectImage, 'largeCard')
+        var mediaContentHTML = createMediaElementWithFileName(project.projectImage, 'largeCard')
         // Format the roles output.
         var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
         // Format the project technologies output.
@@ -198,7 +242,7 @@ function viewProjectDetails(cardID) {
 
 // Creates the media element html given a file name and its extension and
 // also the type of element (in a card or in the details column).
-function createMediaElementWithFilenName(fileName, elementType) {
+function createMediaElementWithFileName(fileName, elementType) {
   var fileExt = fileName.split('.').pop()
   var filePath = 'img\\' + fileName
 

@@ -94,11 +94,33 @@ body {
   cursor: pointer;
 }
 
+.collapsing {
+    -webkit-transition: none;
+    transition: none !important;
+    display: none;
+}
+
+.category-collapse-button:hover {
+  color: var(--lavenderish) !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.category-collapse-button {
+  color: var(--rosey);
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .card {
   height: var(--pixelHeight);
   /* padding: 2px; */
-  margin-top: 15px;
+  margin-top: 0px;
   margin-bottom: 15px;
+}
+
+.project-category-identifier {
+  color: var(--blackish);
 }
 
 .card-img-top-container {

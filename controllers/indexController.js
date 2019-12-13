@@ -19,13 +19,17 @@ const dbQuery = require('../controllers/dbQuery.js')
 
 exports.selectProjectInfo = function (req, res) {
   // Build the query.
-  var sql = 'SELECT * FROM ?? ORDER BY ? ?'
-  var inserts = ['projects', 'projectID', 'ASC']
+  var orderByClause = 'projectCategory ASC'
+  var sql = 'SELECT * FROM ?? ORDER BY ' + orderByClause
+  var inserts = ['projects']
   var query = mysql.format(sql, inserts)
 
   // Execute
   dbQuery.executeQuery(query)
     .then(function (result) {
+      result.forEach((item, index) => {
+        console.log(item.projectName)
+      })
       res.status(200)
       res.send(result)
     })
