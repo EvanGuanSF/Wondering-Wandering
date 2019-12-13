@@ -18,6 +18,7 @@ This website is a resume and portfolio of sorts that highlights several projects
   • CSS
   • Node.js
   • Amazon AWS
+  • Windows Forms
   • MySQL
   • <a href='https://github.com/JammyPajamies' target='_blank'>GitHub</a>
   • Postman
