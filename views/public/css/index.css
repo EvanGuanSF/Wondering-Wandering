@@ -121,6 +121,7 @@ body {
 
 .project-category-identifier {
   color: var(--blackish);
+  max-width: 100%;
 }
 
 .card-img-top-container {

@@ -111,14 +111,14 @@ function createProjectCards() {
           console.log('Creating categoryContainer #' + currentCategoryID)
           $('#cardContainer').append(
             '<div id=\'' + currentCategoryContainerIDString + '\' class=\'p-0 m-0\'>' +
-              '<div class=\'container p-0 m-0\'>' +
+              '<div class=\'container p-0 m-0 project-category-identifier\'>' +
                 '<div class=\'row p-0 m-0\'>' +
 
-                  '<div class=\'col-6 p-0 m-0 text-left\'>' +
-                    '<p class=\'project-category-identifier\'><b>Project Type: ' + currentCategory + '</b></p>' +
+                  '<div class=\'col-6 text-left p-0 m-0\'>' +
+                    '<p class=\'\'><b>Project Type: ' + currentCategory + '</b></p>' +
                   '</div>' +
 
-                  '<div class=\'col-6 p-0 m-0 text-right\'>' +
+                  '<div class=\'col-6 text-right p-0 m-0\'>' +
                     '<a class=\'categoryContainer category-collapse-button\' data-toggle=\'collapse\' href=\'.' + currentCardCategoryIDString +
                     '\' role=\'button\' aria-expanded=\'true\' aria-controls=\'collapse\'><b>' +
                       'Toggle Category' +
