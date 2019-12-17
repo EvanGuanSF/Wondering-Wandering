@@ -38,7 +38,7 @@ $(document).ready(function() {
   // Click event on the submit button.
   $('#submitButton').click(function () {
     console.log('Submitting comment.')
-    event.preventDefault();
+    event.preventDefault()
     var canSubmit = true
 
     // Form validation.

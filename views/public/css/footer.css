@@ -1,0 +1,58 @@
+/*
+Color Scheme:
+
+:Darkest:
+NAVY PURPLE
+#8A4FFF
+BLUE JEANS
+#5BC0EB
+SATIN SHEEN GOLD
+#CBA135
+#F3EFE0
+:Lightest:
+
+:Darker:
+RAISIN BLACK
+#252627
+BLEU DE FRANCE
+#3C91E6
+ROSE TAUPE
+#904E55
+PALE CORNFLOWER BLUE
+#ADBDFF
+KHAKI (HTML/CSS) (KHAKI)
+#BFB48F
+ALABASTER
+#F2EFE9
+:Lighter:
+*/
+:root {
+  --blackish: #252627;
+  --purply: #8A4FFF;
+  --dblueish: #5BC0EB;
+  --lavenderish: #ADBDFF;
+  --rosey: #904E55;
+  --gold: #CBA135;
+  --khaki: #BFB48F;
+  --whiteish: #F2EFE9;
+}
+
+#footer {
+  background-color: var(--rosey);
+}
+
+#uniqueVisitorsCounter {
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+#privacyPolicyLink:hover {
+  color: var(--lavenderish) !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content {
+  background-color: var(--whiteish);
+  color: var(--blackish);
+}

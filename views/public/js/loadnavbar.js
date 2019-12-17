@@ -3,11 +3,11 @@ var initialNavbarHeight = $('#navbar').outerHeight()
 $(document).ready(function() {
   // Load the navbar.
   $.get('navbar.html', function(navbarHTML) {
-    $("#navbar").replaceWith(navbarHTML)
+    $('#navbar').replaceWith(navbarHTML)
   })
 
   // Laod the CSS for the navbar.
-  $('head').append('<link rel="stylesheet" href="css/navbar.css" type="text/css"/>')
+  $('head').append('<link rel=\'stylesheet\' href=\'css/navbar.css\' type=\'text/css\'/>')
 
   // Load the subtitle for the navbar.
   $.get('/getRandomSubtitle')

@@ -35,6 +35,18 @@ CREATE TABLE `guestbook` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `hashedVisitorIPs`
+--
+DROP TABLE IF EXISTS `hashedVisitorIPs`;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hashedVisitorIPs` (
+  `hashedVisitorIP` binary(32) NOT NULL,
+  PRIMARY KEY (`hashedVisitorIP`),
+  UNIQUE KEY `hashedVisitorIP_UNIQUE` (`hashedVisitorIP`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `projects`
 --
 
@@ -44,6 +56,7 @@ DROP TABLE IF EXISTS `projects`;
 CREATE TABLE `projects` (
   `projectID` int(11) NOT NULL AUTO_INCREMENT,
   `projectName` varchar(75) NOT NULL,
+  `projectCategory` varchar(100) NOT NULL,
   `projectURL` varchar(200) DEFAULT NULL,
   `projectSecondaryURL` varchar(200) DEFAULT NULL,
   `projectTertiaryURL` varchar(200) DEFAULT NULL,

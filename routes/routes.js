@@ -6,7 +6,7 @@ module.exports = router
 // Add additional middleware imports.
 const https = require('https')
 const path = require('path')
-const rateLimit = require("express-rate-limit")
+const rateLimit = require('express-rate-limit')
 const redisStore = require('rate-limit-redis')
 const redis = require('redis')
 
@@ -19,6 +19,7 @@ router.use(bodyParser.json())
 const index = require('../controllers/indexController.js')
 const guestbook = require('../controllers/guestbookController.js')
 const navbar = require('../controllers/navbarController.js')
+const visitorCount = require('../controllers/visitorCountController.js')
 const dbQuery = require('../controllers/dbQuery.js')
 
 
@@ -72,7 +73,7 @@ router.get('/guestbook', pageLimiter, function (req, res) {
  * @return {JSON} {projectID, projectName, projectURL, projectSecondaryURL, projectTertiaryURL, projectImage, projectDetails, projectLanguagesAndTechnologies, projectRole}
  */
 router.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
-  console.log('Project Info Request endpoint.')
+  console.log('Project info request endpoint.')
   index.selectProjectInfo(req, res)
 })
 
@@ -107,4 +108,15 @@ router.get('/getComments', mysqlApiLimiter, (req, res) => {
 router.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
   console.log('Getting random subtitle.')
   navbar.getRandomSubtitle(req, res)
+})
+
+/**
+ * This endpoint gets the count of unique visitors from the database.
+ *
+ * @param {}
+ * @return {JSON} {visitorCount}
+ */
+router.get('/getVisitorCount', mysqlApiLimiter, (req, res) => {
+  console.log('Getting visitor count.')
+  visitorCount.getVisitorCount(req, res)
 })

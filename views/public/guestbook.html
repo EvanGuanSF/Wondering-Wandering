@@ -32,12 +32,13 @@
   <!-- Our scripts -->
   <script src='js/guestbook.js'></script>
   <script src='js/loadnavbar.js'></script>
+  <script src='js/loadfooter.js'></script>
 
   <!-- Google reCAPTCHA script -->
   <script src='https://www.google.com/recaptcha/api.js' async defer></script>
 
   <!-- String sanitization/validation library -->
-  <script src="js/validator.min.js"></script>
+  <script src='js/validator.min.js'></script>
 </head>
 
 <body onload='createCommentCards()'>
@@ -83,6 +84,9 @@
                     <div id='captchaElement' class='g-recaptcha'  data-sitekey='6Ld-2sMUAAAAAOEHB0AioqRN-lJc0NTqBOTXjbTL' data-callback='onReCAPTCHASuccess'></div>
                   </div>
 
+                  <!--- Privacy heads up. --->
+                  <p><strong style='color: red; font-weight: 800; font-size:125%;'>* </strong>Personally identifiable information is neither tracked nor stored for comments unless provided in a comment.</p>
+
                   <!--- Submit button --->
                   <br>
                   <button id='submitButton' type='button' class='btn-outline-dark mx-auto' style='border-width: 2px;'>Submit comment</button>
@@ -95,7 +99,7 @@
                   <div id='cardContainer' class='card-container'>
                   </div>
                 </div>
-                
+
               </div>
 
             <!--- Padding column --->
@@ -107,8 +111,7 @@
   </div>
 
   <!-- The footer element for the page. -->
-  <footer id='footer' class='text-center justify-content-center fixed-bottom'>
-  </footer>
+  <div id='footer'></div>
 </body>
 
 </html>

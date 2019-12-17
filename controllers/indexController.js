@@ -24,13 +24,9 @@ exports.selectProjectInfo = function (req, res) {
   var inserts = ['projects']
   var query = mysql.format(sql, inserts)
 
-  // Execute
+  // Execute.
   dbQuery.executeQuery(query)
     .then(function (result) {
-      result.forEach((item, index) => {
-        console.log(item.projectName)
-      })
-
       // Since we are sorting results in a way such that the projectID in the database may not necessarily match the
       // project ordering in the client side, we need to give the projects new IDs to reduce confusion.
       newIndex = 1
@@ -38,7 +34,6 @@ exports.selectProjectInfo = function (req, res) {
       result.forEach((item) => {
         item.projectID = newIndex
         newIndex++
-        console.log(item.projectID)
       })
 
       res.status(200)

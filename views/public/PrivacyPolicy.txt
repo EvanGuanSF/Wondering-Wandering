@@ -1,0 +1,8 @@
+<pre style='white-space: pre-wrap; margin-top: 15px; margin-bottom: 15px;''>
+By using this site, you (the user) agree to have your data collected by the website (the site) and third parties for such reasons as:
+• The user's IP address is hashed (SHA-256) and stored in a database for the sole purpose of providing a unique-visitors counter
+• Google Analytics functionality
+• Google reCATPCHA functionality
+• No personally identifiable information from the user is collected or stored in the comments section, unless otherwise provided by the user. In case the user provides personally identifiable information, the user is responsible for any consequences of providing said information to a public area of the site.
+• The user's IP address is stored by the site for a limited amount of time to enforce API rate limiting in order to combat potential bot spam
+</pre>

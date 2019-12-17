@@ -70,7 +70,7 @@ $(document).ready(function() {
   $.get('AboutMe.txt', function (response) {
     aboutMeString = response;
     $('#detailContents').html(aboutMeString)
-  });
+  })
 })
 
 // Makes a request to the server for card data and creates cards accordingly.
@@ -108,7 +108,6 @@ function createProjectCards() {
 
         // Create the category container if needed.
         if (!categoriesMatch) {
-          console.log('Creating categoryContainer #' + currentCategoryID)
           $('#cardContainer').append(
             '<div id=\'' + currentCategoryContainerIDString + '\' class=\'p-0 m-0\'>' +
               '<div class=\'container p-0 m-0 project-category-identifier\'>' +
@@ -132,7 +131,6 @@ function createProjectCards() {
         }
 
         // Now attach the card to the current category container.
-        console.log('Appending item #' + index + ' to ' + currentCategoryContainerIDString + ': ' + item.projectName)
         $('#' + currentCategoryContainerIDString).append(
           '<div onclick=\'viewProjectDetails(' + (index + 1) + '); highlightCard(' + (index + 1) + ')\' id=' + (index + 1) +
           ' class=\'collapse show card-bg card shadow justify-content-center text-center ' + currentCardCategoryIDString +
@@ -289,6 +287,6 @@ function highlightCard(cardID) {
 }
 
 function viewAboutMe() {
-  viewProjectDetails(0, this);
-  highlightCard(0);
+  viewProjectDetails(0, this)
+  highlightCard(0)
 }
