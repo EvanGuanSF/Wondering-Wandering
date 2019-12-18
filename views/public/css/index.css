@@ -39,15 +39,6 @@ ALABASTER
   --pixelHeight: 300px;
 }
 
-html,
-body {
-  height:fill;
-  margin: 0;
-  padding: 0;
-  height:100%;
-  color: var(--blackish) !important;
-}
-
 #map {
   height: 100%;
   width: 100%;

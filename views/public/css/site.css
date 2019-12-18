@@ -1,0 +1,48 @@
+/*
+Color Scheme:
+
+:Darkest:
+NAVY PURPLE
+#8A4FFF
+BLUE JEANS
+#5BC0EB
+SATIN SHEEN GOLD
+#CBA135
+#F3EFE0
+:Lightest:
+
+:Darker:
+RAISIN BLACK
+#252627
+BLEU DE FRANCE
+#3C91E6
+ROSE TAUPE
+#904E55
+PALE CORNFLOWER BLUE
+#ADBDFF
+KHAKI (HTML/CSS) (KHAKI)
+#BFB48F
+ALABASTER
+#F2EFE9
+:Lighter:
+*/
+:root {
+  --blackish: #252627;
+  --purply: #8A4FFF;
+  --dblueish: #5BC0EB;
+  --lavenderish: #ADBDFF;
+  --rosey: #904E55;
+  --gold: #CBA135;
+  --khaki: #BFB48F;
+  --whiteish: #F2EFE9;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height:100%;
+  color: var(--blackish) !important;
+  background-color: var(--whiteish) !important;
+  line-height: 1.33;
+}

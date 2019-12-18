@@ -39,15 +39,6 @@ ALABASTER
   --pixelHeight: 200px;
 }
 
-html,
-body {
-  height:fill;
-  margin: 0;
-  padding: 0;
-  height:100%;
-  color: var(--blackish) !important;
-}
-
 textarea {
   resize: none;
 }
