@@ -172,8 +172,15 @@ function viewProjectDetails(cardID) {
     // Otherwise, loop through the returned projects JSON and find the marker with given id.
     for(var project of projects) {
       if (project['projectID'] == cardID) {
-        // Get the proper media element.
-        var mediaContentHTML = createMediaElementWithFileName(project.projectImage, 'largeCard')
+        // Get the proper media element for the main image.
+        var primaryImageHTML = createMediaElementWithFileName(project.projectImage, 'largeCard')
+        // Create the secondary image/video if necessary.
+        var secondaryImageHTML
+        if(project.projectSecondaryImage) {
+          secondaryImageHTML = createMediaElementWithFileName(project.projectSecondaryImage, 'normalCard')
+        } else{
+          secondaryImageHTML = ''
+        }
         // Format the roles output.
         var projectRoles = project.projectRole.replace(/^/g, '\t• ').replace(/;/g, ';\t• ').replace(/;/g, '<br>')
         // Format the project technologies output.
@@ -210,7 +217,7 @@ function viewProjectDetails(cardID) {
 
                 '<div class=\'col-12 p-0 m-0\'>' +
                   '<div class=\'content-grid-unit\'>' +
-                    mediaContentHTML +
+                    primaryImageHTML +
                     '<div class=\'container-fluid\' style=\'overflow: auto\'>' +
                       '<b><h1 class=\'p-0 m-0\'>' + project.projectName + '</h1></b>' +
                       '<br>' +
@@ -220,6 +227,7 @@ function viewProjectDetails(cardID) {
                       '<br>' +
                       '<p class=\'text-left p-0 m-0\'><b>Programming languages and computer technologies personally used in project:</b><br>' + projectLanguagesAndTechnologies + '</p>' +
                       '<br>' +
+                      secondaryImageHTML +
                       secondaryURLHTML +
                       tertiaryURLHTML +
                       primaryURLHTML +

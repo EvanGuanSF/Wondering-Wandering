@@ -31,7 +31,7 @@ CREATE TABLE `guestbook` (
   `commentDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`guestID`),
   UNIQUE KEY `guestID_UNIQUE` (`guestID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,12 +63,13 @@ CREATE TABLE `projects` (
   `projectSecondaryURL` varchar(200) DEFAULT NULL,
   `projectTertiaryURL` varchar(200) DEFAULT NULL,
   `projectImage` varchar(200) DEFAULT 'NULL.png',
+  `projectSecondaryImage` varchar(200) DEFAULT NULL,
   `projectDetails` varchar(1000) NOT NULL,
   `projectLanguagesAndTechnologies` varchar(500) NOT NULL,
   `projectRole` varchar(500) NOT NULL,
   PRIMARY KEY (`projectID`),
   UNIQUE KEY `project_id_UNIQUE` (`projectID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
