@@ -16,7 +16,7 @@ This repository contains most of the essentials needed to launch a site with the
 4. On a command line whose working directory is the same directory as app.js:
      - Windows: npm install
      - MacOS/Linux: sudo npm install
-5. __Remove the word "Backup" from the filenames in the auth folder__, the update the files in the folder with correct server configuration information.
+5. __IMPORTANT: Remove the word "Backup" from the filenames in the auth folder, then update the files in the folder with correct server configuration information.__
 6. Modify the AboutMe.txt file in views/public to fit your needs.
 7. Add a picture with the name 'me.png' to /views/public/img
 8. Add your own projects to the MySQL database. Variable names should be relatively straightforward, and match with client-side naming.
