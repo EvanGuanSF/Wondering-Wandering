@@ -2,6 +2,8 @@
 <img src='./img/me.png' class='center' height='300' width='300' style='display: block; margin-left: auto; margin-right: auto;'>
 <h2 class='text-center'><b>Hi, I'm Evan Guan.</b></h2>
 <h5 class='text-center'>My pseudonym in most online circles is <b>Jammy</b>.</h5>
+<h5 class='text-center'>You can find all of my public GitHub repositories <a href='https://github.com/JammyPajamies' target='_blank'><font size='+2'>Here</font></a>.</h5>
+
 This website is a resume and portfolio of sorts that highlights several projects that I have been involved in.
 
 <h5><b>I...</b></h5>
@@ -40,7 +42,6 @@ This website is a resume and portfolio of sorts that highlights several projects
 - am naturally curious and occasionally become obsessed with details due in large part to a love of video games and figuring out what makes them tick.
 
 - am generally a quick learner and can pick up new technologies and languages rapidly.
-
 
 <h5>To get in touch with me, send me a ping on <a href='https://www.linkedin.com/in/evan-guan-72b630194/' target='_blank'><font size='+2'>LinkedIn</font></a>, <a href='https://www.facebook.com/evan.guan.54' target='_blank'><font size='+2'>Facebook</font></a>, or contact my gmail at jammypajamies.</h5>
 </pre>

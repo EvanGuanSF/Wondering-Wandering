@@ -191,14 +191,14 @@ function viewProjectDetails(cardID) {
         var primaryURLHTML = ''
         if(project.projectURL != '' && project.projectURL != null) {
           primaryURLHTML =
-            '<a href=\'' + project.projectURL + '\'><b>Repository</b></a>'
+            '<a href=\'' + project.projectURL + '\' target=\'_blank\'><b>Repository</b></a>'
         }
         // Format the html for the project's dedicated website link html elements.
         // If the link doesn't exist, then we don't show a link.
         var secondaryURLHTML = ''
         if(project.projectSecondaryURL != '' && project.projectSecondaryURL != null) {
           secondaryURLHTML =
-            '<a href=\'' + project.projectSecondaryURL + '\'><b>Project Website</b></a>' +
+            '<a href=\'' + project.projectSecondaryURL + '\' target=\'_blank\'><b>Project Website</b></a>' +
             '<br>'
         }
         // Format the html for the project's extra info link html elements.
@@ -206,7 +206,7 @@ function viewProjectDetails(cardID) {
         var tertiaryURLHTML = ''
         if(project.projectTertiaryURL != '' && project.projectTertiaryURL != null) {
           tertiaryURLHTML =
-            '<a href=\'' + project.projectTertiaryURL + '\'><b>More Information</b></a>' +
+            '<a href=\'' + project.projectTertiaryURL + '\' target=\'_blank\'><b>More Information</b></a>' +
             '<br>'
         }
 
