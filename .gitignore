@@ -9,6 +9,9 @@ auth/visitorIPHashKey.json
 # Images
 /views/public/img/*
 
+# Files
+/views/public/files/*
+
 # tern project
 .tern*
 
