@@ -1,0 +1,29 @@
+version: '2.4'
+services:
+  app:
+    container_name: wondering-wandering-container
+    restart: always
+    build: .
+    # Limit the amount of resources per instance.
+    mem_limit: 100m
+    # Map external port 80 to internal port 3000
+    ports:
+      - '80:3000'
+    depends_on:
+      - redis-server
+    networks:
+      - wondering-wandering
+  redis-server:
+    container_name: redis-server-container
+    image: redis
+    # Limit the amount of resources per instance.
+    mem_limit: 50m
+    # Have this container listen to port 6379 internally.
+    ports:
+      - '6379'
+    networks:
+      - wondering-wandering
+# Create a network so that these containers can talk to eachother.
+networks:
+  wondering-wandering:
+    driver: bridge

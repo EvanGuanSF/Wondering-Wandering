@@ -26,7 +26,10 @@ const dbQuery = require('../controllers/dbQuery.js')
 // Limiter for webpages.
 const pageLimiter = rateLimit({
   store: new redisStore({
-    client: redis.createClient(),
+    client: redis.createClient({
+      host: 'redis-server',
+      port: 6379
+  }),
     expiry: 60, // seconds - how long each rate limiting window exists for.
     resetExpiryOnChange: false
   }),
@@ -37,7 +40,10 @@ const pageLimiter = rateLimit({
 // Limiter for MySQL APIs.
 const mysqlApiLimiter = rateLimit({
   store: new redisStore({
-    client: redis.createClient(),
+    client: redis.createClient({
+      host: 'redis-server',
+      port: 6379
+  }),
     expiry: 60, // seconds - how long each rate limiting window exists for.
     resetExpiryOnChange: false
   }),
