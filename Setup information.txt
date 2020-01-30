@@ -18,7 +18,8 @@ sudo yum/apt-get install mysql-Server
 mysql_secure_installation
 mysql -u root -p
 
-# Now log in using the password you just created and arrive at mysql command line.
+# Now access the mysql command line using the password for root you created during mysql initialization.
+# Time to make your remote user account.
 # Remove the user and their privileges if they exist.
 DROP USER 'user'@'localhost';
 FLUSH PRIVILEGES;
@@ -26,13 +27,13 @@ FLUSH PRIVILEGES;
 DROP USER 'user'@'%';
 FLUSH PRIVILEGES;
 
-# Make the user and grant them full access to the database from any location. (mysql command line)
+# Make the user and grant them full access to the database from any location.
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'user's_password';
-GRANT ALL PRIVILEGES ON database.table TO 'user'@'localhost';
+GRANT ALL PRIVILEGES ON database TO 'user'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE USER 'user'@'%' IDENTIFIED BY 'user's_password';
-GRANT ALL PRIVILEGES ON database.table TO 'user'@'%';
+GRANT ALL PRIVILEGES ON database TO 'user'@'%';
 FLUSH PRIVILEGES;
 
 # Show permissions for the user.
