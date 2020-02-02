@@ -1,7 +1,6 @@
 // Define Express and make a router.
 const express = require('express')
-const router = express.Router()
-module.exports = router
+const mainAppRouter = express.Router()
 
 // Add additional middleware imports.
 const https = require('https')
@@ -12,8 +11,8 @@ const redis = require('redis')
 
 // JSON parser.
 const bodyParser = require('body-parser')
-router.use(bodyParser.urlencoded({ extended: true }))
-router.use(bodyParser.json())
+mainAppRouter.use(bodyParser.urlencoded({ extended: true }))
+mainAppRouter.use(bodyParser.json())
 
 // Our controllers/endpoints.
 const index = require('../controllers/indexController.js')
@@ -33,7 +32,7 @@ const pageLimiter = rateLimit({
     expiry: 60, // seconds - how long each rate limiting window exists for.
     resetExpiryOnChange: false
   }),
-  max: 30, // limit each IP to max requests per windowMs
+  max: 30, // maximum number of requests per minute
   message: 'Please wait to perform more actions.'
 })
 
@@ -47,23 +46,24 @@ const mysqlApiLimiter = rateLimit({
     expiry: 60, // seconds - how long each rate limiting window exists for.
     resetExpiryOnChange: false
   }),
-  max: 90, // limit each IP to max requests per windowMs
+  max: 150, // maximum number of requests per minute
   message: 'Please wait to perform more actions.'
 })
 
 
 // GET index.
-router.get('/', pageLimiter, function (req, res) {
+mainAppRouter.get('/', pageLimiter, function (req, res) {
   // Log the request.
-  console.log('GET request for the homepage')
+  console.log('GET request for the homepage over: ' + req.protocol)
+  console.log('HTTPS?: ' + (req.protocol == 'https'))
   // Return successful get request status.
   res.status(200)
   // Send the index file via path relative to the one we defined above.
-  res.sendFile('index.html')
+  res.sendFile(path.resolve('views/public/index.html'))
 })
 
 // GET guestbook.
-router.get('/guestbook', pageLimiter, function (req, res) {
+mainAppRouter.get('/guestbook', pageLimiter, function (req, res) {
   // Log the request.
   console.log('GET request for guestbook')
   // Return successful get request status.
@@ -78,7 +78,7 @@ router.get('/guestbook', pageLimiter, function (req, res) {
  * @param none
  * @return {JSON} {projectID, projectName, projectURL, projectSecondaryURL, projectTertiaryURL, projectImage, projectDetails, projectLanguagesAndTechnologies, projectRole}
  */
-router.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
   console.log('Project info request endpoint.')
   index.selectProjectInfo(req, res)
 })
@@ -89,7 +89,7 @@ router.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
  * @param {JSON} {guestName, guestComment, reCAPTCHAToken}
  * @return {URL} {guestBookURL}
  */
-router.post('/submitComment', mysqlApiLimiter, (req, res) => {
+mainAppRouter.post('/submitComment', mysqlApiLimiter, (req, res) => {
   console.log('Comment submission endpoint.')
   guestbook.insertComment(req, res)
 })
@@ -100,7 +100,7 @@ router.post('/submitComment', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-router.get('/getComments', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getComments', mysqlApiLimiter, (req, res) => {
   console.log('Getting comments.')
   guestbook.selectComments(req, res)
 })
@@ -111,7 +111,7 @@ router.get('/getComments', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-router.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
   console.log('Getting random subtitle.')
   navbar.getRandomSubtitle(req, res)
 })
@@ -122,7 +122,9 @@ router.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {visitorCount}
  */
-router.get('/getVisitorCount', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getVisitorCount', mysqlApiLimiter, (req, res) => {
   console.log('Getting visitor count.')
   visitorCount.getVisitorCount(req, res)
 })
+
+module.exports = mainAppRouter
