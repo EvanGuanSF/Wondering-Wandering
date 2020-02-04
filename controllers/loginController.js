@@ -4,7 +4,7 @@ const mysql = require('mysql')
 const crypto = require('crypto')
 
 // Our controllers/endpoints.
-const dbQuery = require('../controllers/dbQuery.js')
+const dbQuery = require('./dbQuery.js')
 
 // Captcha secret key var from json file.
 const fs = require('fs')

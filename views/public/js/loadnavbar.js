@@ -1,8 +1,8 @@
 var initialNavbarHeight = $('#navbar').outerHeight()
 
-$(document).ready(function() {
+$(document).ready(function () {
   // Load the navbar.
-  $.get('navbar.html', function(navbarHTML) {
+  $.get('navbar.html', function (navbarHTML) {
     $('#navbar').replaceWith(navbarHTML)
   })
 
@@ -11,7 +11,7 @@ $(document).ready(function() {
 
   // Load the subtitle for the navbar.
   $.get('/getRandomSubtitle')
-    .done(function(data)  {
+    .done(function (data) {
       $('#subtitle').text(data[0].subtitle)
     })
 })
@@ -23,12 +23,12 @@ function sleep (time) {
 }
 
 // This function is used to trigger the initial resize(s).
-async function checkNavbarFinishedLoaded() {
+async function checkNavbarFinishedLoaded () {
   var navbarTimer
   console.time(navbarTimer)
 
   // Continuous trigger mode. 5 seconds total.
-  for(i = 0; i < 60; i++) {
+  for (i = 0; i < 60; i++) {
     await sleep(50)
     initialNavbarHeight = $('#navbar').outerHeight()
     $(window).trigger('navbarLoadedEvent')
@@ -36,12 +36,12 @@ async function checkNavbarFinishedLoaded() {
 }
 
 // Call checkNavbarFinishedLoaded after the elements are loaded.
-$(document).ready(function() {
+$(document).ready(function () {
   checkNavbarFinishedLoaded()
 })
 
 // Call checkNavbarFinishedLoaded after the elements are loaded.
-$('#navbar').on(('animate'), function() {
+$('#navbar').on(('animate'), function () {
   console.log('navbar resized.')
   $(window).trigger('navbarLoadedEvent')
 })

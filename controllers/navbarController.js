@@ -1,6 +1,5 @@
 // Add additional middleware imports.
 const mysql = require('mysql')
-//const sqlstring = require('sqlstring');
 
 // Our controllers/endpoints.
 const dbQuery = require('../controllers/dbQuery.js')
@@ -18,7 +17,7 @@ exports.getRandomSubtitle = function (req, res) {
       res.status(200)
       res.send(result)
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log(err)
       res.status(404)
       res.send('Failed to receive project data.')

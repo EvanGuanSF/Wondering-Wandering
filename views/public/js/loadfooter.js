@@ -1,8 +1,8 @@
 var initialFooterHeight = $('#footer').outerHeight()
 
-$(document).ready(function() {
+$(document).ready(function () {
   // Load the footer.
-  $.get('footer.html', function(footerHTML) {
+  $.get('footer.html', function (footerHTML) {
     $('#footer').replaceWith(footerHTML)
   })
 
@@ -11,12 +11,12 @@ $(document).ready(function() {
 
   // Load the subtitle for the footer.
   $.get('/getVisitorCount')
-    .done(function(data)  {
+    .done(function (data) {
       $('#uniqueVisitorsCounter').text('Unique Visitors: ' + data[0].visitorCount)
     })
 
   // Load the privacy policy text into the modal popup.
-  $(document).ready(function() {
+  $(document).ready(function () {
     $.get('PrivacyPolicy.txt', function (response) {
       $('#privacyPolicyPopup').html(response)
     })
@@ -30,12 +30,12 @@ function sleep (time) {
 }
 
 // This function is used to trigger the initial resize(s).
-async function checkFooterFinishedLoaded() {
+async function checkFooterFinishedLoaded () {
   var footerTimer
   console.time(footerTimer)
 
   // Continuous trigger mode. 5 seconds total.
-  for(i = 0; i < 60; i++) {
+  for (i = 0; i < 60; i++) {
     await sleep(50)
     initialFooterHeight = $('#footer').outerHeight()
     $(window).trigger('footerLoadedEvent')
@@ -43,12 +43,12 @@ async function checkFooterFinishedLoaded() {
 }
 
 // Call checkFooterFinishedLoaded after the elements are loaded.
-$(document).ready(function() {
+$(document).ready(function () {
   checkFooterFinishedLoaded()
 })
 
 // Call checkFooterFinishedLoaded after the elements are loaded.
-$('#footer').on(('animate'), function() {
+$('#footer').on(('animate'), function () {
   console.log('footer resized.')
   $(window).trigger('footerLoadedEvent')
 })

@@ -4,7 +4,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+RUN apt-get update && \
+    apt-get -y install gcc && \
+    npm install -g node-gyp && \
+    npm install
 
 COPY . .
 

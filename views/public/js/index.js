@@ -1,16 +1,11 @@
 // Variables for viewable screen pixel dimensions.
-var winWidth = $(this).outerWidth()
-var winHeight = $(this).outerHeight()
-var navbarHeight = $('#navbar').outerHeight()
-var footerHeight = $('#footer').outerHeight()
 var projects = []
 var aboutMeString = ''
 
 var previouslyClickedCardID = 0
 
-
 // This funtion calculates and returns the pixel offset of the navbar and footer.
-function getHeaderAndFooterDisplacements() {
+function getHeaderAndFooterDisplacements () {
   this.winHeight = $(this).outerHeight()
   this.navbarHeight = $('#navbar').outerHeight()
   this.footerHeight = $('#footer').outerHeight()
@@ -19,71 +14,67 @@ function getHeaderAndFooterDisplacements() {
 }
 
 // This function adjusts the layout of the content based on height and orientation.
-function setContainerHeight() {
+function setContainerHeight () {
   // 'Normal' large display case.
-  if($(this).outerWidth() <= 992) {
+  if ($(this).outerWidth() <= 992) {
     // Check orientaion of device by looking at window dimensions.
-    if($(this).outerWidth() < $(this).outerHeight()) {
+    if ($(this).outerWidth() < $(this).outerHeight()) {
       // Portrait orientation display case. (i.e. phone)
       $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() / 2 + 'px',
-        'width': $(this).outerWidth() + 'px'
+        height: getHeaderAndFooterDisplacements() / 2 + 'px',
+        width: $(this).outerWidth() + 'px'
       })
     } else {
       // Landscape orientation display case. (i.e. phone)
       $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() + 'px',
-        'width': $(this).outerWidth() / 2 + 'px'
+        height: getHeaderAndFooterDisplacements() + 'px',
+        width: $(this).outerWidth() / 2 + 'px'
       })
     }
   } else {
     // Check orientaion of device by looking at window dimensions.
-    if($(this).outerWidth() < $(this).outerHeight()) {
+    if ($(this).outerWidth() < $(this).outerHeight()) {
       // Portrait orientation display case. (i.e. rotated display)
       $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() + 'px'
+        height: getHeaderAndFooterDisplacements() + 'px'
       })
       $('#scrollable-col').css({
-        'width': $(this).outerWidth() + 'px'
+        width: $(this).outerWidth() + 'px'
       })
     } else {
       // Landscape orientation display case. (i.e. normal desktop)
       $('.content-col').css({
-        'height': getHeaderAndFooterDisplacements() + 'px'
+        height: getHeaderAndFooterDisplacements() + 'px'
       })
     }
   }
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', function(){
+$(window).on('resize', function () {
   setContainerHeight()
 })
 
 // This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', function(){
+$(window).on('navbarLoadedEvent', function () {
   setContainerHeight()
 })
 
 // Load the about me info from the file and put it into the details div.
-$(document).ready(function() {
+$(document).ready(function () {
   $.get('AboutMe.txt', function (response) {
-    aboutMeString = response;
+    aboutMeString = response
     $('#detailContents').html(aboutMeString)
   })
 })
 
 // Makes a request to the server for card data and creates cards accordingly.
-function createProjectCards() {
+function createProjectCards () {
   // Use jQuery to make the request and then handle the data on good data return.
   $.get('/getProjectInfo')
-    .done(function(data)  {
+    .done(function (data) {
       projects = data
 
-      // The path to the media file from the JSON.
-      var mediaPath
-      // The file extension of the file.
-      var mediaType
       // The current category.
       var currentCategory
       var categoriesMatch = false
@@ -96,7 +87,7 @@ function createProjectCards() {
         var mediaContentHTML = createMediaElementWithFileName(item.projectImage, 'normalCard')
 
         // Check the category of the project.
-        categoriesMatch = currentCategory == item.projectCategory ? true : false
+        categoriesMatch = currentCategory === item.projectCategory
         if (!categoriesMatch) {
           // Increment the currentCategoryID as needed.
           currentCategoryID++
@@ -104,7 +95,7 @@ function createProjectCards() {
         // Update the strings for building HTML elements.
         currentCategory = item.projectCategory
         currentCategoryContainerIDString = 'categoryContainer' + currentCategoryID
-        currentCardCategoryIDString = 'cardCategory' + currentCategoryID
+        var currentCardCategoryIDString = 'cardCategory' + currentCategoryID
 
         // Create the category container if needed.
         if (!categoriesMatch) {
@@ -160,25 +151,21 @@ function createProjectCards() {
 
 // Takes a card-click event, scrolls to the map, finds the marker with the same id,
 // and triggers a click event to zoom in on it.
-function viewProjectDetails(cardID) {
-  //If a map exists, highlight the report on the map
-  var contentwindow = document.getElementById('map')
-
-  // If the about button is clicked, it will be a special case.
+function viewProjectDetails (cardID) {
   // We will use the information we saved at the loading of the page to populate the details div.
   if (cardID === 0) {
     $('#detailContents').html(aboutMeString)
   } else {
     // Otherwise, loop through the returned projects JSON and find the marker with given id.
-    for(var project of projects) {
-      if (project['projectID'] == cardID) {
+    for (var project of projects) {
+      if (project.projectID === cardID) {
         // Get the proper media element for the main image.
         var primaryImageHTML = createMediaElementWithFileName(project.projectImage, 'largeCard')
         // Create the secondary image/video if necessary.
         var secondaryImageHTML
-        if(project.projectSecondaryImage) {
+        if (project.projectSecondaryImage) {
           secondaryImageHTML = createMediaElementWithFileName(project.projectSecondaryImage, 'normalCard')
-        } else{
+        } else {
           secondaryImageHTML = ''
         }
         // Format the roles output.
@@ -189,14 +176,14 @@ function viewProjectDetails(cardID) {
         // Format the html for the project's primary source link html elements.
         // If the link doesn't exist, then we don't show a link.
         var primaryURLHTML = ''
-        if(project.projectURL != '' && project.projectURL != null) {
+        if (project.projectURL !== '' && project.projectURL != null) {
           primaryURLHTML =
             '<a href=\'' + project.projectURL + '\' target=\'_blank\'><b>Repository</b></a>'
         }
         // Format the html for the project's dedicated website link html elements.
         // If the link doesn't exist, then we don't show a link.
         var secondaryURLHTML = ''
-        if(project.projectSecondaryURL != '' && project.projectSecondaryURL != null) {
+        if (project.projectSecondaryURL !== '' && project.projectSecondaryURL != null) {
           secondaryURLHTML =
             '<a href=\'' + project.projectSecondaryURL + '\' target=\'_blank\'><b>Project Website</b></a>' +
             '<br>'
@@ -204,7 +191,7 @@ function viewProjectDetails(cardID) {
         // Format the html for the project's extra info link html elements.
         // If the link doesn't exist, then we don't show a link.
         var tertiaryURLHTML = ''
-        if(project.projectTertiaryURL != '' && project.projectTertiaryURL != null) {
+        if (project.projectTertiaryURL !== '' && project.projectTertiaryURL != null) {
           tertiaryURLHTML =
             '<a href=\'' + project.projectTertiaryURL + '\' target=\'_blank\'><b>More Information</b></a>' +
             '<br>'
@@ -248,9 +235,10 @@ function viewProjectDetails(cardID) {
 
 // Creates the media element html given a file name and its extension and
 // also the type of element (in a card or in the details column).
-function createMediaElementWithFileName(fileName, elementType) {
+function createMediaElementWithFileName (fileName, elementType) {
   var fileExt = fileName.split('.').pop()
   var filePath = 'img\\' + fileName
+  var mediaContentHTML = ''
 
   // Image case.
   if (fileExt === 'jpg' ||
@@ -261,10 +249,10 @@ function createMediaElementWithFileName(fileName, elementType) {
       fileExt === 'webp' ||
       fileExt === 'apng' ||
       fileExt === 'gif') {
-    if (elementType == 'normalCard') {
+    if (elementType === 'normalCard') {
       mediaContentHTML =
         '<img src=\'' + filePath + '\' class=\'card-img-top justify-content-center text-center p-0 m-0\'>'
-    } else if (elementType == 'largeCard'){
+    } else if (elementType === 'largeCard') {
       mediaContentHTML =
         '<img src=\'' + filePath + '\' class=\'card-img-top-large justify-content-center text-center p-0 m-0\'>'
     }
@@ -281,20 +269,20 @@ function createMediaElementWithFileName(fileName, elementType) {
 }
 
 // Handles background color highlighting and resotration of project cards.
-function highlightCard(cardID) {
+function highlightCard (cardID) {
   // Reset the color of the previous card if applicable.
-  if(previouslyClickedCardID > 0) {
-    $('#' + previouslyClickedCardID).css({'background-color': 'var(--whiteish)'})
+  if (previouslyClickedCardID > 0) {
+    $('#' + previouslyClickedCardID).css({ 'background-color': 'var(--whiteish)' })
   }
   // Set the color of the new card if applicable.
-  if(cardID > 0) {
-    $('#' + cardID).css({'background-color': 'var(--lavenderish)'})
+  if (cardID > 0) {
+    $('#' + cardID).css({ 'background-color': 'var(--lavenderish)' })
   }
   // Set the previously clicked card id for future use.
   previouslyClickedCardID = cardID
 }
 
-function viewAboutMe() {
+function viewAboutMe () {
   viewProjectDetails(0, this)
   highlightCard(0)
 }

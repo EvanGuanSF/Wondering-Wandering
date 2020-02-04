@@ -46,8 +46,8 @@ function ensureSecure(req, res, next){
 const mainAppRouter = require('./routes/mainAppRoutes.js')
 app.use(mainAppRouter)
 // The login page for admin use.
-const loginRoutes = require('./routes/loginRoutes.js')
-app.use(loginRoutes)
+const loginRegistrationRoutes = require('./routes/loginRegistrationRoutes.js')
+app.use(loginRegistrationRoutes)
 
 // Start the http server by listening on predefined port.
 app.listen(httpPort, function () {

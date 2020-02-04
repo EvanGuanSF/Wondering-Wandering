@@ -1,12 +1,5 @@
-// Variables for viewable screen pixel dimensions.
-var winWidth = $(this).outerWidth()
-var winHeight = $(this).outerHeight()
-var navbarHeight = $('#navbar').outerHeight()
-
-var previouslyClickedCardID = 0
-
 // This funtion calculates and returns the pixel offset of the navbar and footer.
-function getHeaderAndFooterDisplacements() {
+function getHeaderAndFooterDisplacements () {
   this.winHeight = $(this).outerHeight()
   this.navbarHeight = $('#navbar').outerHeight()
 
@@ -14,27 +7,27 @@ function getHeaderAndFooterDisplacements() {
 }
 
 // This function adjusts the layout of the content based on height and orientation.
-function setContainerHeight() {
+function setContainerHeight () {
   $('#scrollable-col').css({
-    'height': getHeaderAndFooterDisplacements() + 'px'
+    height: getHeaderAndFooterDisplacements() + 'px'
   })
   $('#scrollable-col').css({
-    'width': $(this).outerWidth() + 'px'
+    width: $(this).outerWidth() + 'px'
   })
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', function(){
+$(window).on('resize', function () {
   setContainerHeight()
 })
 
 // This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', function(){
+$(window).on('navbarLoadedEvent', function () {
   setContainerHeight()
 })
 
 // Add ready handlers.
-$(document).ready(function() {
+$(document).ready(function () {
   // Click event on the submit button.
   $('#submitButton').click(function () {
     console.log('Submitting comment.')
@@ -54,6 +47,6 @@ $(document).ready(function() {
   })
 })
 
-function viewAboutMe() {
+function viewAboutMe () {
   $(location).attr('href', '/')
 }
