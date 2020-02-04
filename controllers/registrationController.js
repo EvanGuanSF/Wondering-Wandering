@@ -1,6 +1,5 @@
 // Add additional middleware imports.
 const mysql = require('mysql')
-const path = require('path')
 const validator = require('validator')
 
 // Our controllers/endpoints.
@@ -95,12 +94,16 @@ async function createUser (req, res) {
       return dbQuery.executeQuery(query)
     })
     .then(result => {
+      // The user has been created successfully, so redirect them to the index page.
       console.log(result)
-      res.status(200)
-      res.redirect(path.resolve('views/public/index.html'))
+      res.json({
+        status: 302,
+        redirect: '/'
+      })
       return null
     })
     .catch(error => {
+      // Something went wrong somewhere along the way.
       console.log('Error: ', error)
       return null
     })

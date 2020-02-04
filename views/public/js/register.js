@@ -54,8 +54,8 @@ $(document).ready(function () {
         data: $('#registration-form').serialize()
       })
         .always(function (result) {
-          if (result.status === 200 && result.redirect) {
-            window.location.replace(result.redirect)
+          if (result.status === 302 && result.redirect) {
+            $(location).attr('href', result.redirect)
           } else {
             console.log(result)
             $('#errorText').html(result.responseText)
