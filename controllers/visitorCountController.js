@@ -8,9 +8,9 @@ const dbQuery = require('../controllers/dbQuery.js')
 
 // Captcha secret key var from json file.
 const fs = require('fs')
-var rawData = fs.readFileSync('auth/visitorIPHashKey.json')
+var rawData = fs.readFileSync('auth/credentials.json')
 var jsonData = JSON.parse(rawData)
-const visitorCountSecretKey = jsonData.secretKey
+const visitorCountSecretKey = jsonData.visitorIPHashSecretKey
 
 exports.getVisitorCount = function (req, res) {
   // Hash the visitor's IP address, then send it off to the DB to see if the hash already exists in the DB.

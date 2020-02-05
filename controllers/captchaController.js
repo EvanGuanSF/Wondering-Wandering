@@ -3,9 +3,9 @@ var request = require('request')
 
 // Captcha secret key var from json file.
 const fs = require('fs')
-var rawData = fs.readFileSync('auth/recaptchaKey.json')
+var rawData = fs.readFileSync('auth/credentials.json')
 var jsonData = JSON.parse(rawData)
-const captchaSecretKey = jsonData.secretKey
+const captchaSecretKey = jsonData.reCAPTCHASecretKey
 
 exports.getCaptchaValidationStatus = function (params) {
   return new Promise((resolve, reject) => {

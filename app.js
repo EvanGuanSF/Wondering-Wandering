@@ -1,8 +1,8 @@
 // Initialize the application and set listening port.
-const https = require('https');
-const fs = require('fs');
+const https = require('https')
+const fs = require('fs')
 const express = require('express')
-const path = require('path');
+const path = require('path')
 const httpPort = 3000
 const httpsPort = 3001
 
@@ -16,9 +16,9 @@ app.set({
 })
 
 // OpenSSL passphrase var from json file.
-var rawData = fs.readFileSync('auth/openSSLPassphrase.json')
+var rawData = fs.readFileSync('auth/credentials.json')
 var jsonData = JSON.parse(rawData)
-const SSLPassphrase = jsonData['passphrase']
+const SSLPassphrase = jsonData.openSSLPassphrase
 
 // Create the https server.
 const openSSLCredentials = {
@@ -31,13 +31,13 @@ const openSSLCredentials = {
 app.all('*', ensureSecure)
 
 // Check the request and redirect to https if the user is connecting from unsecured http.
-function ensureSecure(req, res, next){
-  if(req.protocol != 'https') {
+function ensureSecure (req, res, next) {
+  if (req.protocol !== 'https') {
     // If the connection is an https connection, send it off to the appropriate route.
     return res.redirect('https://' + req.headers.host.replace(/:(.*)/g, '') + req.url)
   } else {
     // Otherwise, send the packet along to a proper endpoint if one exists.
-    return next();
+    return next()
   }
 }
 
@@ -56,9 +56,9 @@ app.listen(httpPort, function () {
 
 // Start the https server by listening on predefined port.
 https.createServer(openSSLCredentials, app)
-.listen(httpsPort, function () {
-  console.log(`HTTPS server is up and listening on port ${httpsPort}.`)
-})
+  .listen(httpsPort, function () {
+    console.log(`HTTPS server is up and listening on port ${httpsPort}.`)
+  })
 
 // Set the base directory for all resource requests.
 app.use('/', express.static(path.join(__dirname, 'views/public')))

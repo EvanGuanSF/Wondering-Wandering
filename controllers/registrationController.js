@@ -8,7 +8,7 @@ const captcha = require('../controllers/captchaController.js')
 // State of the art password hashing algorithm.
 const argon2 = require('argon2')
 
-exports.registerUser = function (req, res) {
+exports.userRegistration = function (req, res) {
   // Execute the async function to create a new user.
   createUser(req, res)
 }
@@ -22,6 +22,14 @@ async function createUser (req, res) {
   var email = req.body.email
   var password = req.body.password
   var passwordConfirmation = req.body.passwordConfirmation
+
+  // Check for the captcha before going any further.
+  if (!isReCAPTCHAValid(req.body['g-recaptcha-response'])) {
+    res.status(409)
+    res.send('Captcha is invalid.')
+    console.log('Invalid captcha received.')
+    return
+  }
 
   // Check the captcha response for validity.
   // g-recaptcha-response is the token that is generated when the user succeeds in a captcha challenge.
@@ -51,12 +59,6 @@ async function createUser (req, res) {
         res.status(409)
         res.send('Passwords do not match.')
         throw new Error('Passwords do not match.')
-      }
-
-      if (!isReCAPTCHAValid(req.body['g-recaptcha-response'])) {
-        res.status(409)
-        res.send('Captcha is invalid.')
-        throw new Error('Captcha is invalid.')
       }
 
       // Check if the email already exists in the database.
@@ -94,17 +96,21 @@ async function createUser (req, res) {
       return dbQuery.executeQuery(query)
     })
     .then(result => {
-      // The user has been created successfully, so redirect them to the index page.
+      // The user has been created successfully, so redirect them to the login page.
       console.log(result)
       res.json({
         status: 302,
-        redirect: '/'
+        redirect: '/login'
       })
       return null
     })
     .catch(error => {
       // Something went wrong somewhere along the way.
-      console.log('Error: ', error)
+      if (error !== null) {
+        console.log(error)
+      } else {
+        console.log('Error with something.')
+      }
       return null
     })
 }

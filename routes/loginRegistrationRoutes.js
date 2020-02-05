@@ -11,7 +11,7 @@ const redis = require('redis')
 
 // JSON parser.
 const bodyParser = require('body-parser')
-loginRegistrationRoutes.use(bodyParser.urlencoded({ extended: true }))
+loginRegistrationRoutes.use(bodyParser.urlencoded({ extended: false }))
 loginRegistrationRoutes.use(bodyParser.json())
 
 // Our controllers/endpoints.
@@ -67,17 +67,17 @@ loginRegistrationRoutes.get('/register', pageLimiter, function (req, res) {
  */
 loginRegistrationRoutes.post('/login', mysqlApiLimiter, (req, res) => {
   console.log('Existing user login endpoint.')
-  res.send('ok.')
+  loginController.userLogin(req, res)
 })
 
 /**
  * The new registration endpoint.
  *
- * @param {JSON} {email, password}
+ * @param {JSON} {email, password, passwordConfirmation, reCAPTCHAtoken}
  * @return {JSON} {registrationResponse}
  */
 loginRegistrationRoutes.post('/register', mysqlApiLimiter, (req, res) => {
   console.log('New registration endpoint.')
   // res.send('ok.')
-  registrationController.registerUser(req, res)
+  registrationController.userRegistration(req, res)
 })

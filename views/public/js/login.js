@@ -30,23 +30,85 @@ $(window).on('navbarLoadedEvent', function () {
 $(document).ready(function () {
   // Click event on the submit button.
   $('#submitButton').click(function () {
-    console.log('Submitting comment.')
+    console.log('Submitting login information.')
     event.preventDefault()
     var canSubmit = true
 
     // Form validation.
     // Go in bottom-up order so we can show the top-most form error first.
-    if (!isGuestNameValid() || !isGuestCommentValid()) {
+    if (!isEmailValid() ||
+      !isPasswordValid() ||
+      !isReCAPTCHAValid()) {
       canSubmit = false
     }
 
+    console.log($('#login-form').serialize())
+
     // One final check.
     if (canSubmit) {
-      $('#comment-submission-form').submit()
+      // AJAX with jQuery to submit the data and handle the reponse.
+      $.ajax({
+        type: 'POST',
+        url: 'login',
+        data: $('#login-form').serialize()
+      })
+        .always(function (result) {
+          if (result.status === 302 && result.redirect) {
+            $(location).attr('href', result.redirect)
+          } else {
+            console.log(result)
+            $('#errorText').html(result.responseText)
+            $('#errorText')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+          }
+        })
     }
   })
 })
 
 function viewAboutMe () {
   $(location).attr('href', '/')
+}
+
+// Validate new user email address.
+function isEmailValid () {
+  if (validator.isEmail($('#emailEntry').val()) && validator.isLength($('#emailEntry').val() + '', { max: 50 })) {
+    // Be sure to empty the field of past errors if there were any.
+    $('#emailValidity').html('')
+    return true
+  } else {
+    // Display error and scroll to the field.
+    $('#emailValidity').html('Please enter a valid email.')
+    $('#emailValidity')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+    return false
+  }
+}
+
+// Validate new user password.
+function isPasswordValid () {
+  if (validator.isLength($('#passwordEntry').val() + '', { min: 5, max: 30 })) {
+    // Be sure to empty the field of past errors if there were any.
+    $('#passwordValidity').html('')
+    return true
+  } else {
+    // Display error and scroll to the field.
+    $('#passwordValidity').html('Please enter a valid password 5-30 characters long.')
+    $('#passwordValidity')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+    return false
+  }
+}
+
+// Validate reCAPTCHA status.
+function isReCAPTCHAValid () {
+  if (grecaptcha && grecaptcha.getResponse().length > 0) {
+    // Captcha checked
+    // Be sure to empty the field of past errors if there were any.
+    $('#captchaValidity').html('')
+    return true
+  } else {
+    // Captcha not checked
+    // Display error and scroll to the field.
+    $('#captchaValidity').html('Please check the box to continue.')
+    $('#captchaValidity')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+    return false
+  }
 }

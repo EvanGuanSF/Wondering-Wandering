@@ -3,9 +3,7 @@
 
 # Authentication
 auth/dbConfig.js
-auth/recaptchaKey.json
-auth/visitorIPHashKey.json
-auth/openSSLPassphrase.json
+auth/credentials.json
 auth/cert.pem
 auth/key.pem
 
