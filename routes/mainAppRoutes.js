@@ -48,7 +48,7 @@ const mysqlApiLimiter = rateLimit({
 })
 
 // GET index.
-mainAppRouter.get('/', pageLimiter, function (req, res) {
+mainAppRouter.get('/', pageLimiter, (req, res) => {
   // Log the request.
   console.log('GET request for the homepage over: ' + req.protocol)
 
@@ -59,7 +59,7 @@ mainAppRouter.get('/', pageLimiter, function (req, res) {
 })
 
 // GET guestbook.
-mainAppRouter.get('/guestbook', pageLimiter, function (req, res) {
+mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
   // Log the request.
   console.log('GET request for guestbook')
   // Return successful get request status.

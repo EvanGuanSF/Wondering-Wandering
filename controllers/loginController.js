@@ -6,14 +6,9 @@ const jwt = require('jsonwebtoken')
 // Our controllers/endpoints.
 const dbQuery = require('./dbQuery.js')
 const captcha = require('../controllers/captchaController.js')
+const userValidation = require('../controllers/userVerificationUtilities.js')
 // State of the art password hashing algorithm.
 const argon2 = require('argon2')
-
-// jSON web token secret var from json file.
-const fs = require('fs')
-var rawData = fs.readFileSync('auth/credentials.json')
-var jsonData = JSON.parse(rawData)
-const jwtSecret = jsonData.jsonWebTokenSecret
 
 exports.userLogin = function (req, res) {
   // Execute the async function to create a new user.
@@ -48,33 +43,21 @@ async function verifyUser (req, res) {
 
   // Start the verification process.
   captcha.getCaptchaValidationStatus(captchaValidationParams)
-    .then((result) => {
-      // Verify that the email and password are of correct type and above minimum length.
-      if (!isEmailValid(email)) {
-        res.status(401)
-        res.send('Invalid username or email.')
-        throw new Error('Email is malformed.')
-      }
-
+    .then(result => {
+      // Verify that the password is within spec.
       if (!isPasswordValid(password)) {
         res.status(401)
         res.send('Invalid username or email.')
         throw new Error('Password is malformed.')
       }
 
-      // Check to make sure that the email exists in the database.
-      var sql = 'SELECT COUNT(*) AS emailMatches FROM ?? WHERE email = (?)'
-      var inserts = ['users', email]
-      var query = mysql.format(sql, inserts)
-
-      // Execute.
-      return dbQuery.executeQuery(query)
+      return userValidation.checkUserEmailExists(email)
     })
-    .then(function (result) {
+    .then(result => {
       // If the result is 0, then the email does not exist,
       // so stop here and return an error code.
-      console.log('Email matches: ' + result[0].emailMatches)
-      if (result[0].emailMatches === 0) {
+      console.log('Email matches: ', result.emailMatches)
+      if (result.emailMatches <= 0) {
         res.status(401)
         res.send('Invalid username or email.')
         throw new Error('Invalid username or email.')
@@ -88,7 +71,7 @@ async function verifyUser (req, res) {
       // Execute.
       return dbQuery.executeQuery(query)
     })
-    .then(function (results) {
+    .then(results => {
       userInformation = results
       var existingHashedPassword = results[0].password
       console.log('Checking password: ' + password + ' against existing hash: ' + existingHashedPassword)
@@ -96,7 +79,7 @@ async function verifyUser (req, res) {
       // Verify the password.
       return argon2.verify(existingHashedPassword, password)
     })
-    .then((isPasswordCorrect, existingHashedPassword) => {
+    .then(isPasswordCorrect => {
       console.log('Password match: ' + isPasswordCorrect)
 
       if (!isPasswordCorrect) {
@@ -106,24 +89,33 @@ async function verifyUser (req, res) {
       }
 
       // The user has been logged in successfully.
+      // However, until otherwise implemented, a json web token is only generated for super admins.
       if (userInformation[0].role === 3) {
-        // Since the user is an admin, make and sign a json web token for them.
+        console.log('Admin logged in.')
         const jwtTokenData = {
           uuid: userInformation.uuid,
           email: userInformation.email,
           role: userInformation.role
         }
 
-        jwt.sign({ jwtTokenData }, jwtSecret, { expiresIn: '24h' }, function (error, token) {
+        jwt.sign({ jwtTokenData }, process.env.JSON_WEB_TOKEN_SECRET_KEY, { expiresIn: '24h' }, (error, token) => {
           if (error) {
             throw new Error(error)
           } else {
             res.json({
               success: true,
               status: 200,
-              token: token
+              token: token,
+              redirect: '/'
             })
           }
+        })
+      } else {
+        console.log('User logged in.')
+        res.json({
+          success: true,
+          status: 200,
+          redirect: '/'
         })
       }
       return null
@@ -139,18 +131,12 @@ async function verifyUser (req, res) {
     })
 }
 
-// Validate user email address.
-function isEmailValid (email) {
-  if (validator.isEmail(email, { max: 50 })) {
-    return true
-  } else {
-    return false
-  }
-}
-
 // Validate user password.
 function isPasswordValid (password) {
-  if (validator.isLength(password, { min: 5, max: 30 })) {
+  if (validator.isLength(password, {
+    min: process.env.PASSWORD_MIN_LENGTH,
+    max: process.env.PASSWORD_MAX_LENGTH
+  })) {
     return true
   } else {
     return false

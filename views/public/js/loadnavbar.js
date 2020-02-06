@@ -1,8 +1,8 @@
 var initialNavbarHeight = $('#navbar').outerHeight()
 
-$(document).ready(function () {
+$(document).ready(() => {
   // Load the navbar.
-  $.get('navbar.html', function (navbarHTML) {
+  $.get('navbar.html', navbarHTML => {
     $('#navbar').replaceWith(navbarHTML)
   })
 
@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   // Load the subtitle for the navbar.
   $.get('/getRandomSubtitle')
-    .done(function (data) {
+    .done(data => {
       $('#subtitle').text(data[0].subtitle)
     })
 })
@@ -36,12 +36,12 @@ async function checkNavbarFinishedLoaded () {
 }
 
 // Call checkNavbarFinishedLoaded after the elements are loaded.
-$(document).ready(function () {
+$(document).ready(() => {
   checkNavbarFinishedLoaded()
 })
 
 // Call checkNavbarFinishedLoaded after the elements are loaded.
-$('#navbar').on(('animate'), function () {
+$('#navbar').on(('animate'), () => {
   console.log('navbar resized.')
   $(window).trigger('navbarLoadedEvent')
 })

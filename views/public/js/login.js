@@ -17,19 +17,19 @@ function setContainerHeight () {
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', function () {
+$(window).on('resize', () => {
   setContainerHeight()
 })
 
 // This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', function () {
+$(window).on('navbarLoadedEvent', () => {
   setContainerHeight()
 })
 
 // Add ready handlers.
-$(document).ready(function () {
+$(document).ready(() => {
   // Click event on the submit button.
-  $('#submitButton').click(function () {
+  $('#submitButton').click(() => {
     console.log('Submitting login information.')
     event.preventDefault()
     var canSubmit = true
@@ -52,8 +52,8 @@ $(document).ready(function () {
         url: 'login',
         data: $('#login-form').serialize()
       })
-        .always(function (result) {
-          if (result.status === 302 && result.redirect) {
+        .always(result => {
+          if (result.status === 200 && result.redirect) {
             $(location).attr('href', result.redirect)
           } else {
             console.log(result)
@@ -71,7 +71,7 @@ function viewAboutMe () {
 
 // Validate new user email address.
 function isEmailValid () {
-  if (validator.isEmail($('#emailEntry').val()) && validator.isLength($('#emailEntry').val() + '', { max: 50 })) {
+  if (validator.isEmail($('#emailEntry').val().trim()) && validator.isLength($('#emailEntry').val().trim() + '', { max: 90 })) {
     // Be sure to empty the field of past errors if there were any.
     $('#emailValidity').html('')
     return true
@@ -85,13 +85,13 @@ function isEmailValid () {
 
 // Validate new user password.
 function isPasswordValid () {
-  if (validator.isLength($('#passwordEntry').val() + '', { min: 5, max: 30 })) {
+  if (validator.isLength($('#passwordEntry').val().trim() + '', { min: 7, max: 50 })) {
     // Be sure to empty the field of past errors if there were any.
     $('#passwordValidity').html('')
     return true
   } else {
     // Display error and scroll to the field.
-    $('#passwordValidity').html('Please enter a valid password 5-30 characters long.')
+    $('#passwordValidity').html('Please enter a valid password 7-50 characters long.')
     $('#passwordValidity')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
     return false
   }

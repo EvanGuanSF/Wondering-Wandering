@@ -51,18 +51,18 @@ function setContainerHeight () {
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', function () {
+$(window).on('resize', () => {
   setContainerHeight()
 })
 
 // This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', function () {
+$(window).on('navbarLoadedEvent', () => {
   setContainerHeight()
 })
 
 // Load the about me info from the file and put it into the details div.
 $(document).ready(function () {
-  $.get('AboutMe.txt', function (response) {
+  $.get('AboutMe.txt', response => {
     aboutMeString = response
     $('#detailContents').html(aboutMeString)
   })
@@ -72,7 +72,7 @@ $(document).ready(function () {
 function createProjectCards () {
   // Use jQuery to make the request and then handle the data on good data return.
   $.get('/getProjectInfo')
-    .done(function (data) {
+    .done(data => {
       projects = data
 
       // The current category.

@@ -3,11 +3,8 @@ const https = require('https')
 const fs = require('fs')
 const express = require('express')
 const path = require('path')
-const httpPort = 3000
-const httpsPort = 3001
-
-// Reference to login credentials for db access.
-const db = require('./auth/dbConfig.js')
+const httpPort = process.env.HTTP_PORT
+const httpsPort = process.env.HTTPS_PORT
 
 const app = express()
 
@@ -15,16 +12,11 @@ app.set({
   'trust proxy': 1
 })
 
-// OpenSSL passphrase var from json file.
-var rawData = fs.readFileSync('auth/credentials.json')
-var jsonData = JSON.parse(rawData)
-const SSLPassphrase = jsonData.openSSLPassphrase
-
 // Create the https server.
 const openSSLCredentials = {
   key: fs.readFileSync(path.join(__dirname, 'auth/key.pem')),
   cert: fs.readFileSync(path.join(__dirname, 'auth/cert.pem')),
-  passphrase: SSLPassphrase
+  passphrase: process.env.OPEN_SSL_PASSPHRASE
 }
 
 // Check all incoming traffic to see if it is connecting securely.
@@ -41,11 +33,34 @@ function ensureSecure (req, res, next) {
   }
 }
 
+// Extracts the json web token from the incoming request's authorization header if it exists and
+// places it in the body for processing in the proper request handler.
+// Header format: { Authorization: Bearer <token> }
+exports.checkForToken = function (req, res, next) {
+  console.log('In token verification.')
+  const authorizationBearerHeader = req.headers.authorization
+
+  // Try to get the token out of the header.
+  // If it does not exist, then set the token field to null.
+  if (typeof authorizationBearerHeader !== 'undefined') {
+    const bearer = authorizationBearerHeader.split(' ')
+    const bearerToken = bearer[1]
+
+    req.token = bearerToken
+  } else {
+    // The user is a guest, which coresponds to 0 in our hierarchy.
+    req.token = null
+  }
+
+  // Continue on to the next piece of middleware.
+  return next()
+}
+
 // Let's use these routers as well:
 // The core of the website.
 const mainAppRouter = require('./routes/mainAppRoutes.js')
 app.use(mainAppRouter)
-// The login page for admin use.
+// The login and registration pages for admin use.
 const loginRegistrationRoutes = require('./routes/loginRegistrationRoutes.js')
 app.use(loginRegistrationRoutes)
 

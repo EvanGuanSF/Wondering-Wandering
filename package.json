@@ -4,7 +4,7 @@
   "description": "Website based on previous SFSU Software Engineering course (CSc 648). Experiments with technologies like jQuery and node.js.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node -r dotenv/config app.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "dependencies": {
     "argon2": "^0.25.1",
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.0.0",
     "jsonwebtoken": "^8.5.1",

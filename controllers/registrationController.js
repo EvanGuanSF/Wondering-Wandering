@@ -5,10 +5,13 @@ const validator = require('validator')
 // Our controllers/endpoints.
 const dbQuery = require('./dbQuery.js')
 const captcha = require('../controllers/captchaController.js')
+const userValidation = require('../controllers/userVerificationUtilities.js')
 // State of the art password hashing algorithm.
 const argon2 = require('argon2')
 
 exports.userRegistration = function (req, res) {
+  // Check the request to see if there is a json web token there and if it is, try to decode it.
+
   // Execute the async function to create a new user.
   createUser(req, res)
 }
@@ -41,14 +44,7 @@ async function createUser (req, res) {
 
   // Start the verification process.
   captcha.getCaptchaValidationStatus(captchaValidationParams)
-    .then((result) => {
-      // Verify that the email and password are of correct type and above minimum length.
-      if (!isEmailValid(email)) {
-        res.status(409)
-        res.send('Invalid email.')
-        throw new Error('Email is malformed.')
-      }
-
+    .then(result => {
       if (!isPasswordValid(password)) {
         res.status(409)
         res.send('Invalid password.')
@@ -61,22 +57,15 @@ async function createUser (req, res) {
         throw new Error('Passwords do not match.')
       }
 
-      // Check if the email already exists in the database.
-      var sql = 'SELECT COUNT(*) AS emailMatches FROM ?? WHERE email = (?)'
-      var inserts = ['users', email]
-      var query = mysql.format(sql, inserts)
-
-      // Execute.
-      console.log('Executing new user email check.')
-      return dbQuery.executeQuery(query)
+      return userValidation.checkUserEmailExists(email)
     })
-    .then(function (result) {
+    .then(result => {
       // if the result is > 0, then the email already exists.card
-      console.log('Email matches: ' + result[0].emailMatches)
-      if (result[0].emailMatches > 0) {
+      console.log('Email matches: ', result.emailMatches)
+      if (result.emailMatches !== 0) {
         res.status(409)
-        res.send('Email address is already in use. Did you mean to log in?')
-        throw new Error('Email address is already in use.')
+        res.send(result.message)
+        throw new Error(result.message)
       }
 
       return argon2.hash(password, {
@@ -115,18 +104,12 @@ async function createUser (req, res) {
     })
 }
 
-// Validate new user email address.
-function isEmailValid (email) {
-  if (validator.isEmail(email, { max: 50 })) {
-    return true
-  } else {
-    return false
-  }
-}
-
 // Validate new user password.
 function isPasswordValid (password) {
-  if (validator.isLength(password, { min: 5, max: 30 })) {
+  if (validator.isLength(password, {
+    min: process.env.PASSWORD_MIN_LENGTH,
+    max: process.env.PASSWORD_MAX_LENGTH
+  })) {
     return true
   } else {
     return false

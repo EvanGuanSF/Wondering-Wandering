@@ -17,19 +17,19 @@ function setContainerHeight () {
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', function () {
+$(window).on('resize', () => {
   setContainerHeight()
 })
 
 // This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', function () {
+$(window).on('navbarLoadedEvent', () => {
   setContainerHeight()
 })
 
 // Add ready handlers.
-$(document).ready(function () {
+$(document).ready(() => {
   // Click event on the submit button.
-  $('#submitButton').click(function () {
+  $('#submitButton').click(() => {
     console.log('Submitting comment.')
     event.preventDefault()
     var canSubmit = true
@@ -51,7 +51,7 @@ $(document).ready(function () {
 function createCommentCards () {
   // Use jQuery to make the request and then handle the data on good data return.
   $.get('/getComments')
-    .done(function (data) {
+    .done(data => {
       comments = data
       cardNumber = 0
 

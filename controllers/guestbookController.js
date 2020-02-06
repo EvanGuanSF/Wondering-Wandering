@@ -16,7 +16,7 @@ exports.insertComment = function (req, res) {
 
   // Start the verification process.
   captcha.getCaptchaValidationStatus(captchaValidationParams)
-    .then((result) => {
+    .then(result => {
       // If we get here, then the token is valid, so validate the data and then send it to the database.
       if (!isGuestNameValid(req.body.guestName) || !isGuestCommentValid(req.body.guestComment)) {
         console.log('Error creating comment: Invalid guest name and/or comment')
@@ -32,12 +32,12 @@ exports.insertComment = function (req, res) {
       var query = mysql.format(sql, inserts)
 
       dbQuery.executeQuery(query)
-        .then(function (result) {
+        .then(result => {
           console.log('Comment from ' + req.connection.remoteAddress + ' created successfully.\n')
           res.status(200)
           res.redirect('guestbook.html')
         })
-        .catch(function (err) {
+        .catch(err => {
           console.log('Error creating commen from ' + req.connection.remoteAddress + '.\n', err)
           res.status(422)
         })
@@ -57,11 +57,11 @@ exports.selectComments = function (req, res) {
 
   // Execute
   dbQuery.executeQuery(query)
-    .then(function (result) {
+    .then(result => {
       res.status(200)
       res.send(result)
     })
-    .catch(function (err) {
+    .catch(err => {
       console.log(err)
       res.status(404)
       res.send('Failed to receive project data.')

@@ -47,14 +47,14 @@ const mysqlApiLimiter = rateLimit({
 })
 
 // GET login page.
-loginRegistrationRoutes.get('/login', pageLimiter, function (req, res) {
+loginRegistrationRoutes.get('/login', pageLimiter, (req, res) => {
   // Log the request.
   res.status(200)
   res.sendFile(path.resolve('views/public/login.html'))
 })
 
 // GET registration page.
-loginRegistrationRoutes.get('/register', pageLimiter, function (req, res) {
+loginRegistrationRoutes.get('/register', pageLimiter, (req, res) => {
   res.status(200)
   res.sendFile(path.resolve('views/public/register.html'))
 })

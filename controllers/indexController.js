@@ -13,12 +13,12 @@ exports.selectProjectInfo = function (req, res) {
 
   // Execute.
   dbQuery.executeQuery(query)
-    .then(function (result) {
+    .then(result => {
       // Since we are sorting results in a way such that the projectID in the database may not necessarily match the
       // project ordering in the client side, we need to give the projects new IDs to reduce confusion.
       var newIndex = 1
 
-      result.forEach((item) => {
+      result.forEach(item => {
         item.projectID = newIndex
         newIndex++
       })
@@ -26,7 +26,7 @@ exports.selectProjectInfo = function (req, res) {
       res.status(200)
       res.send(result)
     })
-    .catch(function (err) {
+    .catch(err => {
       console.log(err)
       res.status(404)
       res.send('Failed to receive project data.')

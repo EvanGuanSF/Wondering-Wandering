@@ -2,7 +2,7 @@ var initialFooterHeight = $('#footer').outerHeight()
 
 $(document).ready(function () {
   // Load the footer.
-  $.get('footer.html', function (footerHTML) {
+  $.get('footer.html', footerHTML => {
     $('#footer').replaceWith(footerHTML)
   })
 
@@ -11,13 +11,13 @@ $(document).ready(function () {
 
   // Load the subtitle for the footer.
   $.get('/getVisitorCount')
-    .done(function (data) {
+    .done(data => {
       $('#uniqueVisitorsCounter').text('Unique Visitors: ' + data[0].visitorCount)
     })
 
   // Load the privacy policy text into the modal popup.
-  $(document).ready(function () {
-    $.get('PrivacyPolicy.txt', function (response) {
+  $(document).ready(() => {
+    $.get('PrivacyPolicy.txt', response => {
       $('#privacyPolicyPopup').html(response)
     })
   })
@@ -43,12 +43,12 @@ async function checkFooterFinishedLoaded () {
 }
 
 // Call checkFooterFinishedLoaded after the elements are loaded.
-$(document).ready(function () {
+$(document).ready(() => {
   checkFooterFinishedLoaded()
 })
 
 // Call checkFooterFinishedLoaded after the elements are loaded.
-$('#footer').on(('animate'), function () {
+$('#footer').on(('animate'), () => {
   console.log('footer resized.')
   $(window).trigger('footerLoadedEvent')
 })

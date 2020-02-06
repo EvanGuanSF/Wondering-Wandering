@@ -72,7 +72,7 @@ function viewAboutMe () {
 
 // Validate new user email address.
 function isEmailValid () {
-  if (validator.isEmail($('#emailEntry').val()) && validator.isLength($('#emailEntry').val() + '', { max: 50 })) {
+  if (validator.isEmail($('#emailEntry').val().trim()) && validator.isLength($('#emailEntry').val().trim() + '', { max: 90 })) {
     // Be sure to empty the field of past errors if there were any.
     $('#emailValidity').html('')
     return true
@@ -86,13 +86,13 @@ function isEmailValid () {
 
 // Validate new user password.
 function isPasswordValid () {
-  if (validator.isLength($('#passwordEntry').val() + '', { min: 5, max: 30 })) {
+  if (validator.isLength($('#passwordEntry').val().trim() + '', { min: 7, max: 50 })) {
     // Be sure to empty the field of past errors if there were any.
     $('#passwordValidity').html('')
     return true
   } else {
     // Display error and scroll to the field.
-    $('#passwordValidity').html('Please enter a valid password 5-30 characters long.')
+    $('#passwordValidity').html('Please enter a valid password 7-50 characters long.')
     $('#passwordValidity')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
     return false
   }
@@ -100,7 +100,7 @@ function isPasswordValid () {
 
 // Validate new user password match.
 function isPasswordConfirmationValid () {
-  if ($('#passwordConfirmationEntry').val() === $('#passwordEntry').val()) {
+  if ($('#passwordConfirmationEntry').val().trim() === $('#passwordEntry').val().trim()) {
     // Be sure to empty the field of past errors if there were any.
     $('#passwordConfirmationValidity').html('')
     return true
