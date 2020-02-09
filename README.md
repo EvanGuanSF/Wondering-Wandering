@@ -10,7 +10,7 @@ This repository contains most of the essentials needed to launch a site with the
 
 #### In general, the setup procedure should be along these lines:
 1. Acquire a physical or cloud machine to run the server on and get this repository onto it.
-2. Install and run initial configuration for a MySQL server, then run the included database creation schema in the model folder. May require creating the general_db. Download and install Redis for your operating system as well. __This may well be by far the most difficult step, but there are many guides online on how to setup a MySQL server.__ Extra instructions/commands for setting up port forwarding on a Linux system and creating a MySQL user can be found in "/Setup information.txt".
+2. Get your data storage in order. Install and run initial configuration for a MySQL server, then run the included database creation schema in the model folder. May require creating the general_db. Download and install Redis for your operating system as well. __This may well be by far the most difficult step, but there are many guides online on how to setup a MySQL server.__ Extra instructions/commands for setting up port forwarding on a Linux system and creating a MySQL user can be found in "/Setup information.txt".
 3. Get and install Docker and docker-compose via installer or command line package manager. Get, install, and configure according to:
      - Windows/MacOS: https://docs.docker.com/get-started/
      - Linux (Pick whichever distro you have in the left menu): https://docs.docker.com/install/linux/docker-ce/ubuntu/
