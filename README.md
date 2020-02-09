@@ -1,9 +1,9 @@
 # Wondering Wandering
 Portfolio webpage based on SFSU Software Engineering course work.
 
-Meant to run in Docker containers on a cloud provider (AWS EC2 for example). The two primary containers are a node.js application using Express for routing and a Redis container for the in-memory datastorage used by Express Rate Limiter in the former container. A seperate non-containerized MySQL Server provides the persistent backend database for the webapp.
+Meant to run in Docker containers on a cloud provider (AWS EC2 for example). The two primary containers are a node.js application using Express for routing and a Redis container for the in-memory datastore used by Express Rate Limiter in the former container. A seperate non-containerized MySQL Server provides the persistent backend database for the webapp.
 
-Client-side experience via Javascript+jQuery, with much of the cookie-cutter components and interactivity provided by Bootstrap.
+Client-side experience via Javascript+jQuery, with much of the cookie-cutter components and interactivity provided by Bootstrap. Basic user login and persistent session via json web tokens in cookies is present and ready to use.
 <br></br>
 ## Usage Instructions:
 This repository contains most of the essentials needed to launch a site with the same layout, including MySQL creation schema, authentication file templates, and required npm packages list.
@@ -14,7 +14,7 @@ This repository contains most of the essentials needed to launch a site with the
 3. Get and install Docker and docker-compose via installer or command line package manager. Get, install, and configure according to:
      - Windows/MacOS: https://docs.docker.com/get-started/
      - Linux (Pick whichever distro you have in the left menu): https://docs.docker.com/install/linux/docker-ce/ubuntu/
-5. __IMPORTANT: Remove the word "Backup" from the filenames in the auth folder, then update the files in the folder with correct server configuration information.__
+5. __IMPORTANT: Rename '.env.template' to '.env' in the root folder of the repository. Be sure to change the default provided values to values that are relevant to your needs.__
 6. Modify the AboutMe.txt file in views/public to fit your needs.
 7. Add a picture with the name 'me.png' to /views/public/img Add and populate /views/public/files with a resume.pdf so the resume link works (or modify navbar.html and remove it).
 8. Add your own projects to the MySQL database. Variable names should be relatively straightforward, and match with client-side naming.
