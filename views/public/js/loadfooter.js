@@ -1,54 +1,45 @@
 var initialFooterHeight = $('#footer').outerHeight()
 
-$(document).ready(function () {
+$(document).ready(() => {
   // Load the footer.
   $.get('footer.html', footerHTML => {
     $('#footer').replaceWith(footerHTML)
+
+    // Load the greeting for the user if applicable.
+    var userName = getCookie('UserName')
+    if (userName != '') {
+      $('#userGreeting').text('Hello ' + userName + '!')
+    }
   })
 
-  // Laod the CSS for the footer.
+  // Load the CSS for the footer.
   $('head').append('<link rel=\'stylesheet\' href=\'css/footer.css\' type=\'text/css\'/>')
 
-  // Load the subtitle for the footer.
-  $.get('/getVisitorCount')
-    .done(data => {
-      $('#uniqueVisitorsCounter').text('Unique Visitors: ' + data[0].visitorCount)
-    })
-
   // Load the privacy policy text into the modal popup.
-  $(document).ready(() => {
-    $.get('PrivacyPolicy.txt', response => {
-      $('#privacyPolicyPopup').html(response)
-    })
+  $.get('PrivacyPolicy.txt', response => {
+    $('#privacyPolicyPopup').html(response)
+  })
+
+  // Load the subtitle for the footer.
+  $.get('/getVisitorCount', data => {
+    $('#uniqueVisitorsCounter').text('Unique Visitors: ' + data[0].visitorCount)
   })
 })
 
-// Sleep function workaround. Must be called from an async function.
-// Usage: await sleep(int number of milliseconds)
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time))
-}
-
-// This function is used to trigger the initial resize(s).
-async function checkFooterFinishedLoaded () {
-  var footerTimer
-  console.time(footerTimer)
-
-  // Continuous trigger mode. 5 seconds total.
-  for (i = 0; i < 60; i++) {
-    await sleep(50)
-    initialFooterHeight = $('#footer').outerHeight()
-    $(window).trigger('footerLoadedEvent')
+// Function to find the value of a given cookie by name.card
+// Credit to W3Schools.
+function getCookie (cookieName) {
+  var fullCookieName = cookieName + '='
+  var decodedCookie = decodeURIComponent(document.cookie)
+  var cookieArray = decodedCookie.split(';')
+  for (var i = 0; i < cookieArray.length; i++) {
+    var cookie = cookieArray[i]
+    while (cookie.charAt(0) === ' ') {
+      cookie = cookie.substring(1)
+    }
+    if (cookie.indexOf(fullCookieName) === 0) {
+      return cookie.substring(fullCookieName.length, cookie.length)
+    }
   }
+  return ''
 }
-
-// Call checkFooterFinishedLoaded after the elements are loaded.
-$(document).ready(() => {
-  checkFooterFinishedLoaded()
-})
-
-// Call checkFooterFinishedLoaded after the elements are loaded.
-$('#footer').on(('animate'), () => {
-  console.log('footer resized.')
-  $(window).trigger('footerLoadedEvent')
-})

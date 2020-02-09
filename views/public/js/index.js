@@ -61,7 +61,7 @@ $(window).on('navbarLoadedEvent', () => {
 })
 
 // Load the about me info from the file and put it into the details div.
-$(document).ready(function () {
+$(document).ready(() => {
   $.get('AboutMe.txt', response => {
     aboutMeString = response
     $('#detailContents').html(aboutMeString)

@@ -18,6 +18,7 @@ const index = require('../controllers/indexController.js')
 const guestbook = require('../controllers/guestbookController.js')
 const navbar = require('../controllers/navbarController.js')
 const visitorCount = require('../controllers/visitorCountController.js')
+const userValidation = require('../controllers/userVerificationUtilities.js')
 
 // Limiter for webpages.
 const pageLimiter = rateLimit({
@@ -48,7 +49,7 @@ const mysqlApiLimiter = rateLimit({
 })
 
 // GET index.
-mainAppRouter.get('/', pageLimiter, (req, res) => {
+mainAppRouter.get('/', pageLimiter, userValidation.refreshLoginToken, (req, res) => {
   // Log the request.
   console.log('GET request for the homepage over: ' + req.protocol)
 

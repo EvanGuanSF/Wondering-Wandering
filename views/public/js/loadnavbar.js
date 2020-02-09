@@ -17,7 +17,7 @@ $(document).ready(() => {
 })
 
 // Sleep function workaround. Must be called from an async function.
-// Usage: await sleep(int number of milliseconds)
+// Usage: await sleep(int <number of milliseconds>)
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
@@ -28,7 +28,7 @@ async function checkNavbarFinishedLoaded () {
   console.time(navbarTimer)
 
   // Continuous trigger mode. 5 seconds total.
-  for (i = 0; i < 60; i++) {
+  for (var i = 0; i < 60; i++) {
     await sleep(50)
     initialNavbarHeight = $('#navbar').outerHeight()
     $(window).trigger('navbarLoadedEvent')

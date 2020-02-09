@@ -11,7 +11,7 @@ const redis = require('redis')
 
 // JSON parser.
 const bodyParser = require('body-parser')
-loginRegistrationRoutes.use(bodyParser.urlencoded({ extended: false }))
+loginRegistrationRoutes.use(bodyParser.urlencoded({ extended: true }))
 loginRegistrationRoutes.use(bodyParser.json())
 
 // Our controllers/endpoints.

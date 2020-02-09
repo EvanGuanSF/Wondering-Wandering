@@ -3,14 +3,22 @@ const https = require('https')
 const fs = require('fs')
 const express = require('express')
 const path = require('path')
+const cookieParser = require('cookie-parser')
 const httpPort = process.env.HTTP_PORT
 const httpsPort = process.env.HTTPS_PORT
 
 const app = express()
 
+// Setup cookie parser.
+app.use(cookieParser())
+
+// Setup security configuration and middleware.
 app.set({
   'trust proxy': 1
 })
+
+// Do not tell the client what type of backend framework is being used.
+app.disable('x-powered-by')
 
 // Create the https server.
 const openSSLCredentials = {
@@ -31,29 +39,6 @@ function ensureSecure (req, res, next) {
     // Otherwise, send the packet along to a proper endpoint if one exists.
     return next()
   }
-}
-
-// Extracts the json web token from the incoming request's authorization header if it exists and
-// places it in the body for processing in the proper request handler.
-// Header format: { Authorization: Bearer <token> }
-exports.checkForToken = function (req, res, next) {
-  console.log('In token verification.')
-  const authorizationBearerHeader = req.headers.authorization
-
-  // Try to get the token out of the header.
-  // If it does not exist, then set the token field to null.
-  if (typeof authorizationBearerHeader !== 'undefined') {
-    const bearer = authorizationBearerHeader.split(' ')
-    const bearerToken = bearer[1]
-
-    req.token = bearerToken
-  } else {
-    // The user is a guest, which coresponds to 0 in our hierarchy.
-    req.token = null
-  }
-
-  // Continue on to the next piece of middleware.
-  return next()
 }
 
 // Let's use these routers as well:

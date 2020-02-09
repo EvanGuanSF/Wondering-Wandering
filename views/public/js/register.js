@@ -27,19 +27,26 @@ $(window).on('navbarLoadedEvent', function () {
 })
 
 // Add ready handlers.
-$(document).ready(function () {
+$(document).ready(() => {
   // Click event on the submit button.
-  $('#submitButton').click(function () {
+  $('#submitButton').click(() => {
     console.log('Submitting comment.')
     event.preventDefault()
     var canSubmit = true
 
     // Form validation.
     // Go in bottom-up order so we can show the top-most form error first.
-    if (!isEmailValid() ||
+    // if (!isUserNameValid() ||
+    //   !isEmailValid() ||
+    //   !isPasswordValid() ||
+    //   !isPasswordConfirmationValid() ||
+    //   !isReCAPTCHAValid()) {
+    //   canSubmit = false
+    // }
+    if (!isUserNameValid() ||
+      !isEmailValid() ||
       !isPasswordValid() ||
-      !isPasswordConfirmationValid() ||
-      !isReCAPTCHAValid()) {
+      !isPasswordConfirmationValid()) {
       canSubmit = false
     }
 
@@ -54,7 +61,7 @@ $(document).ready(function () {
         data: $('#registration-form').serialize()
       })
         .always(function (result) {
-          if (result.status === 302 && result.redirect) {
+          if (result.status === 200 && result.redirect) {
             $(location).attr('href', result.redirect)
           } else {
             console.log(result)
@@ -68,6 +75,20 @@ $(document).ready(function () {
 
 function viewAboutMe () {
   $(location).attr('href', '/')
+}
+
+// Validate new user password.
+function isUserNameValid () {
+  if (validator.isLength($('#userNameEntry').val().trim() + '', { min: 3, max: 50 })) {
+    // Be sure to empty the field of past errors if there were any.
+    $('#userNameValidity').html('')
+    return true
+  } else {
+    // Display error and scroll to the field.
+    $('#userNameValidity').html('Please enter a valid user name 3-50 characters long.')
+    $('#userNameValidity')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+    return false
+  }
 }
 
 // Validate new user email address.
