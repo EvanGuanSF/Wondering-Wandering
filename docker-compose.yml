@@ -5,10 +5,11 @@ services:
     restart: always
     build: .
     # Limit the amount of resources per instance.
-    mem_limit: 100m
+    mem_limit: 200m
     # Map external port 80 to internal port 3000
     ports:
       - '80:3000'
+      - '443:3001'
     depends_on:
       - redis-server
     networks:
@@ -17,7 +18,7 @@ services:
     container_name: redis-server-container
     image: redis
     # Limit the amount of resources per instance.
-    mem_limit: 50m
+    mem_limit: 100m
     # Have this container listen to port 6379 internally.
     ports:
       - '6379'

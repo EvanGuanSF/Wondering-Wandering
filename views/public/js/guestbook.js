@@ -1,12 +1,5 @@
-// Variables for viewable screen pixel dimensions.
-var winWidth = $(this).outerWidth()
-var winHeight = $(this).outerHeight()
-var navbarHeight = $('#navbar').outerHeight()
-
-var previouslyClickedCardID = 0
-
 // This funtion calculates and returns the pixel offset of the navbar and footer.
-function getHeaderAndFooterDisplacements() {
+function getHeaderAndFooterDisplacements () {
   this.winHeight = $(this).outerHeight()
   this.navbarHeight = $('#navbar').outerHeight()
 
@@ -14,29 +7,29 @@ function getHeaderAndFooterDisplacements() {
 }
 
 // This function adjusts the layout of the content based on height and orientation.
-function setContainerHeight() {
+function setContainerHeight () {
   $('#scrollable-col').css({
-    'height': getHeaderAndFooterDisplacements() + 'px'
+    height: getHeaderAndFooterDisplacements() + 'px'
   })
   $('#scrollable-col').css({
-    'width': $(this).outerWidth() + 'px'
+    width: $(this).outerWidth() + 'px'
   })
 }
 
 // This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', function(){
+$(window).on('resize', () => {
   setContainerHeight()
 })
 
 // This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', function(){
+$(window).on('navbarLoadedEvent', () => {
   setContainerHeight()
 })
 
 // Add ready handlers.
-$(document).ready(function() {
+$(document).ready(() => {
   // Click event on the submit button.
-  $('#submitButton').click(function () {
+  $('#submitButton').click(() => {
     console.log('Submitting comment.')
     event.preventDefault()
     var canSubmit = true
@@ -55,10 +48,10 @@ $(document).ready(function() {
 })
 
 // Makes a request to the server for card data and creates cards accordingly.
-function createCommentCards() {
+function createCommentCards () {
   // Use jQuery to make the request and then handle the data on good data return.
   $.get('/getComments')
-    .done(function(data)  {
+    .done(data => {
       comments = data
       cardNumber = 0
 
@@ -88,7 +81,7 @@ function createCommentCards() {
     })
 }
 
-function viewAboutMe() {
+function viewAboutMe () {
   $(location).attr('href', '/')
 }
 

@@ -41,6 +41,11 @@ ALABASTER
   background-color: var(--rosey);
 }
 
+#userGreeting {
+  font-weight: bold;
+  vertical-align: middle;
+}
+
 #uniqueVisitorsCounter {
   font-weight: bold;
   vertical-align: middle;
