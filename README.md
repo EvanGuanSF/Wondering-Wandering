@@ -15,13 +15,14 @@ This repository contains most of the essentials needed to launch a site with the
      - Windows/MacOS: https://docs.docker.com/get-started/
      - Linux (Pick whichever distro you have in the left menu): https://docs.docker.com/install/linux/docker-ce/ubuntu/
 5. __IMPORTANT: Remove the word "Backup" from the filenames in the auth folder, then update the files in the folder with correct server configuration information.__
-6. Modify the AboutMe.txt file in views/public to fit your needs.
-7. Add a picture with the name 'me.png' to /views/public/img Add and populate /views/public/files with a resume.pdf so the resume link works (or modify navbar.html and remove it).
-8. Add your own projects to the MySQL database. Variable names should be relatively straightforward, and match with client-side naming.
-9. Now the containers just need to be built and started. On the command line in same folder as app.js, enter:
+6. To enable now-core https, acquire a ssl certificate via https://certbot.eff.org/ or other organization. Self-signed openssl certificates are adequate for dev testing environments. Place the certificate files (cert.pem, key.pem) in the /auth folder.
+7. Modify the AboutMe.txt file in views/public to fit your needs.
+8. Add a picture with the name 'me.png' to /views/public/img Add and populate /views/public/files with a resume.pdf so the resume link works (or modify navbar.html and remove it).
+9. Add your own projects to the MySQL database. Variable names should be relatively straightforward, and match with client-side naming.
+10. Now the containers just need to be built and started. On the command line in same folder as app.js, enter:
      - docker-compose build
      - docker-compose up -d
-10. To take the containers down, enter:
+11. To take the containers down, enter:
      - docker-compose down
 
 Barring router port forwarding issue or some other misconfiguration, the website should be up and running.
