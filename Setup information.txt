@@ -1,5 +1,5 @@
--------------------------
-
+------------- THIS ROUTING SECTION IS FOR TROUBLE SHOOTING ONLY.-------------
+------------- YOU LIKELY DO NOT NEED TO DO ANY ROUTING WITH DOCKER CONTAINERS. -------------
 # Setting up port forwarding on the Linux machine to route port 80 (default http) requests to the node.js standard port 3000 instead.
 # localhost/loopback routing
 sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 3000
@@ -13,7 +13,7 @@ iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 443 -j REDIRECT --to-ports
 sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 3000
 sudo iptables -t nat -I PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 3001
 
--------------------------
+--------------------------
 
 # Setting up mysql.
 # On the Linux command line:
