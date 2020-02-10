@@ -3,7 +3,7 @@ services:
   app:
     container_name: wondering-wandering-container
     restart: always
-    build: .
+    build: ./app
     # Limit the amount of resources per instance.
     mem_limit: 200m
     # Map external port 80 to internal port 3000
@@ -16,6 +16,7 @@ services:
       - wondering-wandering
   redis-server:
     container_name: redis-server-container
+    build: ./redis-server
     image: redis
     # Limit the amount of resources per instance.
     mem_limit: 100m
