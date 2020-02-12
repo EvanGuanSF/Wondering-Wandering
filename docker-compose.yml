@@ -1,31 +1,124 @@
-version: '2.4'
+version: '2'
 services:
+  # Our Node.js with Express webapp.
   app:
     container_name: wondering-wandering-container
+    hostname: app
     restart: always
-    build: ./app
-    # Limit the amount of resources per instance.
+    build:
+      context: ./app
+      dockerfile: Dockerfile
     mem_limit: 200m
-    # Map external port 80 to internal port 3000
-    ports:
-      - '80:3000'
-      - '443:3001'
+    # Do not expose ports; we rely on nginx to proxy traffic to
+    # this container from within the container network.
+    # ports:
     depends_on:
       - redis-server
     networks:
       - wondering-wandering
-  redis-server:
-    container_name: redis-server-container
-    build: ./redis-server
-    image: redis
-    # Limit the amount of resources per instance.
+
+  # Our Nginx reverse proxy.
+  nginx:
+    container_name: nginx-container
+    image: nginx
+    hostname: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     mem_limit: 100m
-    # Have this container listen to port 6379 internally.
     ports:
-      - '6379'
+      - '80:80'
+      - '443:443'
+    # Wait for the app to finish starting up before setting up the proxy.
+    depends_on:
+      - app
+    # Nginx does not support .env environment variable substituation by default,
+    # so we must generate our own .conf files.
+    environment:
+      # For these variables, see the ./.env file for more details.
+      - NGINX_HOSTS_OR_IP_ADDRESSES=${NGINX_HOSTS_OR_IP_ADDRESSES}
+      - NGINX_HTTP_REDIRECT_STRING=${NGINX_HTTP_REDIRECT_STRING}
+      - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
+      - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
+      - NGINX_WEBROOT_PATH=${NGINX_WEBROOT_PATH}
+      - NGINX_SSL_PARAMS_SNIPPET_PATH=${NGINX_SSL_PARAMS_SNIPPET_PATH}
+      - NGINX_SSL_DHPARAM_PATH=${NGINX_SSL_DHPARAM_PATH}
+      - CERTBOT_YOUR_SITE_DOMAIN=${CERTBOT_YOUR_SITE_DOMAIN}
+      # Note that we need to do some trickery to replace '$' literals in the .conf files.
+      # If you need to use a literal '$' in one of the upcoming files,
+      # you must replace it with ${DOLLAR}
+      # Note also that docker-compose treats '$' as a special character,
+      # so it must be escaped via '$$'.
+      - DOLLAR=$$
+      # The below should not be used in a production environment.
+      # Use the commented-out lines in 
+      # ./nginx/conf.d/snippets/ssl-params.conf_template instead.
+      - NGINX_SSL_CERTIFICATE_PATH=${NGINX_SSL_CERTIFICATE_PATH}
+      - NGINX_SSL_KEY_PATH=${NGINX_SSL_KEY_PATH}
+      # These envsubst commands are run after the container data copying is complete,
+      # and will generate proper .conf files for us from the templates.
+      # Then, we start up nginx.
+      # Finally, we start a loop to check for renewed ssl cert+key every 12 hours.
+    command: > 
+      /bin/bash -c "rm -f /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
+      && touch /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
+      && envsubst < /etc/nginx/conf.d/nginxconf.conf_template >| /etc/nginx/conf.d/nginx.conf
+      && envsubst < /etc/nginx/conf.d/snippets/ssl-params.conf_template >| /etc/nginx/conf.d/snippets/ssl-params.conf
+      && exec nginx -g 'daemon off;'"
+  # && trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}"
+    volumes:
+      # Map our conf files to the nginx configurations folder.
+      - ./nginx/conf:/etc/nginx/conf.d
+      # The following will allow nginx to answer certbot authentication challenges.
+      - web-root:${NGINX_WEBROOT_PATH} 
+      - certbot-etc:${CERTBOT_CERTIFICATES_PATH}
+      - certbot-var:${CERTBOT_WORKING_DIRECTORY_PATH}
     networks:
       - wondering-wandering
-# Create a network so that these containers can talk to eachother.
+
+  # Our memcache redis server.
+  redis-server:
+    container_name: redis-server-container
+    image: redis
+    hostname: redis-server
+    build:
+      context: ./redis-server
+      dockerfile: Dockerfile
+    mem_limit: 100m
+    networks:
+      - wondering-wandering
+
+  # Our Certbot container.
+  certbot:
+    container_name: certbot-container
+    image: certbot/certbot
+    build:
+      context: ./certbot
+    mem_limit: 50m
+    # Have this container listen to port 6379 internally.
+    volumes:
+      # The following will allow for nginx to pass on certbot authentication challenges.
+      - web-root:${NGINX_WEBROOT_PATH}
+      - certbot-etc:${CERTBOT_CERTIFICATES_PATH}
+      - certbot-var:${CERTBOT_WORKING_DIRECTORY_PATH}
+    depends_on:
+      - nginx
+    # This command gets a certificate for the site when the container is started.
+    command: certonly --webroot --webroot-path=${NGINX_WEBROOT_PATH} --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email --staging -d ${CERTBOT_YOUR_SITE_DOMAIN}  -d www.${CERTBOT_YOUR_SITE_DOMAIN}
+    networks:
+      - wondering-wandering
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${MAIN_FOLDER_PATH}
+      o: bind
+
+# Create a network so that these containers can talk to each other.
 networks:
   wondering-wandering:
     driver: bridge

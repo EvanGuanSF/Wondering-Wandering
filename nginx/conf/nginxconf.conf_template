@@ -1,0 +1,42 @@
+# We are ok just adding on to the default /etc/nginx/nginx.conf for the time being.
+
+# Server block for handling http traffic.
+# Redirects all non-secure http traffic to the secure https 443 port.
+server {
+    listen ${NGINX_HTTP_PORT} default_server;
+    listen [::]:${NGINX_HTTP_PORT} default_server;
+    server_name ${NGINX_HOSTS_OR_IP_ADDRESSES};
+
+    # Redirect all traffic to the secure connection...
+    location / {
+        return 301 https://${DOLLAR}server_name${DOLLAR}request_uri;
+    }
+
+    # Unless it matches this request/challenege for Certbot.
+    location ~ /.well-known/acme-challenge {
+            allow all;
+            root ${NGINX_WEBROOT_PATH};
+    }
+}
+
+# Server block for all secure https traffic.
+server {
+    listen ${NGINX_HTTPS_PORT} ssl http2 default_server;
+    listen [::]:${NGINX_HTTPS_PORT} ssl http2 default_server;
+    server_name ${NGINX_HOSTS_OR_IP_ADDRESSES};
+
+    # Include our custom ssl configuration from ./snippets/ssl-params.conf
+    include ${NGINX_SSL_PARAMS_SNIPPET_PATH};
+
+    # Finally, redirect to our nodejs app.
+    location / {
+        proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
+        proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+        proxy_set_header Host ${DOLLAR}host;
+        proxy_set_header X-Forwarded-Host ${DOLLAR}host;
+        proxy_set_header X-Forwarded-Port ${DOLLAR}server_port;
+        
+        proxy_pass http://app:80;
+    }
+}

@@ -6,11 +6,11 @@ var previouslyClickedCardID = 0
 
 // This funtion calculates and returns the pixel offset of the navbar and footer.
 function getHeaderAndFooterDisplacements () {
-  this.winHeight = $(this).outerHeight()
-  this.navbarHeight = $('#navbar').outerHeight()
-  this.footerHeight = $('#footer').outerHeight()
+  var winHeight = $(this).outerHeight()
+  var navbarHeight = $('#navbar').outerHeight()
+  var footerHeight = $('#footer').outerHeight()
 
-  return (this.winHeight - this.navbarHeight - this.footerHeight)
+  return (winHeight - navbarHeight - footerHeight)
 }
 
 // This function adjusts the layout of the content based on height and orientation.
