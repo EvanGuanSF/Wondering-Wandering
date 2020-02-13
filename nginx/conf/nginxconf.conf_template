@@ -28,7 +28,7 @@ server {
     # Include our custom ssl configuration from ./snippets/ssl-params.conf
     include ${NGINX_SSL_PARAMS_SNIPPET_PATH};
 
-    # Finally, redirect to our nodejs app.
+    # Finally, add some headers and redirect to our nodejs app.
     location / {
         proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
         proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;

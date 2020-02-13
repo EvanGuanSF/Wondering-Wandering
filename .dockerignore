@@ -1,0 +1,10 @@
+# GitHub stuff.
+.git*
+/.git
+
+# Misc
+*/ignore folder
+
+# dotenv environment variables file
+#.env
+.env.test

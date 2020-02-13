@@ -3,7 +3,7 @@
 /.git
 
 # Misc
-/ignore folder
+*/ignore folder
 
 # tern project
 .tern*

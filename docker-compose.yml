@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 services:
   # Our Node.js with Express webapp.
   app:
@@ -8,7 +8,6 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
-    mem_limit: 200m
     # Do not expose ports; we rely on nginx to proxy traffic to
     # this container from within the container network.
     # ports:
@@ -25,7 +24,6 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    mem_limit: 100m
     ports:
       - '80:80'
       - '443:443'
@@ -37,7 +35,6 @@ services:
     environment:
       # For these variables, see the ./.env file for more details.
       - NGINX_HOSTS_OR_IP_ADDRESSES=${NGINX_HOSTS_OR_IP_ADDRESSES}
-      - NGINX_HTTP_REDIRECT_STRING=${NGINX_HTTP_REDIRECT_STRING}
       - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
       - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
       - NGINX_WEBROOT_PATH=${NGINX_WEBROOT_PATH}
@@ -50,7 +47,7 @@ services:
       # Note also that docker-compose treats '$' as a special character,
       # so it must be escaped via '$$'.
       - DOLLAR=$$
-      # The below should not be used in a production environment.
+      # The below should not use default values in a production environment.
       # Use the commented-out lines in 
       # ./nginx/conf.d/snippets/ssl-params.conf_template instead.
       - NGINX_SSL_CERTIFICATE_PATH=${NGINX_SSL_CERTIFICATE_PATH}
@@ -60,19 +57,18 @@ services:
       # Then, we start up nginx.
       # Finally, we start a loop to check for renewed ssl cert+key every 12 hours.
     command: > 
-      /bin/bash -c "rm -f /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
-      && touch /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
+      /bin/bash -c "
+      mkdir -p /${CERTBOT_CERTIFICATES_PATH}
+      && sudo cp /nginx/conf/*.pem /${CERTBOT_CERTIFICATES_PATH}
       && envsubst < /etc/nginx/conf.d/nginxconf.conf_template >| /etc/nginx/conf.d/nginx.conf
       && envsubst < /etc/nginx/conf.d/snippets/ssl-params.conf_template >| /etc/nginx/conf.d/snippets/ssl-params.conf
       && exec nginx -g 'daemon off;'"
-  # && trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}"
     volumes:
       # Map our conf files to the nginx configurations folder.
       - ./nginx/conf:/etc/nginx/conf.d
       # The following will allow nginx to answer certbot authentication challenges.
       - web-root:${NGINX_WEBROOT_PATH} 
-      - certbot-etc:${CERTBOT_CERTIFICATES_PATH}
-      - certbot-var:${CERTBOT_WORKING_DIRECTORY_PATH}
+      - certbot-certs:${CERTBOT_CERTIFICATES_PATH}
     networks:
       - wondering-wandering
 
@@ -84,7 +80,6 @@ services:
     build:
       context: ./redis-server
       dockerfile: Dockerfile
-    mem_limit: 100m
     networks:
       - wondering-wandering
 
@@ -94,23 +89,27 @@ services:
     image: certbot/certbot
     build:
       context: ./certbot
-    mem_limit: 50m
     # Have this container listen to port 6379 internally.
     volumes:
       # The following will allow for nginx to pass on certbot authentication challenges.
       - web-root:${NGINX_WEBROOT_PATH}
-      - certbot-etc:${CERTBOT_CERTIFICATES_PATH}
-      - certbot-var:${CERTBOT_WORKING_DIRECTORY_PATH}
+      - certbot-certs:${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}
     depends_on:
       - nginx
     # This command gets a certificate for the site when the container is started.
-    command: certonly --webroot --webroot-path=${NGINX_WEBROOT_PATH} --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email --staging -d ${CERTBOT_YOUR_SITE_DOMAIN}  -d www.${CERTBOT_YOUR_SITE_DOMAIN}
+    # We remove the dummy certificates we started with and then
+    # we create a new set of certificate and key. (If valid certbot certs exist, keep them.)
+    # Finally, check to see if our certificate is up for renewal, and renew if it is.
+    command: >
+      /bin/bash -c "
+      sudo mkdir -p ${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}
+      && sudo rm -f ${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}/*.pem
+      && sudo certbot certonly -n --webroot --webroot-path=${NGINX_WEBROOT_PATH} --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email -d ${CERTBOT_YOUR_SITE_DOMAIN}"
     networks:
       - wondering-wandering
 
 volumes:
-  certbot-etc:
-  certbot-var:
+  certbot-certs:
   web-root:
     driver: local
     driver_opts:

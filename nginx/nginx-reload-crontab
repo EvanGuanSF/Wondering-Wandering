@@ -1,0 +1,2 @@
+# Reload nginx every hour on the 19th minute.
+19 0-23 * * * nginx -s reload

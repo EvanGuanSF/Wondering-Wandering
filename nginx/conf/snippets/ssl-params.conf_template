@@ -2,10 +2,10 @@
 # https://ssl-config.mozilla.org/#server=nginx&version=1.17.7&config=intermediate&openssl=1.1.1d&guideline=5.4
 # https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
 
-ssl_certificate ${NGINX_SSL_CERTIFICATE_PATH};
-# /etc/letsencrypt/live/${CERTBOT_YOUR_SITE_DOMAIN}/fullchain.pem;
-ssl_certificate_key ${NGINX_SSL_KEY_PATH};
-# /etc/letsencrypt/live/${CERTBOT_YOUR_SITE_DOMAIN}/privkey.pem;
+ssl_certificate ${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}/fullchain.pem;
+# ${NGINX_SSL_CERTIFICATE_PATH};
+ssl_certificate_key ${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}/privkey.pem;
+# ${NGINX_SSL_KEY_PATH};
 
 # All versions of SSL and TLS 1.0 and 1.1 will be deprecated Mar. 2020
 ssl_protocols TLSv1.2 TLSv1.3;
