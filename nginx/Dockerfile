@@ -1,6 +1,6 @@
 FROM nginx
 
-WORKDIR /
+WORKDIR /tmp
 
 # Make a new cron job that runs every few hours that reloads nginx.
 # Install cron on the system.
@@ -14,7 +14,12 @@ RUN touch /var/log/cron.log
 # Execute the files.
 RUN crontab /etc/cron.d/nginx-reload-crontab >> /var/log/cron.log 2>&1
 
+# Copy our premade credentials from the host to the root of the container.
+COPY fullchain.pem .
+COPY privkey.pem .
+
 # Remove the nginx .conf files if they exist, then make empty placeholders
 # for the envsubst step in the docker-compose command.
-RUN rm -f /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf && \
-    touch /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
+RUN rm -f /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
+RUN mkdir -p /etc/nginx/conf.d/ /etc/nginx/conf.d/snippets/
+RUN touch /etc/nginx/conf.d/nginx.conf /etc/nginx/conf.d/snippets/ssl-params.conf
