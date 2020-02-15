@@ -6,6 +6,13 @@ WORKDIR /
 
 # Create our web-root folder.
 RUN mkdir -p /var/www/html
+# Create the post-renewal hook file so that we can trigger a credential copy script
+# to run after a successful crontab certbot renew run.
+RUN mkdir -p /etc/letsencrypt/renewal-hooks/post
+# Copy our .sh script.
+COPY copy_credentials.sh /etc/letsencrypt/renewal-hooks/post
+# Change the permissions of the file so that it can be executed.
+RUN chmod +x /etc/letsencrypt/renewal-hooks/post/copy_credentials.sh
 
 # Make a new cron job that runs every few days that renews the certbot ssl credentials.
 # Install cron on the system.

@@ -109,16 +109,18 @@ services:
       # The following will allow for nginx to pass on certbot authentication challenges.
       - web-root:${NGINX_WEBROOT_PATH}
       - certbot-certs:${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}
+      - ./ssl_creds:/ssl_creds
     depends_on:
       - nginx
     # This command gets a certificate for the site when the container is started.
     # Remove the dummy certificates we started with and then
     # create a new set of certificate and key. (If valid certbot certs exist, keep them.)
-    command: certonly -n --webroot --webroot-path=${NGINX_WEBROOT_PATH} /
-      --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email -d ${CERTBOT_YOUR_SITE_DOMAIN}
-    # Prevent certbot from closing the container after it has finished.
-    # This allows crontab to run in the background and update certificates for us via certbot renew.
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do echo certbot container sleeping...; sleep 12h & wait $${!}; done;'"
+    command: certonly --webroot --webroot-path=${NGINX_WEBROOT_PATH} --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email -d ${CERTBOT_YOUR_SITE_DOMAIN}
+    # Trap certbot's default exit call so the container does not automatically exit.
+    # Then copy the keys generated (if any) to the externally bound folder.
+    # Then the while loop keeps the container from closing,
+    # allowing crontab to run in the background and update certificates for us via certbot renew.
+    entrypoint: "/bin/sh -c 'trap exit TERM; cp -R ${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}/* /ssl_creds; while :; do echo $$(date -u): certbot: zzz...; sleep 5s & wait $${!}; done'"
     networks:
       - wondering-wandering
 
