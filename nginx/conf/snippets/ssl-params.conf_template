@@ -2,9 +2,9 @@
 # https://ssl-config.mozilla.org/#server=nginx&version=1.17.7&config=intermediate&openssl=1.1.1d&guideline=5.4
 # https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
 
-ssl_certificate ${CERTBOT_CERTIFICATES_PATH}/fullchain.pem;
+ssl_certificate /ssl_creds/fullchain.pem;
 # ${NGINX_SSL_CERTIFICATE_PATH};
-ssl_certificate_key ${CERTBOT_CERTIFICATES_PATH}/privkey.pem;
+ssl_certificate_key /ssl_creds/privkey.pem;
 # ${NGINX_SSL_KEY_PATH};
 
 # All versions of SSL and TLS 1.0 and 1.1 will be deprecated Mar. 2020

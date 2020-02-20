@@ -4,3 +4,4 @@
 mkdir -r /ssl_creds
 # Use wildcards to find and copy the fullchain and privkey to the externally bound folder.
 cp -R /etc/letsencrypt/live/*/*fullchain.pem /etc/letsencrypt/live/*/*privkey.pem /ssl_creds
+chmod 666 /ssl_creds/*.pem

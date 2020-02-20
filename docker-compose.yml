@@ -45,43 +45,33 @@ services:
     # so we must generate our own .conf files.
     environment:
       # For these variables, see the ./.env file for more details.
-      - NGINX_HOSTS_OR_IP_ADDRESSES=${NGINX_HOSTS_OR_IP_ADDRESSES}
+      - NGINX_DOMAINS_OR_IP_ADDRESSES=${NGINX_DOMAINS_OR_IP_ADDRESSES}
       - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
       - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
       - NGINX_WEBROOT_PATH=${NGINX_WEBROOT_PATH}
       - NGINX_SSL_PARAMS_SNIPPET_PATH=${NGINX_SSL_PARAMS_SNIPPET_PATH}
       - NGINX_SSL_DHPARAM_PATH=${NGINX_SSL_DHPARAM_PATH}
       - CERTBOT_CERTIFICATES_PATH=${CERTBOT_CERTIFICATES_PATH}
-      - CERTBOT_YOUR_SITE_DOMAIN=${CERTBOT_YOUR_SITE_DOMAIN}
       # Note that we need to do some trickery to replace '$' literals in the .conf files.
-      # If you need to use a literal '$' in one of the upcoming files,
-      # you must replace it with ${DOLLAR}
-      # Note also that docker-compose treats '$' as a special character,
-      # so it must be escaped via '$$'.
+      # If you need to use a literal '$' in one of the upcoming files, you must replace it with ${DOLLAR}
+      # Docker-compose treats '$' as a special character, so it must be escaped via '$$'.
       - DOLLAR=$$
-      # For development or using your own certificates, use the commented-out lines in 
-      # ./nginx/conf.d/snippets/ssl-params.conf_template
-      - NGINX_SSL_CERTIFICATE_PATH=${NGINX_SSL_CERTIFICATE_PATH}
-      - NGINX_SSL_KEY_PATH=${NGINX_SSL_KEY_PATH}
-      # Copy our existing certificates to the 
+      # Move the keys we copied over from the Dockerfile to their final destination.
       # envsubst will generate proper .conf files for us from the templates and the .env file.
-      # Then, we start up nginx.
+      # Then, we test and start up nginx.
       # Finally, we start a loop to check for renewed ssl cert+key every 12 hours.
     command: > 
       /bin/bash -c "
-      mkdir -p /${CERTBOT_CERTIFICATES_PATH}
-      && chmod 777 /tmp/fullchain.pem /tmp/privkey.pem
-      && mv /tmp/fullchain.pem /tmp/privkey.pem ${CERTBOT_CERTIFICATES_PATH}
-      && envsubst < /etc/nginx/conf.d/nginxconf.conf_template >| /etc/nginx/conf.d/nginx.conf
+      envsubst < /etc/nginx/conf.d/nginxconf.conf_template >| /etc/nginx/conf.d/nginx.conf
       && envsubst < /etc/nginx/conf.d/snippets/ssl-params.conf_template >| /etc/nginx/conf.d/snippets/ssl-params.conf
-      && nginx -t
-      && exec nginx -g 'daemon off;'"
+      && nginx -t && exec nginx -g 'daemon off;'"
     volumes:
       # Map our conf files to the nginx configurations folder.
       - ./nginx/conf:/etc/nginx/conf.d
       # The following will allow nginx to answer certbot authentication challenges.
-      - web-root:${NGINX_WEBROOT_PATH} 
-      - certbot-certs:${CERTBOT_CERTIFICATES_PATH}
+      - web-root:${NGINX_WEBROOT_PATH}
+      # Our bound ssl credentials folder.
+      - ./ssl_creds:/ssl_creds
     networks:
       - wondering-wandering
 
@@ -102,30 +92,32 @@ services:
     container_name: certbot-container
     image: certbot/certbot
     build:
-      context: ./certbot
+      context: .
+      dockerfile: ./certbot/Dockerfile
+      args:
+        - CERTBOT_YOUR_PRIMARY_SITE_DOMAIN=${CERTBOT_YOUR_PRIMARY_SITE_DOMAIN}
     mem_limit: 100m
     # Have this container listen to port 6379 internally.
     volumes:
       # The following will allow for nginx to pass on certbot authentication challenges.
       - web-root:${NGINX_WEBROOT_PATH}
-      - certbot-certs:${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}
+      # Our bound ssl credentials folder.
       - ./ssl_creds:/ssl_creds
     depends_on:
       - nginx
     # This command gets a certificate for the site when the container is started.
-    # Remove the dummy certificates we started with and then
-    # create a new set of certificate and key. (If valid certbot certs exist, keep them.)
-    command: certonly --webroot --webroot-path=${NGINX_WEBROOT_PATH} --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email -d ${CERTBOT_YOUR_SITE_DOMAIN}
+    # Create a new set of certificate and key. (If valid certbot certs exist, keep them.)
+    # Add '--expand' after 'certonly' if you need to add a domain to your existing certbot cert.
+    command: certonly --webroot --webroot-path=${NGINX_WEBROOT_PATH} \
+      --email ${CERTBOT_REGISTRATION_EMAIL} --agree-tos --no-eff-email ${CERTBOT_YOUR_SITE_DOMAINS}
     # Trap certbot's default exit call so the container does not automatically exit.
-    # Then copy the keys generated (if any) to the externally bound folder.
-    # Then the while loop keeps the container from closing,
+    # The while loop keeps the container from closing,
     # allowing crontab to run in the background and update certificates for us via certbot renew.
-    entrypoint: "/bin/sh -c 'trap exit TERM; cp -R ${CERTBOT_CERTIFICATES_PATH}/${CERTBOT_YOUR_SITE_DOMAIN}/* /ssl_creds; while :; do echo $$(date -u): certbot: zzz...; sleep 5s & wait $${!}; done'"
+    entrypoint: "/bin/sh -c 'trap exit TERM; /bin/cp -rf /etc/letsencrypt/live/${CERTBOT_YOUR_PRIMARY_SITE_DOMAIN}/* /ssl_creds; while :; do echo $$(date -u): certbot: zzz...; sleep 30m & wait $${!}; done'"
     networks:
       - wondering-wandering
 
 volumes:
-  certbot-certs:
   web-root:
     driver: local
     driver_opts:

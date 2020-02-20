@@ -5,7 +5,7 @@
 server {
     listen ${NGINX_HTTP_PORT} default_server;
     listen [::]:${NGINX_HTTP_PORT} default_server;
-    server_name ${NGINX_HOSTS_OR_IP_ADDRESSES};
+    server_name ${NGINX_DOMAINS_OR_IP_ADDRESSES};
 
     # Redirect all traffic to the secure connection...
     location / {
@@ -23,7 +23,7 @@ server {
 server {
     listen ${NGINX_HTTPS_PORT} ssl http2 default_server;
     listen [::]:${NGINX_HTTPS_PORT} ssl http2 default_server;
-    server_name ${NGINX_HOSTS_OR_IP_ADDRESSES};
+    server_name ${NGINX_DOMAINS_OR_IP_ADDRESSES};
 
     # Include our custom ssl configuration from ./snippets/ssl-params.conf
     include ${NGINX_SSL_PARAMS_SNIPPET_PATH};
