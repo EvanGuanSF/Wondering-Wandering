@@ -11,6 +11,10 @@ auth/credentials.json
 # Images
 /views/public/img/*
 
+# Nginx
+nginx/conf/nginx.conf
+/nginx/var/*
+
 # Files
 /views/public/files/*
 

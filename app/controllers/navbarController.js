@@ -20,6 +20,6 @@ exports.getRandomSubtitle = function (req, res) {
     .catch(err => {
       console.log(err)
       res.status(404)
-      res.send('Failed to receive project data.')
+      res.send('Failed to receive subtitle data.')
     })
 }

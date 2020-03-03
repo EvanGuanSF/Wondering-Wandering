@@ -21,7 +21,7 @@ const visitorCount = require('../controllers/visitorCountController.js')
 const userValidation = require('../controllers/userVerificationUtilities.js')
 
 // Limiter for webpages.
-const pageLimiter = rateLimit({
+const pageLimiter = process.env.ENV === 'dev' ? null : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -35,7 +35,7 @@ const pageLimiter = rateLimit({
 })
 
 // Limiter for MySQL APIs.
-const mysqlApiLimiter = rateLimit({
+const mysqlApiLimiter = process.env.ENV === 'dev' ? null : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -49,7 +49,10 @@ const mysqlApiLimiter = rateLimit({
 })
 
 // GET index.
-mainAppRouter.get('/', pageLimiter, userValidation.refreshLoginToken, (req, res) => {
+mainAppRouter.get('/', userValidation.refreshLoginToken, (req, res) => {
+  if (process.env.ENV === 'production') {
+    pageLimiter(req, res)
+  }
   // Log the request.
   console.log('GET request for the homepage over: ' + req.protocol)
 
@@ -60,7 +63,10 @@ mainAppRouter.get('/', pageLimiter, userValidation.refreshLoginToken, (req, res)
 })
 
 // GET guestbook.
-mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
+mainAppRouter.get('/guestbook', (req, res) => {
+  if (process.env.ENV === 'production') {
+    pageLimiter(req, res)
+  }
   // Log the request.
   console.log('GET request for guestbook')
   // Return successful get request status.
@@ -75,7 +81,10 @@ mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
  * @param none
  * @return {JSON} {projectID, projectName, projectURL, projectSecondaryURL, projectTertiaryURL, projectImage, projectDetails, projectLanguagesAndTechnologies, projectRole}
  */
-mainAppRouter.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getProjectInfo', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('Project info request endpoint.')
   index.selectProjectInfo(req, res)
 })
@@ -86,7 +95,10 @@ mainAppRouter.get('/getProjectInfo', mysqlApiLimiter, (req, res) => {
  * @param {JSON} {guestName, guestComment, reCAPTCHAToken}
  * @return {URL} {guestBookURL}
  */
-mainAppRouter.post('/submitComment', mysqlApiLimiter, (req, res) => {
+mainAppRouter.post('/submitComment', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('Comment submission endpoint.')
   guestbook.insertComment(req, res)
 })
@@ -97,7 +109,10 @@ mainAppRouter.post('/submitComment', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-mainAppRouter.get('/getComments', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getComments', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('Getting comments.')
   guestbook.selectComments(req, res)
 })
@@ -108,7 +123,10 @@ mainAppRouter.get('/getComments', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-mainAppRouter.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getRandomSubtitle', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('Getting random subtitle.')
   navbar.getRandomSubtitle(req, res)
 })
@@ -119,7 +137,10 @@ mainAppRouter.get('/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {visitorCount}
  */
-mainAppRouter.get('/getVisitorCount', mysqlApiLimiter, (req, res) => {
+mainAppRouter.get('/getVisitorCount', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('Getting visitor count.')
   visitorCount.getVisitorCount(req, res)
 })

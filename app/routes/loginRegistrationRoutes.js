@@ -19,7 +19,7 @@ const loginController = require('../controllers/loginController.js')
 const registrationController = require('../controllers/registrationController.js')
 
 // Limiter for webpages.
-const pageLimiter = rateLimit({
+const pageLimiter = process.env.ENV === 'dev' ? null : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -33,7 +33,7 @@ const pageLimiter = rateLimit({
 })
 
 // Limiter for MySQL APIs.
-const mysqlApiLimiter = rateLimit({
+const mysqlApiLimiter = process.env.ENV === 'dev' ? null : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -47,14 +47,20 @@ const mysqlApiLimiter = rateLimit({
 })
 
 // GET login page.
-loginRegistrationRoutes.get('/login', pageLimiter, (req, res) => {
+loginRegistrationRoutes.get('/login', (req, res) => {
+  if (process.env.ENV === 'production') {
+    pageLimiter(req, res)
+  }
   // Log the request.
   res.status(200)
   res.sendFile(path.resolve('views/public/login.html'))
 })
 
 // GET registration page.
-loginRegistrationRoutes.get('/register', pageLimiter, (req, res) => {
+loginRegistrationRoutes.get('/register', (req, res) => {
+  if (process.env.ENV === 'production') {
+    pageLimiter(req, res)
+  }
   res.status(200)
   res.sendFile(path.resolve('views/public/register.html'))
 })
@@ -65,7 +71,10 @@ loginRegistrationRoutes.get('/register', pageLimiter, (req, res) => {
  * @param {JSON} {email, password, reCAPTCHAtoken}
  * @return {JSON} {loginResponseWebtoken}
  */
-loginRegistrationRoutes.post('/login', mysqlApiLimiter, (req, res) => {
+loginRegistrationRoutes.post('/login', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('Existing user login endpoint.')
   loginController.userLogin(req, res)
 })
@@ -76,7 +85,10 @@ loginRegistrationRoutes.post('/login', mysqlApiLimiter, (req, res) => {
  * @param {JSON} {email, password, passwordConfirmation, reCAPTCHAtoken}
  * @return {JSON} {registrationResponse}
  */
-loginRegistrationRoutes.post('/register', mysqlApiLimiter, (req, res) => {
+loginRegistrationRoutes.post('/register', (req, res) => {
+  if (process.env.ENV === 'production') {
+    mysqlApiLimiter(req, res)
+  }
   console.log('New registration endpoint.')
   // res.send('ok.')
   registrationController.userRegistration(req, res)

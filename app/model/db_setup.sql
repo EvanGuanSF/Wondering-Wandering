@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `general_db` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `general_db` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `general_db`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
@@ -69,7 +69,7 @@ CREATE TABLE `projects` (
   `projectRole` varchar(500) NOT NULL,
   PRIMARY KEY (`projectID`),
   UNIQUE KEY `project_id_UNIQUE` (`projectID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,6 +82,24 @@ DROP TABLE IF EXISTS `subtitles`;
 CREATE TABLE `subtitles` (
   `subtitle` varchar(50) NOT NULL,
   PRIMARY KEY (`subtitle`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `uuid` varchar(36) NOT NULL DEFAULT '0',
+  `user_name` varchar(50) DEFAULT NULL,
+  `email` varchar(90) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
+  `role` tinyint(3) DEFAULT NULL COMMENT 'roles: 0: guest 1: user 2: moderator 3: admin',
+  PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
