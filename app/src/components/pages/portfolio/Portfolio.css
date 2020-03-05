@@ -1,0 +1,80 @@
+/*
+Color Scheme:
+
+:Darkest:
+NAVY PURPLE
+#8A4FFF
+BLUE JEANS
+#5BC0EB
+SATIN SHEEN GOLD
+#CBA135
+#F3EFE0
+:Lightest:
+
+:Darker:
+RAISIN BLACK
+#252627
+BLEU DE FRANCE
+#3C91E6
+ROSE TAUPE
+#904E55
+PALE CORNFLOWER BLUE
+#ADBDFF
+KHAKI (HTML/CSS) (KHAKI)
+#BFB48F
+ALABASTER
+#F2EFE9
+:Lighter:
+*/
+:root {
+  --blackish: #252627;
+  --purply: #8A4FFF;
+  --dblueish: #5BC0EB;
+  --lavenderish: #ADBDFF;
+  --rosey: #904E55;
+  --gold: #CBA135;
+  --khaki: #BFB48F;
+  --whiteish: #F2EFE9;
+}
+
+
+#details-col {
+  padding: 10px;
+  padding-right: 5px;
+  overflow-y: auto;
+  display: 'flex';
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+#contentRow {
+  background-color: var(--whiteish);
+}
+
+#scrollable-col {
+  padding: 10px;
+  padding-left: 5px;
+  overflow-y: auto;
+  display: 'flex';
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.content-col {
+  /* Diagnostic border */
+  /* border: 1px solid red; */
+  padding: 15px;
+}
+
+.content-col-row:hover {
+  background-color: var(--gold);
+}
+
+.content-grid-unit{
+  height: var(--pixelHeight);
+  max-height: 300px;
+}
+
+.content-col-row:hover {
+  cursor: pointer;
+}

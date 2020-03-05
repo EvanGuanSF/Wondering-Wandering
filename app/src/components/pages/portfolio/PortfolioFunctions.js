@@ -1,152 +1,84 @@
-// Variables for viewable screen pixel dimensions.
-var projects = []
-var aboutMeString = ''
-
-var previouslyClickedCardID = 0
-
-// This funtion calculates and returns the pixel offset of the navbar and footer.
-function getHeaderAndFooterDisplacements () {
-  var winHeight = $(this).outerHeight()
-  var navbarHeight = $('#navbar').outerHeight()
-  var footerHeight = $('#footer').outerHeight()
-
-  return (winHeight - navbarHeight - footerHeight)
-}
-
-// This function adjusts the layout of the content based on height and orientation.
-function setContainerHeight () {
-  // 'Normal' large display case.
-  if ($(this).outerWidth() <= 992) {
-    // Check orientaion of device by looking at window dimensions.
-    if ($(this).outerWidth() < $(this).outerHeight()) {
-      // Portrait orientation display case. (i.e. phone)
-      $('.content-col').css({
-        height: getHeaderAndFooterDisplacements() / 2 + 'px',
-        width: $(this).outerWidth() + 'px'
-      })
-    } else {
-      // Landscape orientation display case. (i.e. phone)
-      $('.content-col').css({
-        height: getHeaderAndFooterDisplacements() + 'px',
-        width: $(this).outerWidth() / 2 + 'px'
-      })
-    }
-  } else {
-    // Check orientaion of device by looking at window dimensions.
-    if ($(this).outerWidth() < $(this).outerHeight()) {
-      // Portrait orientation display case. (i.e. rotated display)
-      $('.content-col').css({
-        height: getHeaderAndFooterDisplacements() + 'px'
-      })
-      $('#scrollable-col').css({
-        width: $(this).outerWidth() + 'px'
-      })
-    } else {
-      // Landscape orientation display case. (i.e. normal desktop)
-      $('.content-col').css({
-        height: getHeaderAndFooterDisplacements() + 'px'
-      })
-    }
-  }
-}
-
-// This Listens for all resize events and calls functions for resizing elements.
-$(window).on('resize', () => {
-  setContainerHeight()
-})
-
-// This Listens for all navbarLoadedEvent and calls functions for resizing elements.
-$(window).on('navbarLoadedEvent', () => {
-  setContainerHeight()
-})
-
-// Load the about me info from the file and put it into the details div.
-$(document).ready(() => {
-  $.get('AboutMe.txt', response => {
-    aboutMeString = response
-    $('#detailContents').html(aboutMeString)
-  })
-})
-
 // Makes a request to the server for card data and creates cards accordingly.
-function createProjectCards () {
-  // Use jQuery to make the request and then handle the data on good data return.
-  $.get('/getProjectInfo')
-    .done(data => {
-      projects = data
+function createProjectCards (projects) {
+  // The html return value of the cards we will make.
+  var projectInfoHTML = ''
+  // The current category.
+  var currentCategory
+  var categoriesMatch = false
+  var currentCategoryID = 0
+  var currentCategoryContainerIDString
 
-      // The current category.
-      var currentCategory
-      var categoriesMatch = false
-      var currentCategoryID = 0
-      var currentCategoryContainerIDString
+  projects.forEach((item, index) => {
+    // Check the extension of the file and create an
+    // image or video element according to that file format.
+    var mediaContentHTML = createMediaElementWithFileName(item.projectImage, 'normalCard')
 
-      projects.forEach((item, index) => {
-        // Check the extension of the file and create an
-        // image or video element according to that file format.
-        var mediaContentHTML = createMediaElementWithFileName(item.projectImage, 'normalCard')
+    // Check the category of the project.
+    categoriesMatch = currentCategory === item.projectCategory
+    if (!categoriesMatch) {
+      // Increment the currentCategoryID as needed.
+      currentCategoryID++
+    }
+    // Update the strings for building HTML elements.
+    currentCategory = item.projectCategory
+    currentCategoryContainerIDString = 'categoryContainer' + currentCategoryID
+    var currentCardCategoryIDString = 'cardCategory' + currentCategoryID
 
-        // Check the category of the project.
-        categoriesMatch = currentCategory === item.projectCategory
-        if (!categoriesMatch) {
-          // Increment the currentCategoryID as needed.
-          currentCategoryID++
-        }
-        // Update the strings for building HTML elements.
-        currentCategory = item.projectCategory
-        currentCategoryContainerIDString = 'categoryContainer' + currentCategoryID
-        var currentCardCategoryIDString = 'cardCategory' + currentCategoryID
+    // Create the category container if needed.
+    if (!categoriesMatch && currentCategory > 1) {
+      projectInfoHTML.concat(
+        '</div>'
+      )
+    }
+    if (!categoriesMatch) {
+      projectInfoHTML.concat(
+        '<div id=\'' + currentCategoryContainerIDString + '\' class=\'p-0 m-0\'>' +
 
-        // Create the category container if needed.
-        if (!categoriesMatch) {
-          $('#cardContainer').append(
-            '<div id=\'' + currentCategoryContainerIDString + '\' class=\'p-0 m-0\'>' +
-              '<div class=\'container p-0 m-0 project-category-identifier\'>' +
-                '<div class=\'row p-0 m-0\' style=\'display:flex; justify-content:flex-end; align-items:center;\'>' +
+          '<div class=\'container p-0 m-0 project-category-identifier\'>' +
+            '<div class=\'row p-0 m-0\' style=\'display:flex; justify-content:flex-end; align-items:center;\'>' +
 
-                  '<div class=\'col-6 text-left p-0 m-0\'>' +
-                    '<p class=\'\'><b>Project Type: ' + currentCategory + '</b></p>' +
-                  '</div>' +
-
-                  '<div class=\'col-6 text-right\'>' +
-                    '<a class=\'categoryContainer category-collapse-button\' data-toggle=\'collapse\' href=\'.' + currentCardCategoryIDString +
-                    '\' role=\'button\' aria-expanded=\'true\' aria-controls=\'collapse\'><b>' +
-                      'Toggle Category' +
-                    '</a>' +
-                  '</div>' +
-
-                '</div>' +
+              '<div class=\'col-6 text-left p-0 m-0\'>' +
+                '<p class=\'\'><b>Project Type: ' + currentCategory + '</b></p>' +
               '</div>' +
-            '</div>'
-          )
-        }
 
-        // Now attach the card to the current category container.
-        $('#' + currentCategoryContainerIDString).append(
-          '<div onclick=\'viewProjectDetails(' + (index + 1) + '); highlightCard(' + (index + 1) + ')\' id=' + (index + 1) +
-          ' class=\'collapse show card-bg card shadow justify-content-center text-center ' + currentCardCategoryIDString +
-          '\' style=\'background-color: var(--whiteish)\'>' +
-
-            '<div class=\'container-fluid p-0 m-0\'>' +
-              '<div class=\'row p-0 m-0 content-col-row\'>' +
-
-                '<div class=\'col-6 p-0 m-0\'>' +
-                  '<div class=\'content-grid-unit\'>' +
-                    mediaContentHTML +
-                  '</div>' +
-                '</div>' +
-
-                '<div class=\'card-body col-6 p-0 m-0\'>' +
-                  '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
-                  '<p class=\'card-text text-left\'>' + item.projectDetails + '</p>' +
-                  '<b><p class=\'card-title p-0 m-0\'>Click this card for more details</p></b>' +
-                '</div>' +
-
+              '<div class=\'col-6 text-right\'>' +
+                '<a class=\'categoryContainer category-collapse-button\' data-toggle=\'collapse\' href=\'.' + currentCardCategoryIDString +
+                '\' role=\'button\' aria-expanded=\'true\' aria-controls=\'collapse\'><b>' +
+                  'Toggle Category' +
+                '</a>' +
               '</div>' +
-            '</div>'
-        )
-      })
-    })
+
+            '</div>' +
+          '</div>'
+      )
+    }
+
+    // Now attach the card to the current category container.
+    projectInfoHTML.concat(
+      '<div onclick=\'viewProjectDetails(' + (index + 1) + '); highlightCard(' + (index + 1) + ')\' id=' + (index + 1) +
+      ' class=\'collapse show card-bg card shadow justify-content-center text-center ' + currentCardCategoryIDString +
+      '\' style=\'background-color: var(--whiteish)\'>' +
+
+        '<div class=\'container-fluid p-0 m-0\'>' +
+          '<div class=\'row p-0 m-0 content-col-row\'>' +
+
+            '<div class=\'col-6 p-0 m-0\'>' +
+              '<div class=\'content-grid-unit\'>' +
+                mediaContentHTML +
+              '</div>' +
+            '</div>' +
+
+            '<div class=\'card-body col-6 p-0 m-0\'>' +
+              '<b><p class=\'card-title p-0 m-0\'>' + item.projectName + '</p></b>' +
+              '<p class=\'card-text text-left\'>' + item.projectDetails + '</p>' +
+              '<b><p class=\'card-title p-0 m-0\'>Click this card for more details</p></b>' +
+            '</div>' +
+
+          '</div>' +
+        '</div>' +
+      '</div>'
+    )
+  })
 }
 
 // Takes a card-click event, scrolls to the map, finds the marker with the same id,
@@ -179,6 +111,9 @@ function viewProjectDetails (cardID) {
         if (project.projectURL !== '' && project.projectURL != null) {
           primaryURLHTML =
             '<a href=\'' + project.projectURL + '\' target=\'_blank\'><b>Repository</b></a>'
+        } else {
+          primaryURLHTML =
+            '<p>Repository is Private</p>'
         }
         // Format the html for the project's dedicated website link html elements.
         // If the link doesn't exist, then we don't show a link.
@@ -187,6 +122,9 @@ function viewProjectDetails (cardID) {
           secondaryURLHTML =
             '<a href=\'' + project.projectSecondaryURL + '\' target=\'_blank\'><b>Project Website</b></a>' +
             '<br>'
+        } else {
+          secondaryURLHTML =
+            '<p>No Project Website</p>'
         }
         // Format the html for the project's extra info link html elements.
         // If the link doesn't exist, then we don't show a link.

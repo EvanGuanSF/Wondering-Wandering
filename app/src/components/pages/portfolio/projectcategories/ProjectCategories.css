@@ -1,0 +1,128 @@
+/*
+Color Scheme:
+
+:Darkest:
+NAVY PURPLE
+#8A4FFF
+BLUE JEANS
+#5BC0EB
+SATIN SHEEN GOLD
+#CBA135
+#F3EFE0
+:Lightest:
+
+:Darker:
+RAISIN BLACK
+#252627
+BLEU DE FRANCE
+#3C91E6
+ROSE TAUPE
+#904E55
+PALE CORNFLOWER BLUE
+#ADBDFF
+KHAKI (HTML/CSS) (KHAKI)
+#BFB48F
+ALABASTER
+#F2EFE9
+:Lighter:
+*/
+:root {
+    --blackish: #252627;
+    --purply: #8A4FFF;
+    --dblueish: #5BC0EB;
+    --lavenderish: #ADBDFF;
+    --rosey: #904E55;
+    --gold: #CBA135;
+    --khaki: #BFB48F;
+    --whiteish: #F2EFE9;
+
+    --pixelHeight: 300px;
+}
+
+.collapsing {
+    -webkit-transition: none;
+    transition: none !important;
+    display: none;
+}
+
+.category-collapse-button:hover {
+    color: var(--lavenderish) !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.category-collapse-button {
+    color: var(--rosey);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.card {
+    height: var(--pixelHeight);
+    /* padding: 2px; */
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
+.project-category-identifier {
+    color: var(--blackish);
+    max-width: 100%;
+}
+
+.card-img-top-container {
+    width: 100%;
+    height: 100%;
+}
+
+.card-img-top {
+    height: var(--pixelHeight);
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    object-fit:scale-down;
+}
+
+.card-img-top-large {
+    background-color: var(--whiteish);
+    height: var(--pixelHeight);
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    object-fit:scale-down;
+}
+
+video {
+    width: 100%;
+    height: var(--pixelHeight);
+}
+
+.card-body {
+    padding: 1px;
+    margin: 1px;
+    height: var(--pixelHeight);
+}
+
+.card-body > h5, p, a {
+    font-size: 14px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.card-title {
+    height: 7%;
+    margin: 0px;
+    overflow-x: auto;
+    text-overflow: ellipsis;
+}
+
+.card-text {
+    width: stretch;
+    height: 83%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    overflow-x: auto;
+    text-overflow: ellipsis;
+    text-align: left;
+}

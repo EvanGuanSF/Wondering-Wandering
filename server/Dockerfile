@@ -1,7 +1,7 @@
 FROM node:13
 
-WORKDIR /usr/src/app
-ENV HOME=/usr/src/app
+WORKDIR /usr/src/server
+ENV HOME=/usr/src/server
 
 COPY package*.json ./
 

@@ -1,0 +1,37 @@
+{
+  "name": "wonderingwandering",
+  "version": "1.0.0",
+  "description": "Website based on previous SFSU Software Engineering course (CSc 648). Experiments with technologies like jQuery and node.js.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -r dotenv/config app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JammyPajamies/Wondering-Wandering.git"
+  },
+  "author": "Evan Guan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JammyPajamies/Wondering-Wandering/issues"
+  },
+  "homepage": "https://github.com/JammyPajamies/Wondering-Wandering#readme",
+  "dependencies": {
+    "argon2": "^0.25.1",
+    "body-parser": "^1.19.0",
+    "cookie": "^0.4.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "ms": "^2.1.2",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.2",
+    "randombytes": "^2.1.0",
+    "rate-limit-redis": "^1.7.0",
+    "redis": "^2.8.0",
+    "request": "^2.88.2",
+    "validator": "^12.2.0"
+  }
+}

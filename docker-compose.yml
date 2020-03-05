@@ -1,8 +1,33 @@
 version: '2'
 services:
-  # Our Node.js with Express webapp.
+  # Our Node.js with Express webserver.
+  server:
+    container_name: server-container
+    hostname: server
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    mem_limit: 100m
+    # Do not expose ports; we rely on nginx to proxy traffic to
+    # this container from within the container network.
+    # ports:
+    depends_on:
+      - redis-server
+    volumes:
+      # Map our spp folder in to the container's server folder.
+      - ./server:/usr/src/server
+      - /server/node_modules
+    networks:
+      - wondering-wandering
+    command: >
+      /bin/bash -c "
+      npm install -g node-gyp
+      && npm install
+      && npm start"
+      
   app:
-    container_name: wondering-wandering-container
+    container_name: app-container
     hostname: app
     restart: always
     build:
@@ -12,17 +37,14 @@ services:
     # Do not expose ports; we rely on nginx to proxy traffic to
     # this container from within the container network.
     # ports:
-    depends_on:
-      - redis-server
     volumes:
-      # Map our spp folder in to the container's app folder.
+      # Map our spp folder in to the container's server folder.
       - ./app:/usr/src/app
       - /app/node_modules
     networks:
       - wondering-wandering
     command: >
       /bin/bash -c "
-      npm install -g node-gyp
       && npm install
       && npm start"
 
