@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import './Portfolio.css'
-import ProjectCard from './projectcards/ProjectCard'
 import ProjectCategories from './projectcategories/ProjectCategories'
+import DetailContent from './detailcontent/DetailContent'
 
 import { calculateUsableHeight, calculateUsableWidth } from '../pageWindowFunctions'
 
-export class Portfolio extends Component {
+export default class Portfolio extends Component {
   state = {
-    aboutMeHTML: [],
-    currentDetails: [],
-    previouslyClickedCardID: 0,
-
-    projectInfo: [],
-    categories: [],
+    projectInfo: null,
+    focusedProjectID: 0,
 
     usableHeight: 0,
     usableWidth: 0
@@ -25,41 +21,34 @@ export class Portfolio extends Component {
    */
   constructor (props) {
     super(props)
-
-    // Get and set AboutMe html.
-    console.log('Getting about me text...')
-    window.fetch('/AboutMe.txt')
-      .then(fetchResponse => fetchResponse.text())
-      .then(aboutTextResponse => {
-        // console.log('About text', aboutTextResponse)
-        this.setState({ aboutMeHTML: aboutTextResponse, currentDetails: aboutTextResponse })
-      })
-
     // Get and set project information.
-    console.log('Getting project info...')
     window.fetch('/getProjectInfo')
       .then(fetchResponse => fetchResponse.json())
       .then(projectInfoResponse => {
         // console.log('Project Info:', projectInfoResponse)
         this.setState({ projectInfo: projectInfoResponse })
-
-        // Find all of the unique project categories and store them in the component state.
-        this.state.projectInfo.map(project =>
-          !this.state.categories.includes(project.projectCategory)
-            ? this.setState({ categories: [...this.state.categories, project.projectCategory] })
-            : null
-        )
-        console.log('Categories: ', this.state.categories)
       })
-    // console.log(this.state.projectInfo.groupBy('projectCategory'))
-
-    // var grouped = this.state.projectInfo.map(this.state.projectInfo.groupBy )
   }
 
   updateDimensions = () => {
     this.setState({ usableHeight: calculateUsableHeight() })
     this.setState({ usableWidth: calculateUsableWidth() })
     // console.log('Viewable height: ', this.state.usableHeight)
+  }
+
+  // static getDerivedStateFromProps (props, state) {
+  //   if (props.isShowingAboutMe) {
+  //     state.focusedProjectID = 0
+  //   }
+
+  //   return state
+  // }
+
+  componentDidUpdate () {
+    if (this.props.isShowingAboutMe && this.state.focusedProjectID !== 0) {
+      this.highlightCard(0)
+      this.setState({ focusedProjectID: 0 })
+    }
   }
 
   componentDidMount () {
@@ -73,30 +62,75 @@ export class Portfolio extends Component {
     window.removeEventListener('resize', this.updateDimensions.bind(this))
   }
 
+  /**
+   * Highlight the clicked card and un-highlight the previously clicked card if applicable.
+   */
+  highlightCard = (projectID) => {
+    const previouslyClickedCardID = this.state.focusedProjectID
+    var cardID = 'card-' + projectID
+    var previousCardID = 'card-' + previouslyClickedCardID
+
+    // If the clicked card and the previously clicked card are the same, we have nothing to do.
+    if (projectID === previouslyClickedCardID) {
+      return
+    }
+
+    // Otherwise...
+    // Chenge the color of the clicked card.
+    if (projectID > 0) {
+      document.getElementById(cardID).style.backgroundColor = 'var(--lavenderish)'
+    }
+    // Reset the color of the previously clicked card.
+    if (previouslyClickedCardID > 0) {
+      document.getElementById(previousCardID).style.backgroundColor = 'var(--whiteish)'
+    }
+
+    // Update the previouslyClickedCardID
+    this.setState({ previouslyClickedCardID: projectID })
+  }
+
+  /**
+   * Gets and displays project info on the left/top column.
+   */
+  showCardDetails = (projectID) => {
+    const previouslyClickedCardID = this.state.focusedProjectID
+    // If the clicked card and the previously clicked card are the same, we have nothing to do.
+    if (projectID === previouslyClickedCardID) {
+      return
+    }
+
+    // Update the state to reflect the projectID of the card that was clicked.
+    this.setState({ focusedProjectID: projectID })
+  }
+
   render () {
+    if (this.state.projectInfo === null) { return <div /> }
+
     return (
       <div id='contentContainer' className='container-fluid'>
         <div id='contentRow' className='row'>
 
           <div style={{ height: `${this.state.usableHeight}px` }} id='details-col' className='col-lg-6 content-col'>
             <div className='d-flex flex-column flex-row'>
-              <div id='detailContents' className='card-container' dangerouslySetInnerHTML={{ __html: this.state.currentDetails }} />
+              {/* <div id='detailContents' className='card-container' dangerouslySetInnerHTML={{ __html: this.state.currentDetails }} /> */}
+              <div id='detailContents' className='card-container'>
+                <DetailContent
+                  focusedProjectID={this.state.focusedProjectID}
+                  projects={this.state.projectInfo}
+                />
+              </div>
             </div>
           </div>
 
           <div style={{ height: `${this.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center content-col'>
             <div className='d-flex flex-column flex-row'>
               <div id='cardContainer' className='card-container' />
-              {
-                this.state.projectInfo.map((project) => (
-                  <ProjectCard key={project.projectID} project={project} />
-                ))
-              }
-              {/* {
-                this.state.projectInfo.map((project) => (
-                  <ProjectCategories key={project.projectID} project={project} />
-                ))
-              } */}
+              <ProjectCategories
+                projects={this.state.projectInfo}
+                highlightCard={this.highlightCard}
+                showCardDetails={this.showCardDetails}
+                setIsShowingAboutMe={this.props.setIsShowingAboutMe}
+              />
             </div>
           </div>
 
@@ -105,5 +139,3 @@ export class Portfolio extends Component {
     )
   }
 }
-
-export default Portfolio

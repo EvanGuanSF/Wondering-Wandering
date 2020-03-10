@@ -5,17 +5,20 @@ import PropTypes from 'prop-types'
 class ProjectCard extends Component {
   render () {
     const project = this.props.project
-    // console.log('Making project card for: ', project)
 
-    const cardBackgroundColor = {
-      backgroundColor: 'var(--whiteish)'
-    }
+    // Do not render unless the component has projects to go through.
+    if (project === undefined) { return <div /> }
 
     return (
       <div
-        key={project.projectID} id={project.projectID}
-        className={`collapse show card-bg card shadow justify-content-center text-center ${project.projectCategory}`}
-        style={cardBackgroundColor}
+        key={project.projectID} id={`card-${project.projectID}`}
+        className={`collapse show card-bg card shadow justify-content-center text-center project-category-${this.props.categoryIndex}`}
+        style={{ backgroundColor: 'var(--whiteish)' }}
+        onClick={() => {
+          this.props.showCardDetails(project.projectID)
+          this.props.highlightCard(project.projectID)
+          this.props.setIsShowingAboutMe(false)
+        }}
       >
 
         <div className='container-fluid p-0 m-0'>
@@ -23,14 +26,19 @@ class ProjectCard extends Component {
 
             <div className='col-6 p-0 m-0'>
               <div className='content-grid-unit'>
-                <img alt={project.projectName} src={`/img/${project.projectImage}`} className='card-img-top justify-content-center text-center p-0 m-0' />
+                <img
+                  alt={project.projectName}
+                  src={`/img/${project.projectImage}`}
+                  className='card-img-top justify-content-center text-center p-0 m-0'
+                  referrerPolicy='no-referrer'
+                />
               </div>
             </div>
 
             <div className='card-body col-6 p-0 m-0'>
-              <b><p className='card-title p-0 m-0'> {project.projectName} </p></b>
-              <p className='card-text text-lef'> {project.projectDetails} </p>
-              <b><p className='card-title p-0 m-0'>Click this card for more details</p></b>
+              <p className='card-title p-0 m-0'><b>{project.projectName}</b> </p>
+              <p className='card-text text-lef'>{project.projectDetails}</p>
+              <p className='card-title p-0 m-0'><b>Click this card for more details</b></p>
             </div>
 
           </div>
@@ -43,7 +51,8 @@ class ProjectCard extends Component {
 
 // PropTypes
 ProjectCard.propTypes = {
-  project: PropTypes.object.isRequired
+  project: PropTypes.object.isRequired,
+  categoryIndex: PropTypes.string.isRequired
 }
 
 export default ProjectCard

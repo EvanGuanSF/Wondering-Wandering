@@ -125,4 +125,5 @@ video {
     overflow-x: auto;
     text-overflow: ellipsis;
     text-align: left;
+    line-height: 1.33 !important;
 }

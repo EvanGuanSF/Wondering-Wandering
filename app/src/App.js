@@ -1,11 +1,20 @@
+// NPM modules
 import React, { Component } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import * as uuid from 'uuid'
+
+// CSS
 import './App.css'
+
+// Views
 import Navbar from './components/layout/navbar/Navbar'
 import Footer from './components/layout/footer/Footer'
 import Portfolio from './components/pages/portfolio/Portfolio'
+import Guestbook from './components/pages/guestbook/Guestbook'
+import Login from './components/pages/login/Login'
+import Registration from './components/pages/registration/Registration'
 // import ToDos from './components/ToDos'
 // import AddToDo from './components/AddToDo'
-import * as uuid from 'uuid'
 
 class App extends Component {
   state = {
@@ -25,7 +34,8 @@ class App extends Component {
         title: 'Do this last.',
         completed: false
       }
-    ]
+    ],
+    isShowingAboutMe: true
   }
 
   // Toggle a todo checklist item.
@@ -67,15 +77,53 @@ class App extends Component {
     })
   }
 
+  setIsShowingAboutMe = (isShowing) => {
+    this.setState({ isShowingAboutMe: isShowing })
+  }
+
   render () {
     return (
       <div className='App'>
         <div className='container col-12' style={{ margin: '0 0 0 0', padding: '0 0 0 0', width: '100%' }}>
-          <Navbar />
-          <Portfolio />
-          <Footer />
-          {/* <AddToDo addToDoItem={this.addToDoItem} />
-          <ToDos todos={this.state.todos} toggleComplete={this.toggleComplete} removeToDoItem={this.removeToDoItem} /> */}
+          <Router>
+            <Navbar
+              isShowingAboutMe={this.state.isShowingAboutMe}
+              setIsShowingAboutMe={this.setIsShowingAboutMe}
+            />
+
+            <Route
+              exact path='/'
+              render={() => (
+                <Portfolio
+                  isShowingAboutMe={this.state.isShowingAboutMe}
+                  setIsShowingAboutMe={this.setIsShowingAboutMe}
+                >
+                </Portfolio>
+                )
+              }
+            >
+            </Route>
+
+            <Route
+              exact path='/guestbook'
+              component={Guestbook}
+            >
+            </Route>
+
+            <Route
+              exact path='/login'
+              component={Login}
+            >
+            </Route>
+
+            <Route
+              exact path='/register'
+              component={Registration}
+            >
+            </Route>
+
+            <Footer />
+          </Router>
         </div>
       </div>
     )

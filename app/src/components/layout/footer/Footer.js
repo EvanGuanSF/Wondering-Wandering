@@ -8,7 +8,6 @@ export class Footer extends Component {
   }
 
   componentDidMount () {
-    console.log('Getting Privacy Policy Text...')
     window.fetch('/PrivacyPolicy.txt')
       // Unwrap response.
       .then(fetchResponse => fetchResponse.text())

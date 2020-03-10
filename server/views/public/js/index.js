@@ -210,7 +210,9 @@ function viewProjectDetails (cardID) {
 
                 '<div class=\'col-12 p-0 m-0\'>' +
                   '<div class=\'content-grid-unit\'>' +
-                    primaryImageHTML +
+                    '<div>' +
+                      primaryImageHTML +
+                    '</div>' +
                     '<div class=\'container-fluid\' style=\'overflow: auto\'>' +
                       '<b><h1 class=\'p-0 m-0\'>' + project.projectName + '</h1></b>' +
                       '<br>' +

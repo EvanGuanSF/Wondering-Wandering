@@ -126,3 +126,28 @@ video {
     text-overflow: ellipsis;
     text-align: left;
 }
+
+button {
+    background-color: transparent;
+    border: none;
+    outline:none;
+    color: var(--rosey) !important;
+    font-size: 0.85rem;
+    text-decoration: none;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+button:hover {
+    color: var(--lavenderish) !important;
+    text-decoration: none;
+    outline:none;
+    cursor: pointer;
+}
+
+button:focus {
+    text-decoration: none;
+    outline:none;
+    cursor: pointer;
+}
