@@ -1,4 +1,7 @@
+// NPM modules
 import React, { Component } from '../../../../node_modules/react'
+
+// CSS
 import './Footer.css'
 
 export class Footer extends Component {

@@ -25,14 +25,6 @@ export class DetailContent extends Component {
       })
   }
 
-  componentDidUpdate () {
-    // if (this.props.focusedProjectID === 0) {
-    //   this.props.setIsShowingAboutMe(true)
-    // } else {
-    //   this.props.setIsShowingAboutMe(false)
-    // }
-  }
-
   // Creates the media element html given a file name and its extension and
   // also the type of element (in a card or in the details column).
   createMediaElementWithFileName = (fileName, elementType) => {

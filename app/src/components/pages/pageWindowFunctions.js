@@ -1,8 +1,9 @@
 /**
- * Calculate the viewable height of the viewport.
+ * Calculate the viewable dimensions of the viewport, width x height.
  * That is, webpage space minus navbar and footer on the client side.
+ * Account for smaller screens and screen orientation.
  */
-export const calculateUsableHeight = () => {
+export const calculateUsableDimensions = () => {
   var navbarHeight =
       document.getElementById('navbar').clientHeight === null
         ? 0
@@ -13,12 +14,35 @@ export const calculateUsableHeight = () => {
         ? 0
         : document.getElementById('footer').clientHeight
 
-  return window.innerHeight - navbarHeight - footerHeight
-}
+  var availableHeight = window.innerHeight - navbarHeight - footerHeight
 
-/**
- * Calculate the viewable width of the viewport.
- */
-export const calculateUsableWidth = () => {
-  return window.innerWidth
+  var usableWidth = 0
+  var usableHeight = 0
+
+  // 'Normal' large display case.
+  if (window.innerWidth <= 992) {
+    // Check orientaion of device by looking at window dimensions.
+    if (window.innerWidth < window.innerHeight) {
+      // Portrait orientation display case. (i.e. phone)
+      usableWidth = window.innerWidth
+      usableHeight = availableHeight / 2
+    } else {
+      // Landscape orientation display case. (i.e. phone)
+      usableWidth = window.innerWidth / 2
+      usableHeight = availableHeight
+    }
+  } else {
+    // Check orientaion of device by looking at window dimensions.
+    if (window.innerWidth < window.innerHeight) {
+      // Portrait orientation display case. (i.e. rotated display)
+      usableWidth = window.innerWidth / 2
+      usableHeight = availableHeight
+    } else {
+      // Landscape orientation display case. (i.e. normal desktop)
+      usableWidth = window.innerWidth / 2
+      usableHeight = availableHeight
+    }
+  }
+
+  return [usableWidth, usableHeight]
 }

@@ -59,30 +59,33 @@ nav {
   background-color: transparent;
   border: none;
   outline:none;
-  color: var(--blackish) !important;
+  color: var(--blackish);
   font-size: 0.85rem;
   text-decoration: none;
   cursor: pointer;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
-
 
 .navbar-link:focus {
   background-color: transparent;
   border: none;
-  outline:none;
+  outline: none;
 }
 
 .navbar-brand {
   font-size: 1.25rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  margin: 0rem;
+}
+
+.navbar-brand:hover {
+  color: var(--lavenderish) !important;
 }
 
 #navbar {
   background-color: var(--rosey);
-}
-
-#subtitle {
-  color: var(--whiteish);
-  font-size: 0.75rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
 }

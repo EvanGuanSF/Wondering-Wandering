@@ -1,9 +1,15 @@
+// NPM modules
 import React, { Component } from 'react'
-import './Portfolio.css'
+
+// Components
 import ProjectCategories from './projectcategories/ProjectCategories'
 import DetailContent from './detailcontent/DetailContent'
 
-import { calculateUsableHeight, calculateUsableWidth } from '../pageWindowFunctions'
+// Function libraries.
+import { calculateUsableDimensions } from '../pageWindowFunctions'
+
+// CSS
+import './Portfolio.css'
 
 export default class Portfolio extends Component {
   state = {
@@ -30,20 +36,6 @@ export default class Portfolio extends Component {
       })
   }
 
-  updateDimensions = () => {
-    this.setState({ usableHeight: calculateUsableHeight() })
-    this.setState({ usableWidth: calculateUsableWidth() })
-    // console.log('Viewable height: ', this.state.usableHeight)
-  }
-
-  // static getDerivedStateFromProps (props, state) {
-  //   if (props.isShowingAboutMe) {
-  //     state.focusedProjectID = 0
-  //   }
-
-  //   return state
-  // }
-
   componentDidUpdate () {
     if (this.props.isShowingAboutMe && this.state.focusedProjectID !== 0) {
       this.highlightCard(0)
@@ -60,6 +52,13 @@ export default class Portfolio extends Component {
   componentWillUnmount () {
     // Remove the event listener when we are done.
     window.removeEventListener('resize', this.updateDimensions.bind(this))
+  }
+
+  updateDimensions = () => {
+    var dimensions = calculateUsableDimensions()
+    this.setState({ usableWidth: dimensions[0] })
+    this.setState({ usableHeight: dimensions[1] })
+    // console.log('Viewable height: ', this.state.usableHeight)
   }
 
   /**
@@ -110,7 +109,7 @@ export default class Portfolio extends Component {
       <div id='contentContainer' className='container-fluid'>
         <div id='contentRow' className='row'>
 
-          <div style={{ height: `${this.state.usableHeight}px` }} id='details-col' className='col-lg-6 content-col'>
+          <div style={{ width:`${this.state.usableWidth}px`, height: `${this.state.usableHeight}px` }} id='details-col' className='col-lg-6 content-col'>
             <div className='d-flex flex-column flex-row'>
               {/* <div id='detailContents' className='card-container' dangerouslySetInnerHTML={{ __html: this.state.currentDetails }} /> */}
               <div id='detailContents' className='card-container'>
@@ -122,7 +121,7 @@ export default class Portfolio extends Component {
             </div>
           </div>
 
-          <div style={{ height: `${this.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center content-col'>
+          <div style={{ width:`${this.state.usableWidth}px`, height: `${this.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center content-col'>
             <div className='d-flex flex-column flex-row'>
               <div id='cardContainer' className='card-container' />
               <ProjectCategories

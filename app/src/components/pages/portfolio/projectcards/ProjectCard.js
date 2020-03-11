@@ -12,7 +12,7 @@ class ProjectCard extends Component {
     return (
       <div
         key={project.projectID} id={`card-${project.projectID}`}
-        className={`collapse show card-bg card shadow justify-content-center text-center project-category-${this.props.categoryIndex}`}
+        className={`collapse card show card-bg project-card shadow justify-content-center text-center project-category-${this.props.categoryIndex}`}
         style={{ backgroundColor: 'var(--whiteish)' }}
         onClick={() => {
           this.props.showCardDetails(project.projectID)
@@ -29,16 +29,16 @@ class ProjectCard extends Component {
                 <img
                   alt={project.projectName}
                   src={`/img/${project.projectImage}`}
-                  className='card-img-top justify-content-center text-center p-0 m-0'
+                  className='card-img-top project-card-image justify-content-center text-center p-0 m-0'
                   referrerPolicy='no-referrer'
                 />
               </div>
             </div>
 
-            <div className='card-body col-6 p-0 m-0'>
-              <p className='card-title p-0 m-0'><b>{project.projectName}</b> </p>
-              <p className='card-text text-lef'>{project.projectDetails}</p>
-              <p className='card-title p-0 m-0'><b>Click this card for more details</b></p>
+            <div className='card-body project-card-body col-6 p-0 m-0'>
+              <p className='card-title project-card-title p-0 m-0'><b>{project.projectName}</b> </p>
+              <p className='card-text project-card-text text-lef'>{project.projectDetails}</p>
+              <p className='card-title project-card-title p-0 m-0'><b>Click this card for more details</b></p>
             </div>
 
           </div>
