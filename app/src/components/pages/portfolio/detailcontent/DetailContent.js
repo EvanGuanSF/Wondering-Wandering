@@ -3,10 +3,6 @@ import './DetailContent.css'
 import PropTypes from 'prop-types'
 
 export class DetailContent extends Component {
-  state = {
-    aboutMeHTML: [],
-    currentDetails: []
-  }
 
   /**
    * Constructor for the portfolio page.
@@ -15,6 +11,11 @@ export class DetailContent extends Component {
    */
   constructor (props) {
     super(props)
+
+    this.state = {
+      aboutMeHTML: [],
+      currentDetails: []
+    }
 
     // Get and set AboutMe html.
     window.fetch('/AboutMe.txt')

@@ -31,6 +31,8 @@ exports.userRegistration = function (req, res) {
  * @param {*} res
  */
 function createUser (req, res) {
+  console.log(req.body)
+
   // Check for the captcha before going any further.
   if (!isReCAPTCHAValid(req.body['g-recaptcha-response'])) {
     res.status(409)
@@ -77,6 +79,7 @@ function createUserDev (req, res) {
 }
 
 async function mainRegistrationLoop (req, res) {
+  console.log(req.body)
   var userName = req.body.userName.trim()
   var email = req.body.email.trim()
   var password = req.body.password.trim()
@@ -150,7 +153,7 @@ async function mainRegistrationLoop (req, res) {
     res.setHeader('Set-Cookie', cookieOven)
     res.json({
       success: true,
-      status: 200,
+      status: 303,
       redirect: '/'
     })
     return null
@@ -179,6 +182,8 @@ function isUserNameValid (userName) {
 
 // Validate new user's password.
 function isPasswordValid (password) {
+  console.log(process.env.PASSWORD_MIN_LENGTH)
+  console.log(process.env.PASSWORD_MAX_LENGTH)
   if (validator.isLength(password, {
     min: process.env.PASSWORD_MIN_LENGTH,
     max: process.env.PASSWORD_MAX_LENGTH

@@ -5,9 +5,13 @@ import React, { Component } from '../../../../node_modules/react'
 import './Footer.css'
 
 export class Footer extends Component {
-  state = {
-    privacyText: [],
-    visitorCount: []
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      privacyText: [],
+      visitorCount: []
+    }
   }
 
   componentDidMount () {

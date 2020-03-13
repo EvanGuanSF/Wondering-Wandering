@@ -6,27 +6,28 @@ import ProjectCategories from './projectcategories/ProjectCategories'
 import DetailContent from './detailcontent/DetailContent'
 
 // Function libraries.
-import { calculateUsableDimensions } from '../pageWindowFunctions'
+import { calculateUsableDimensions } from '../../../libraries/pageWindowFunctions'
 
 // CSS
 import './Portfolio.css'
 
 export default class Portfolio extends Component {
-  state = {
-    projectInfo: null,
-    focusedProjectID: 0,
-
-    usableHeight: 0,
-    usableWidth: 0
-  }
-
   /**
    * Constructor for the portfolio page.
-   * Fetch big things like about me and project information.
+   * Fetch big things like project information.
    * @param {*} props
    */
   constructor (props) {
     super(props)
+
+    this.state = {
+      projectInfo: null,
+      focusedProjectID: 0,
+
+      usableHeight: 0,
+      usableWidth: 0
+    }
+
     // Get and set project information.
     window.fetch('/getProjectInfo')
       .then(fetchResponse => fetchResponse.json())

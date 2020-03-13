@@ -14,6 +14,8 @@ exports.insertComment = function (req, res) {
     'remote-address': req.connection.remoteAddress
   }
 
+  console.log(req.body)
+
   // Start the verification process.
   captcha.getCaptchaValidationStatus(captchaValidationParams)
     .then(result => {
@@ -35,7 +37,7 @@ exports.insertComment = function (req, res) {
         .then(result => {
           console.log('Comment from ' + req.connection.remoteAddress + ' created successfully.\n')
           res.status(200)
-          res.redirect('guestbook.html')
+          res.redirect('guestbook')
         })
         .catch(err => {
           console.log('Error creating commen from ' + req.connection.remoteAddress + '.\n', err)

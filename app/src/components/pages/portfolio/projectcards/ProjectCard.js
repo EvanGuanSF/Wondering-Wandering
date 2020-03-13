@@ -3,6 +3,14 @@ import './ProjectCard.css'
 import PropTypes from 'prop-types'
 
 class ProjectCard extends Component {
+  constructor (props) {
+    super(props)
+
+    this.showCardDetails = this.props.showCardDetails.bind(this)
+    this.highlightCard = this.props.highlightCard.bind(this)
+    this.setIsShowingAboutMe = this.props.setIsShowingAboutMe.bind(this)
+  }
+
   render () {
     const project = this.props.project
 

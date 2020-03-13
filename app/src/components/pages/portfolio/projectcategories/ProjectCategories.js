@@ -4,8 +4,12 @@ import ProjectCard from '../projectcards/ProjectCard'
 import PropTypes from 'prop-types'
 
 class ProjectCategories extends Component {
-  state = {
-    categories: []
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      categories: []
+    }
   }
 
   componentDidMount () {

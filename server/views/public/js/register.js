@@ -29,29 +29,20 @@ $(window).on('navbarLoadedEvent', function () {
 
 // Add ready handlers.
 $(document).ready(() => {
-  // Click event on the submit button.
+  // Click event on the register button.
   $('#submitButton').click(() => {
-    console.log('Submitting comment.')
+    console.log('Submitting user registration info.')
     event.preventDefault()
     var canSubmit = true
 
     // Form validation.
-    // Go in bottom-up order so we can show the top-most form error first.
-    // if (!isUserNameValid() ||
-    //   !isEmailValid() ||
-    //   !isPasswordValid() ||
-    //   !isPasswordConfirmationValid() ||
-    //   !isReCAPTCHAValid()) {
-    //   canSubmit = false
-    // }
     if (!isUserNameValid() ||
       !isEmailValid() ||
       !isPasswordValid() ||
-      !isPasswordConfirmationValid()) {
+      !isPasswordConfirmationValid() ||
+      !isReCAPTCHAValid()) {
       canSubmit = false
     }
-
-    console.log($('#registration-form').serialize())
 
     // One final check.
     if (canSubmit) {
@@ -61,9 +52,9 @@ $(document).ready(() => {
         url: 'register',
         data: $('#registration-form').serialize()
       })
-        .always(function (result) {
-          if (result.status === 200 && result.redirect) {
-            $(location).attr('href', result.redirect)
+        .then(result => {
+          if (result.status === 303) {
+            window.location.href = result.redirect
           } else {
             console.log(result)
             $('#errorText').html(result.responseText)

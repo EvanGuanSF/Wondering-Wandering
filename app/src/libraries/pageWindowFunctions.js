@@ -5,12 +5,12 @@
  */
 export const calculateUsableDimensions = () => {
   var navbarHeight =
-      document.getElementById('navbar').clientHeight === null
+      document.getElementById('navbar') === null
         ? 0
         : document.getElementById('navbar').clientHeight
 
   var footerHeight =
-      document.getElementById('footer').clientHeight === null
+      document.getElementById('footer') === null
         ? 0
         : document.getElementById('footer').clientHeight
 

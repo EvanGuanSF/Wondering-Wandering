@@ -5,12 +5,6 @@ import React, { Component } from 'react'
 import './Subtitle.css'
 
 export default class Subtitle extends Component {
-  state = {
-    subtitle: '',
-    currentDisplayedSubtitle: '',
-    subtitleShowingTime: 10
-  }
-
   /**
    * Constructor for the subtitle.
    * Fetch static assets.
@@ -18,6 +12,13 @@ export default class Subtitle extends Component {
    */
   constructor (props) {
     super(props)
+
+    this.state = {
+      subtitle: '',
+      currentDisplayedSubtitle: '',
+      subtitleShowingTime: 10
+    }
+
     // Get and set subtitle.
     window.fetch('/getRandomSubtitle')
       // Unwrap response.
@@ -27,12 +28,11 @@ export default class Subtitle extends Component {
         this.setState({ subtitle: subtitleResponse[0].subtitle })
       })
       .then(() => {
-        
         this.writeSubtitle()
       })
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     // Update the subtitle on a set interval.
     const subtitleShowingTime = this.state.subtitleShowingTime
     try {
@@ -50,8 +50,8 @@ export default class Subtitle extends Component {
             this.writeSubtitle()
           })
       }, subtitleShowingTime * 1000)
-    } catch(error) {
-      console.log(error);
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -76,7 +76,7 @@ export default class Subtitle extends Component {
         this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 

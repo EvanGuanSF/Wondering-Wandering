@@ -35,33 +35,11 @@ ALABASTER
   --gold: #CBA135;
   --khaki: #BFB48F;
   --whiteish: #F2EFE9;
-
-  --commentCardHeight: 100px;
 }
 
-.comment-card {
-  height: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border-radius: 0px;
-}
-
-.comment-card-body > h5, p, a {
-  font-size: 14px;
-  padding: 0px;
-  margin: 0px;
-}
-
-.comment-card-title {
-  margin: 0px;
-  overflow-x: auto;
-  text-overflow: ellipsis;
-}
-
-.comment-card-text {
-  width: stretch;
-  margin: 10px;
-  margin-bottom: 10px;
-  overflow-x: auto;
-  text-overflow: ellipsis;
+#registration-container-col {
+  background-color: var(--whiteish);
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

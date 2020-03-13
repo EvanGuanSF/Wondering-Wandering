@@ -37,59 +37,9 @@ ALABASTER
   --whiteish: #F2EFE9;
 }
 
-.comment-textarea {
-  resize: none;
-  border-radius: 0px;
-}
-
 #comment-container-col {
   background-color: var(--whiteish);
   padding: 10px;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.content-grid-unit{
-  height: var(--pixelHeight);
-  max-height: 200px;
-}
-
-/* .card {
-  height: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-.card-body > h5, p, a {
-  font-size: 14px;
-  padding: 0px;
-  margin: 0px;
-}
-
-.card-title {
-  margin: 0px;
-  overflow-x: auto;
-  text-overflow: ellipsis;
-}
-
-.card-text {
-  width: fill;
-  margin: 10px;
-  margin-bottom: 10px;
-  overflow-x: auto;
-  text-overflow: ellipsis;
-} */
-
-#submitButton {
-  background-color: var(--whiteish);
-  padding-left: 5px;
-  padding-right: 5px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: var(--blackish);
-}
-
-#submitButton:hover {
-  background-color: var(--rosey);
-  color: var(--whiteish) !important;
 }

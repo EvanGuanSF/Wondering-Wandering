@@ -14,8 +14,12 @@ import Registration from './components/pages/registration/Registration'
 import './App.css'
 
 class App extends Component {
-  state = {
-    isShowingAboutMe: true
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      isShowingAboutMe: true
+    }
   }
 
   setIsShowingAboutMe = (isShowing) => {
@@ -33,6 +37,7 @@ class App extends Component {
               setIsShowingAboutMe={this.setIsShowingAboutMe}
             />
 
+            {/* Conditionally show components based on route. */}
             <Route
               exact path='/'
               render={() => (
