@@ -46,21 +46,28 @@ $(document).ready(() => {
 
     // One final check.
     if (canSubmit) {
+      // $.post('/register', $('#registration-form').serialize(), function (data) {
+      //   console.log(data)
+      // })
+
+      $('#registration-form').submit()
+
       // AJAX with jQuery to submit the data and handle the reponse.
-      $.ajax({
-        type: 'POST',
-        url: 'register',
-        data: $('#registration-form').serialize()
-      })
-        .then(result => {
-          if (result.status === 303) {
-            window.location.href = result.redirect
-          } else {
-            console.log(result)
-            $('#errorText').html(result.responseText)
-            $('#errorText')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
-          }
-        })
+      // $.ajax({
+      //   type: 'POST',
+      //   url: 'register',
+      //   cache: false,
+      //   data: $('#registration-form').serialize()
+      // })
+      // .then(result => {
+      //   if (result.status === 303) {
+      //     window.location.replace(result.redirect)
+      //   } else {
+      //     console.log(result)
+      //     $('#errorText').html(result.responseText)
+      //     $('#errorText')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+      //   }
+      // })
     }
   })
 })

@@ -41,7 +41,7 @@ export default class commentSubmissionForm extends Component {
     // Check the user input.
     if (this.validateInput()) {
       // If the user input is valid, fire a post request.
-      fetch('/submitComment', {
+      window.fetch('/submitComment', {
         method: 'POST',
         mode: 'same-origin',
         cache: 'no-cache',

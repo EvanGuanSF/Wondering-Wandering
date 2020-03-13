@@ -44,15 +44,14 @@ export default class RegistrationSubmissionForm extends Component {
     // Check the user input.
     if (this.validateInput()) {
       // If the user input is valid, fire a post request.
-      fetch('/register', {
+      window.fetch('/register', {
         method: 'POST',
         mode: 'same-origin',
         cache: 'no-cache',
         credentials: 'same-origin',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
-          redirect: 'follow',
+          redirect: 'disabled',
           referrerPolicy: 'no-refferer'
         },
         // Stringify the needed data for a post to the endpoint.
@@ -64,12 +63,14 @@ export default class RegistrationSubmissionForm extends Component {
           'g-recaptcha-response': this.state['g-recaptcha-response']
         })
       })
+        .then(response => response.json())
         .then(response => {
+          console.log(response)
           // If the post request was accepted, then signal for a 
           // reload of the comment cards and reload the recaptcha element.
-          if (response.redirected) {
-              window.location.href = response.url;
-          }
+          // if (response.redirected) {
+          //     window.location.href = response.redirect;
+          // }
         })
     }
   }

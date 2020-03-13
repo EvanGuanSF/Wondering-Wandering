@@ -55,8 +55,9 @@ exports.checkUserEmailExists = function (email) {
 exports.generateLoginJWTFromEmail = function (email) {
   return new Promise((resolve, reject) => {
     // Get the password hash associated with the email given.
+    var sanitizedEmail = validator.normalizeEmail(email.trim())
     var sql = 'SELECT ??, ??, ?? FROM ?? WHERE email = (?)'
-    var inserts = ['uuid', 'user_name', 'email', 'users', email]
+    var inserts = ['uuid', 'user_name', 'email', 'users', sanitizedEmail]
     var query = mysql.format(sql, inserts)
 
     // Execute.

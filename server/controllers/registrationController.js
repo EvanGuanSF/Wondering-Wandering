@@ -119,8 +119,9 @@ async function mainRegistrationLoop (req, res) {
     // Insert the new user in to the database.
     // The new user will not have any extra privileges until their role is changed by a database admin.
     // Build the query.
+    var sanitizedEmail = validator.normalizeEmail(email.trim())
     var sql = 'INSERT INTO ?? (uuid, ??, ??, ??, ??) VALUES (UUID(), ?, ?, ?, ?)'
-    var inserts = ['users', 'user_name', 'email', 'password', 'role', userName, email, passwordHash, 1]
+    var inserts = ['users', 'user_name', 'email', 'password', 'role', userName, sanitizedEmail, passwordHash, 1]
     var query = mysql.format(sql, inserts)
 
     try {
@@ -151,11 +152,8 @@ async function mainRegistrationLoop (req, res) {
 
     // Return the cookies to the user, thus logging them in.
     res.setHeader('Set-Cookie', cookieOven)
-    res.json({
-      success: true,
-      status: 303,
-      redirect: '/'
-    })
+    res.status(303)
+    res.redirect(303, '/')
     return null
   } catch (err) {
     // Something went wrong somewhere along the way.
