@@ -16,7 +16,8 @@ export default class Subtitle extends Component {
     this.state = {
       subtitle: '',
       currentDisplayedSubtitle: '',
-      subtitleShowingTime: 10
+      subtitleShowingTime: 10,
+      windowIsActive: true
     }
 
     // Get and set subtitle.
@@ -33,26 +34,51 @@ export default class Subtitle extends Component {
   }
 
   async componentDidMount () {
+    // Add event listeners to check whether or not the tab has focus.
+    // If the tab does not have focus, then the subtitle animation should pause.
+    document.addEventListener('visibilitychange', this.handleActivity)
+    document.addEventListener('blur', () => this.handleActivity(false))
+    window.addEventListener('blur', () => this.handleActivity(false))
+    window.addEventListener('focus', () => this.handleActivity(true))
+    document.addEventListener('focus', () => this.handleActivity(true))
+
     // Update the subtitle on a set interval.
     const subtitleShowingTime = this.state.subtitleShowingTime
     try {
       setInterval(async () => {
-        this.setState({ currentDisplayedSubtitle: '' })
-        await fetch('/getRandomSubtitle')
-          // Unwrap response.
-          .then(fetchResponse => fetchResponse.json())
-          // Access and store response.
-          .then(subtitleResponse => {
-            this.setState({ subtitle: subtitleResponse[0].subtitle })
-          })
-          // Write out the subtitle to the component state.
-          .then(() => {
-            this.writeSubtitle()
-          })
+        if(this.state.windowIsActive) {
+          this.setState({ currentDisplayedSubtitle: '' })
+          await fetch('/getRandomSubtitle')
+            // Unwrap response.
+            .then(fetchResponse => fetchResponse.json())
+            // Access and store response.
+            .then(subtitleResponse => {
+              this.setState({ subtitle: subtitleResponse[0].subtitle })
+            })
+            // Write out the subtitle to the component state.
+            .then(() => {
+              this.writeSubtitle()
+            })
+        }
       }, subtitleShowingTime * 1000)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('blur', this.handleActivity)
+    document.removeEventListener('blur', this.handleActivity)
+    window.removeEventListener('focus', this.handleActivity)
+    document.removeEventListener('focus', this.handleActivity)
+    document.removeEventListener('visibilitychange', this.handleActivity)
+  }
+  
+  handleActivity = (forcedFlag) => {
+    if (typeof forcedFlag === 'boolean') {
+      forcedFlag ? this.setState({ windowIsActive: true }) : this.setState({ windowIsActive: false })
+    }
+    document.hidden ? this.setState({ windowIsActive: false }) : this.setState({ windowIsActive: true })
   }
 
   /**
@@ -73,7 +99,11 @@ export default class Subtitle extends Component {
         if (character !== ' ') {
           await new Promise(r => setTimeout(r, timeBetweenLetters * 1000))
         }
-        this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
+        if(this.state.windowIsActive) {
+          this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
+        } else {
+          i--
+        }
       }
     } catch (error) {
       console.log(error)

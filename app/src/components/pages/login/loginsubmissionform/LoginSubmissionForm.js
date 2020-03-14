@@ -4,21 +4,19 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import validator from 'validator'
 
 // CSS
-import './RegistrationSubmissionForm.css'
+import './LoginSubmissionForm.css'
 
-export default class RegistrationSubmissionForm extends Component {
+export default class LoginSubmissionForm extends Component {
   /**
-   * Constructor for the registration form.
+   * Constructor for the login form.
    * @param {*} props
    */
   constructor (props) {
     super(props)
 
     this.state = {
-      userName: '',
       email: '',
       password: '',
-      passwordConfirmation: '',
       'g-recaptcha-response': ''
     }
   }
@@ -44,7 +42,7 @@ export default class RegistrationSubmissionForm extends Component {
     // Check the user input.
     if (this.validateInput()) {
       // If the user input is valid, fire a post request.
-      window.fetch('/register', {
+      window.fetch('/login', {
         method: 'POST',
         mode: 'same-origin',
         cache: 'no-cache',
@@ -56,10 +54,8 @@ export default class RegistrationSubmissionForm extends Component {
         },
         // Stringify the needed data for a post to the endpoint.
         body: JSON.stringify({
-          'userName': this.state.userName,
           'email': this.state.email,
           'password': this.state.password,
-          'passwordConfirmation': this.state.passwordConfirmation,
           'g-recaptcha-response': this.state['g-recaptcha-response']
         })
       })
@@ -72,10 +68,6 @@ export default class RegistrationSubmissionForm extends Component {
   validateInput = () => {
     var isValid = true
 
-    if (!this.isUserNameValid()) {
-      isValid = false
-    }
-
     if (!this.isEmailValid()) {
       isValid = false
     }
@@ -84,31 +76,11 @@ export default class RegistrationSubmissionForm extends Component {
       isValid = false
     }
 
-    if (!this.isPasswordConfirmationValid()) {
-      isValid = false
-    }
-
     if (!this.isReCAPTCHAValid()) {
       isValid = false
     }
 
     return isValid
-  }
-
-  /**
-   * Validate new user password.
-   */
-  isUserNameValid = () => {
-    if (validator.isLength(this.state.userName.trim() + '', { min: 3, max: 50 })) {
-      // Be sure to empty the field of past errors if there were any.
-      document.getElementById('userNameValidity').textContent = ''
-      return true
-    } else {
-      // Display error and scroll to the field.
-      document.getElementById('userNameValidity').textContent = 'Please enter a valid user name 3-50 characters long.'
-      document.getElementById('userNameValidity').scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
-      return false
-    }
   }
   
   /**
@@ -142,22 +114,6 @@ export default class RegistrationSubmissionForm extends Component {
       return false
     }
   }
-  
-  /**
-   * Validate new user password match.
-   */
-  isPasswordConfirmationValid = () => {
-    if (this.state.passwordConfirmation.trim() === this.state.password.trim()) {
-      // Be sure to empty the field of past errors if there were any.
-      document.getElementById('passwordConfirmationValidity').textContent = ''
-      return true
-    } else {
-      // Display error and scroll to the field.
-      document.getElementById('passwordConfirmationValidity').textContent = 'Passwords do not match.'
-      document.getElementById('passwordConfirmationValidity').scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
-      return false
-    }
-  }
 
   /**
    * Validate reCAPTCHA status.
@@ -184,20 +140,6 @@ export default class RegistrationSubmissionForm extends Component {
         <hr />
 
         <div className='form-group'>
-          <label htmlFor='userNameEntry' style={{ textAlign: 'left', display: 'block' }}>User name:</label>
-          <input
-            type='text'
-            className='form-control shadow-sm registration-form-input'
-            name='userName'
-            id='userNameEntry'
-            placeholder='User Name'
-            rows='1'
-            maxLength='50'
-          />
-          <strong style={{ color: 'red' }}><div id='userNameValidity' /></strong>
-        </div>
-
-        <div className='form-group'>
           <label htmlFor='emailEntry' style={{ textAlign: 'left', display: 'block' }}>Email address:</label>
           <input
             type='text'
@@ -219,26 +161,11 @@ export default class RegistrationSubmissionForm extends Component {
             className='form-control shadow-sm registration-form-input'
             name='password'
             id='passwordEntry'
-            placeholder='Password (7-30 chars)'
+            placeholder='Password'
             rows='1'
             maxLength='50'
           />
           <strong style={{ color: 'red' }}><div id='passwordValidity' /></strong>
-        </div>
-
-        <div className='form-group'>
-          <label htmlFor='passwordConfirmation' style={{ textAlign: 'left', display: 'block' }}>Confirm password:</label>
-          <input
-            type='password'
-            autoComplete='new-password'
-            className='form-control shadow-sm registration-form-input'
-            name='passwordConfirmation'
-            id='passwordConfirmationEntry'
-            placeholder='Confirm Password'
-            rows='1'
-            maxLength='50'
-          />
-          <strong style={{ color: 'red' }}><div id='passwordConfirmationValidity' /></strong>
         </div>
 
         <div id='captchaBox' className='form-group d-flex justify-content-center'>
@@ -257,7 +184,7 @@ export default class RegistrationSubmissionForm extends Component {
           type='submit'
           className='btn-outline-dark mx-auto'
           style={{ borderWidth: '2px' }}
-        >Register</button>
+        >Login</button>
         <hr />
         <br />
 

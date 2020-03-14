@@ -141,11 +141,8 @@ async function mainLoginLoop (req, res) {
 
     // Return the cookies to the user, thus logging them in.
     res.setHeader('Set-Cookie', cookieOven)
-    res.json({
-      success: true,
-      status: 200,
-      redirect: '/'
-    })
+    res.status(303)
+    res.redirect(303, '/')
     return null
   } catch (err) {
 

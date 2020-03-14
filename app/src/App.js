@@ -1,5 +1,5 @@
 // NPM modules
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 // Components
@@ -13,69 +13,49 @@ import Registration from './components/pages/registration/Registration'
 // CSS
 import './App.css'
 
-class App extends Component {
-  constructor (props) {
-    super(props)
+export const App = () => {
+  const [isShowingAboutMe, setIsShowingAboutMe] = useState(true)
 
-    this.state = {
-      isShowingAboutMe: true
-    }
-  }
+  return (
+    <div className='App'>
+      <div className='container col-12' style={{ margin: '0 0 0 0', padding: '0 0 0 0', width: '100%' }}>
+        <Router>
+          {/* Always show the navbar. */}
+          <Navbar
+            isShowingAboutMe={isShowingAboutMe}
+            setIsShowingAboutMe={setIsShowingAboutMe}
+          />
 
-  setIsShowingAboutMe = (isShowing) => {
-    this.setState({ isShowingAboutMe: isShowing })
-  }
+          {/* Conditionally show components based on route. */}
+          <Route
+            exact path='/'
+            render={() => (
+              <Portfolio
+                isShowingAboutMe={isShowingAboutMe}
+                setIsShowingAboutMe={setIsShowingAboutMe}
+              />
+            )}
+          />
 
-  render () {
-    return (
-      <div className='App'>
-        <div className='container col-12' style={{ margin: '0 0 0 0', padding: '0 0 0 0', width: '100%' }}>
-          <Router>
-            {/* Always show the navbar. */}
-            <Navbar
-              isShowingAboutMe={this.state.isShowingAboutMe}
-              setIsShowingAboutMe={this.setIsShowingAboutMe}
-            />
+          <Route
+            exact path='/guestbook'
+            component={Guestbook}
+          />
 
-            {/* Conditionally show components based on route. */}
-            <Route
-              exact path='/'
-              render={() => (
-                <Portfolio
-                  isShowingAboutMe={this.state.isShowingAboutMe}
-                  setIsShowingAboutMe={this.setIsShowingAboutMe}
-                >
-                </Portfolio>
-                )
-              }
-            >
-            </Route>
+          <Route
+            exact path='/login'
+            component={Login}
+          />
 
-            <Route
-              exact path='/guestbook'
-              component={Guestbook}
-            >
-            </Route>
+          <Route
+            exact path='/register'
+            component={Registration}
+          />
 
-            <Route
-              exact path='/login'
-              component={Login}
-            >
-            </Route>
-
-            <Route
-              exact path='/register'
-              component={Registration}
-            >
-            </Route>
-
-            {/* Always show the footer. */}
-            <Footer />
-          </Router>
-        </div>
+          {/* Always show the footer. */}
+          <Footer />
+        </Router>
       </div>
-    )
-  }
+    </div>
+  )
 }
-
-export default App

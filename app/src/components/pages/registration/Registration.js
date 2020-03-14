@@ -20,13 +20,7 @@ export default class Registration extends Component {
 
     this.state = {
       usableHeight: 0,
-      usableWidth: 0,
-      userName: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      'g-recaptcha-response': ''
-
+      usableWidth: 0
     }
   }
 
@@ -61,7 +55,6 @@ export default class Registration extends Component {
           <div className='col-6 justify-content-center text-center'>
             <br />
             <h1>Admin Registration</h1>
-
             <RegistrationSubmissionForm />
           </div>
         </div>

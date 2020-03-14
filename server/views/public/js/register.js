@@ -46,10 +46,6 @@ $(document).ready(() => {
 
     // One final check.
     if (canSubmit) {
-      // $.post('/register', $('#registration-form').serialize(), function (data) {
-      //   console.log(data)
-      // })
-
       $('#registration-form').submit()
 
       // AJAX with jQuery to submit the data and handle the reponse.

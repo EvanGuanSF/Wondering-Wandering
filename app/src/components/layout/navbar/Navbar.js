@@ -1,5 +1,5 @@
 // NPM modules
-import React, { Component } from '../../../../node_modules/react'
+import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
 // Components

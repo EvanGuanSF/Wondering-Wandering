@@ -1,31 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './ProjectCard.css'
 import PropTypes from 'prop-types'
 
-class ProjectCard extends Component {
-  constructor (props) {
-    super(props)
+export const ProjectCard = (props) => {
+  const project = props.project
 
-    this.showCardDetails = this.props.showCardDetails.bind(this)
-    this.highlightCard = this.props.highlightCard.bind(this)
-    this.setIsShowingAboutMe = this.props.setIsShowingAboutMe.bind(this)
-  }
-
-  render () {
-    const project = this.props.project
-
-    // Do not render unless the component has projects to go through.
-    if (project === undefined) { return <div /> }
-
+  // Do not render unless the component has projects to go through.
+  if (project === undefined) {
+    return <div />
+  } else {
     return (
       <div
         key={project.projectID} id={`card-${project.projectID}`}
-        className={`collapse card show card-bg project-card shadow justify-content-center text-center project-category-${this.props.categoryIndex}`}
+        className={`collapse card show card-bg project-card shadow justify-content-center text-center project-category-${props.categoryIndex}`}
         style={{ backgroundColor: 'var(--whiteish)' }}
         onClick={() => {
-          this.props.showCardDetails(project.projectID)
-          this.props.highlightCard(project.projectID)
-          this.props.setIsShowingAboutMe(false)
+          props.showCardDetails(project.projectID)
+          props.highlightCard(project.projectID)
+          props.setIsShowingAboutMe(false)
         }}
       >
 

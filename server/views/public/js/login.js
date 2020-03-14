@@ -47,21 +47,23 @@ $(document).ready(() => {
 
     // One final check.
     if (canSubmit) {
+      $('#login-form').submit()
+
       // AJAX with jQuery to submit the data and handle the reponse.
-      $.ajax({
-        type: 'POST',
-        url: 'login',
-        data: $('#login-form').serialize()
-      })
-        .always(result => {
-          if (result.status === 200 && result.redirect) {
-            $(location).attr('href', result.redirect)
-          } else {
-            console.log(result)
-            $('#errorText').html(result.responseText)
-            $('#errorText')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
-          }
-        })
+      //   $.ajax({
+      //     type: 'POST',
+      //     url: 'login',
+      //     data: $('#login-form').serialize()
+      //   })
+      //     .always(result => {
+      //       if (result.status === 200 && result.redirect) {
+      //         $(location).attr('href', result.redirect)
+      //       } else {
+      //         console.log(result)
+      //         $('#errorText').html(result.responseText)
+      //         $('#errorText')[0].scrollIntoView({ behavior: 'smooth', alignToTop: 'true', inline: 'nearest' })
+      //       }
+      //     })
     }
   })
 })
