@@ -30,7 +30,7 @@ export default class RegistrationSubmissionForm extends Component {
   /**
    * Set the state given the form element that has been changed.
    */
-  handleFormChange = (fieldName, event) => {
+  handleFormChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -44,6 +44,7 @@ export default class RegistrationSubmissionForm extends Component {
     // Check the user input.
     if (this.validateInput()) {
       // If the user input is valid, fire a post request.
+      console.log('calling registration endpoint.')
       window.fetch('/register', {
         method: 'POST',
         mode: 'same-origin',
@@ -63,6 +64,12 @@ export default class RegistrationSubmissionForm extends Component {
           'g-recaptcha-response': this.state['g-recaptcha-response']
         })
       })
+        .then(response => {
+          // If the post request was accepted, then follow the redirect.
+          if (response.redirected) {
+              window.location.href = response.url;
+          }
+        })
     }
   }
 
@@ -163,7 +170,7 @@ export default class RegistrationSubmissionForm extends Component {
    * Validate reCAPTCHA status.
    */
   isReCAPTCHAValid = () => {
-    if (this.state['g-recaptcha-response'] && this.state['g-recaptcha-response'] > 0) {
+    if (this.state['g-recaptcha-response'] && this.state['g-recaptcha-response'].length > 0) {
       // Captcha checked
       // Be sure to empty the field of past errors if there were any.
       document.getElementById('captchaValidity').textContent = ''
@@ -193,6 +200,8 @@ export default class RegistrationSubmissionForm extends Component {
             placeholder='User Name'
             rows='1'
             maxLength='50'
+            onLoad={this.handleFormChange.bind(this)}
+            onChange={this.handleFormChange.bind(this)}
           />
           <strong style={{ color: 'red' }}><div id='userNameValidity' /></strong>
         </div>
@@ -207,6 +216,8 @@ export default class RegistrationSubmissionForm extends Component {
             placeholder='Email'
             rows='1'
             maxLength='90'
+            onLoad={this.handleFormChange.bind(this)}
+            onChange={this.handleFormChange.bind(this)}
           />
           <strong style={{ color: 'red' }}><div id='emailValidity' /></strong>
         </div>
@@ -222,6 +233,8 @@ export default class RegistrationSubmissionForm extends Component {
             placeholder='Password (7-30 chars)'
             rows='1'
             maxLength='50'
+            onLoad={this.handleFormChange.bind(this)}
+            onChange={this.handleFormChange.bind(this)}
           />
           <strong style={{ color: 'red' }}><div id='passwordValidity' /></strong>
         </div>
@@ -237,6 +250,8 @@ export default class RegistrationSubmissionForm extends Component {
             placeholder='Confirm Password'
             rows='1'
             maxLength='50'
+            onLoad={this.handleFormChange.bind(this)}
+            onChange={this.handleFormChange.bind(this)}
           />
           <strong style={{ color: 'red' }}><div id='passwordConfirmationValidity' /></strong>
         </div>
@@ -245,7 +260,7 @@ export default class RegistrationSubmissionForm extends Component {
           <ReCAPTCHA
             key={this.recaptchaKey}
             sitekey='6Ld-2sMUAAAAAOEHB0AioqRN-lJc0NTqBOTXjbTL'
-            onChange={this.onReCAPTCHASuccess}
+            onChange={this.onReCAPTCHASuccess.bind(this)}
           />
         </div>
         <strong style={{ color: 'red' }}><div id='captchaValidity' /></strong>
@@ -253,10 +268,11 @@ export default class RegistrationSubmissionForm extends Component {
 
         <br />
         <button
-          id='submitButton'
+          id='registrationSubmitButton'
           type='submit'
           className='btn-outline-dark mx-auto'
           style={{ borderWidth: '2px' }}
+          onClick={this.handleFormSubmit.bind(this)}
         >Register</button>
         <hr />
         <br />

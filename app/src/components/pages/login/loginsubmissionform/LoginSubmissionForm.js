@@ -28,7 +28,7 @@ export default class LoginSubmissionForm extends Component {
   /**
    * Set the state given the form element that has been changed.
    */
-  handleFormChange = (fieldName, event) => {
+  handleFormChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -59,6 +59,12 @@ export default class LoginSubmissionForm extends Component {
           'g-recaptcha-response': this.state['g-recaptcha-response']
         })
       })
+        .then(response => {
+          // If the post request was accepted, then follow the redirect.
+          if (response.redirected) {
+              window.location.href = response.url;
+          }
+        })
     }
   }
 
@@ -84,7 +90,7 @@ export default class LoginSubmissionForm extends Component {
   }
   
   /**
-   * Validate new user email address.
+   * Validate user email address.
    */
   isEmailValid = () => {
     if (validator.isEmail(this.state.email.trim()) && validator.isLength(this.state.email.trim() + '', { max: 90 })) {
@@ -100,7 +106,7 @@ export default class LoginSubmissionForm extends Component {
   }
   
   /**
-   * Validate new user password.
+   * Validate user password.
    */
   isPasswordValid = () => {
     if (validator.isLength(this.state.password.trim() + '', { min: 7, max: 50 })) {
@@ -119,7 +125,7 @@ export default class LoginSubmissionForm extends Component {
    * Validate reCAPTCHA status.
    */
   isReCAPTCHAValid = () => {
-    if (this.state['g-recaptcha-response'] && this.state['g-recaptcha-response'] > 0) {
+    if (this.state['g-recaptcha-response'] && this.state['g-recaptcha-response'].length > 0) {
       // Captcha checked
       // Be sure to empty the field of past errors if there were any.
       document.getElementById('captchaValidity').textContent = ''
@@ -143,12 +149,15 @@ export default class LoginSubmissionForm extends Component {
           <label htmlFor='emailEntry' style={{ textAlign: 'left', display: 'block' }}>Email address:</label>
           <input
             type='text'
+            autoComplete='email'
             className='form-control shadow-sm registration-form-input'
             name='email'
             id='emailEntry'
             placeholder='Email'
             rows='1'
             maxLength='90'
+            onLoad={this.handleFormChange.bind(this)}
+            onChange={this.handleFormChange.bind(this)}
           />
           <strong style={{ color: 'red' }}><div id='emailValidity' /></strong>
         </div>
@@ -157,13 +166,15 @@ export default class LoginSubmissionForm extends Component {
           <label htmlFor='password' style={{ textAlign: 'left', display: 'block' }}>Password:</label>
           <input
             type='password'
-            autoComplete='new-password'
+            autoComplete='password'
             className='form-control shadow-sm registration-form-input'
             name='password'
             id='passwordEntry'
             placeholder='Password'
             rows='1'
             maxLength='50'
+            onLoad={this.handleFormChange.bind(this)}
+            onChange={this.handleFormChange.bind(this)}
           />
           <strong style={{ color: 'red' }}><div id='passwordValidity' /></strong>
         </div>
@@ -172,7 +183,7 @@ export default class LoginSubmissionForm extends Component {
           <ReCAPTCHA
             key={this.recaptchaKey}
             sitekey='6Ld-2sMUAAAAAOEHB0AioqRN-lJc0NTqBOTXjbTL'
-            onChange={this.onReCAPTCHASuccess}
+            onChange={this.onReCAPTCHASuccess.bind(this)}
           />
         </div>
         <strong style={{ color: 'red' }}><div id='captchaValidity' /></strong>
@@ -180,10 +191,11 @@ export default class LoginSubmissionForm extends Component {
 
         <br />
         <button
-          id='submitButton'
+          id='loginSubmitButton'
           type='submit'
           className='btn-outline-dark mx-auto'
           style={{ borderWidth: '2px' }}
+          onClick={this.handleFormSubmit.bind(this)}
         >Login</button>
         <hr />
         <br />

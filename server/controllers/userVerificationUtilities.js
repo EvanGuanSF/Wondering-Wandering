@@ -13,7 +13,7 @@ const dbQuery = require('./dbQuery.js')
  */
 exports.checkUserEmailExists = function (email) {
   return new Promise(resolve => {
-    console.log('Executing new user email check.')
+    console.log('Executing user email check.')
     var sanitizedEmail = validator.normalizeEmail(email.trim())
 
     // Verify that the email and password are of correct type and above minimum length.

@@ -3,6 +3,7 @@ import React from 'react'
 
 // Components
 import PrivacyPolicyPopup from './privacypolicypopup/PrivacyPolicyPopup'
+import UserGreeting from './usergreeting/UserGreeting'
 import VisitorCount from './visitorcount/VisitorCount'
 
 // CSS
@@ -16,9 +17,7 @@ export const Footer = () => {
 
           <PrivacyPolicyPopup />
 
-          <div className='col grow justify-content-center text-center' style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <p id='userGreeting' style={{ verticalAlign: 'middle' }} />
-          </div>
+          <UserGreeting />
 
           <VisitorCount />
 

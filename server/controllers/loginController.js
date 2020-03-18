@@ -81,7 +81,7 @@ function verifyUserDev (req, res) {
  * @param {*} res
  */
 async function mainLoginLoop (req, res) {
-  var email = req.body.email.trim()
+  var sanitizedEmail = validator.normalizeEmail(req.body.email.trim())
   var password = req.body.password.trim()
 
   // Verify that the password is within spec.
@@ -92,7 +92,7 @@ async function mainLoginLoop (req, res) {
   }
 
   try {
-    var existingEmailCheckResult = await userValidation.checkUserEmailExists(email)
+    var existingEmailCheckResult = await userValidation.checkUserEmailExists(sanitizedEmail)
     // If the result is 0, then the email does not exist,
     // so stop here and return an error code.
     if (existingEmailCheckResult.emailMatches <= 0) {
@@ -103,7 +103,7 @@ async function mainLoginLoop (req, res) {
 
     // Get the user information associated with the email given.
     var sql = 'SELECT ??, ??, ??, ??, ?? FROM ?? WHERE email = (?)'
-    var inserts = ['uuid', 'user_name', 'email', 'password', 'role', 'users', email]
+    var inserts = ['uuid', 'user_name', 'email', 'password', 'role', 'users', sanitizedEmail]
     var query = mysql.format(sql, inserts)
 
     // Execute.
@@ -124,7 +124,7 @@ async function mainLoginLoop (req, res) {
     console.log(userDetails[0].uuid + ' logged in.')
 
     // Generate a login token for the user.
-    var loginToken = await userValidation.generateLoginJWTFromEmail(email)
+    var loginToken = await userValidation.generateLoginJWTFromEmail(sanitizedEmail)
 
     // Make the cookies.
     var cookieOven = [
