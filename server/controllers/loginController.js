@@ -132,9 +132,13 @@ async function mainLoginLoop (req, res) {
         httpOnly: true,
         sameSite: true,
         secure: true,
+        overwrite: true,
+        path: '/',
         maxAge: ms(process.env.COOKIE_EXPIRATION_TIME) / 1000
       }),
       cookie.serialize('UserName', userDetails[0].user_name, {
+        overwrite: true,
+        path: '/',
         maxAge: ms(process.env.COOKIE_EXPIRATION_TIME) / 1000
       })
     ]

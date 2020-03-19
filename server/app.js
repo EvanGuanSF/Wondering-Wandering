@@ -17,6 +17,11 @@ app.set({
 // Do not tell the client what type of backend framework is being used.
 app.disable('x-powered-by')
 
+// Always check for login tokens coming in to any route.
+// Update the cookies if applicable.
+const loginUtilities = require('./controllers/userVerificationUtilities')
+app.use('*', loginUtilities.refreshLoginToken)
+
 // Let's use these routers as well:
 // The core of the website.
 const mainAppRouter = require('./routes/mainAppRoutes.js')

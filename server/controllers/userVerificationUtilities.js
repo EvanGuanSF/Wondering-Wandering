@@ -165,14 +165,18 @@ exports.refreshLoginToken = async function (req, res, next) {
         httpOnly: true,
         sameSite: true,
         secure: true,
+        overwrite: true,
+        path: '/',
         maxAge: ms(process.env.COOKIE_EXPIRATION_TIME) / 1000
       }),
       cookie.serialize('UserName', userDetails[0].user_name, {
+        overwrite: true,
+        path: '/',
         maxAge: ms(process.env.COOKIE_EXPIRATION_TIME) / 1000
       })
     ]
 
-    console.log('Cookie refreshed for: ' + uuid)
+    // console.log('Cookie refreshed for: ' + uuid)
 
     // Return the cookies to the user, thus logging them in.
     res.setHeader('Set-Cookie', cookieOven)

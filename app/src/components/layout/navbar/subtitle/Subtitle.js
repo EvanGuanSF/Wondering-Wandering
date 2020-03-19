@@ -13,6 +13,9 @@ export default class Subtitle extends Component {
   constructor (props) {
     super(props)
 
+    var loadNewSubtitleInterval = null
+    var writeSubtitleInterval = null
+
     this.state = {
       subtitle: '',
       currentDisplayedSubtitle: '',
@@ -25,7 +28,7 @@ export default class Subtitle extends Component {
       // Unwrap response.
       .then(fetchResponse => fetchResponse.json())
       // Access and store response.
-      .then(subtitleResponse => {
+      .then(subtitleResponse => { 
         this.setState({ subtitle: subtitleResponse[0].subtitle })
       })
       .then(() => {
@@ -43,30 +46,13 @@ export default class Subtitle extends Component {
     document.addEventListener('focus', () => this.handleActivity(true))
 
     // Update the subtitle on a set interval.
-    const subtitleShowingTime = this.state.subtitleShowingTime
-    try {
-      setInterval(async () => {
-        if(this.state.windowIsActive) {
-          this.setState({ currentDisplayedSubtitle: '' })
-          await fetch('/getRandomSubtitle')
-            // Unwrap response.
-            .then(fetchResponse => fetchResponse.json())
-            // Access and store response.
-            .then(subtitleResponse => {
-              this.setState({ subtitle: subtitleResponse[0].subtitle })
-            })
-            // Write out the subtitle to the component state.
-            .then(() => {
-              this.writeSubtitle()
-            })
-        }
-      }, subtitleShowingTime * 1000)
-    } catch (error) {
-      console.log(error)
-    }
+    this.getNewSubtitle()
   }
 
   componentWillUnmount () {
+    clearInterval(this.loadNewSubtitleInterval)
+    clearInterval(this.writeSubtitleInterval)
+
     window.removeEventListener('blur', this.handleActivity)
     document.removeEventListener('blur', this.handleActivity)
     window.removeEventListener('focus', this.handleActivity)
@@ -77,8 +63,39 @@ export default class Subtitle extends Component {
   handleActivity = (forcedFlag) => {
     if (typeof forcedFlag === 'boolean') {
       forcedFlag ? this.setState({ windowIsActive: true }) : this.setState({ windowIsActive: false })
+    } else {
+      document.hidden ? this.setState({ windowIsActive: false }) : this.setState({ windowIsActive: true })
     }
-    document.hidden ? this.setState({ windowIsActive: false }) : this.setState({ windowIsActive: true })
+  }
+
+  /**
+   * Gets a new subtitle on a timer.
+   */
+  async getNewSubtitle () {
+    // Update the subtitle on a set interval.
+    const subtitleShowingTime = this.state.subtitleShowingTime
+    try {
+      this.loadNewSubtitleInterval = setInterval(async () => {
+        if(this.state.windowIsActive) {
+          this.setState({ currentDisplayedSubtitle: '' })
+          await fetch('/getRandomSubtitle')
+            // Unwrap response.
+            .then(fetchResponse => fetchResponse.json())
+            // Access and store response.
+            .then(subtitleResponse => {
+              if(this.state.windowIsActive) {
+                console.log('Setting new subtitle to state.')
+                this.setState({ subtitle: subtitleResponse[0].subtitle }, () => {
+                  // Write out the subtitle to the component state.
+                  this.writeSubtitle()
+                })
+              }
+            })
+        }
+      }, subtitleShowingTime * 1000)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /**
@@ -86,25 +103,36 @@ export default class Subtitle extends Component {
    */
   async writeSubtitle () {
     const subtitleShowingTime = this.state.subtitleShowingTime
-    try {
-      // Destructure the subtitle.
-      var subtitle = this.state.subtitle
-      // Calculate the time needed to write every subtitle letter.
-      var secondsToWriteSubtitle = subtitleShowingTime / 5
-      var timeBetweenLetters = secondsToWriteSubtitle / subtitle.length
 
-      for (var i = 0; i < subtitle.length; i++) {
-        const character = subtitle[i]
+    // Destructure the subtitle.
+    var subtitle = this.state.subtitle
+    console.log(subtitle, subtitle.length)
+    // Calculate the time needed to write every subtitle letter.
+    var secondsToWriteSubtitle = subtitleShowingTime / 5
+    var timeBetweenLetters = secondsToWriteSubtitle / subtitle.length
+    var i = 0
+
+    try {
+      this.writeSubtitleInterval = setInterval(async () => {
+        var character = subtitle[i]
         // If the character to be added is a space, do not pause before writing it.
-        if (character !== ' ') {
-          await new Promise(r => setTimeout(r, timeBetweenLetters * 1000))
-        }
-        if(this.state.windowIsActive) {
-          this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
-        } else {
+        if(i === subtitle.length) {
+          return null
+        } else if (this.state.windowIsActive) {
+          if(character === ' ') {
+            while(character === ' ') {
+              this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
+              i++
+              character = subtitle[i]
+            }
+          } else {
+            this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
+            i++
+          }
+        } else if (!this.state.windowIsActive) {
           i--
         }
-      }
+      }, timeBetweenLetters * 1000)
     } catch (error) {
       console.log(error)
     }

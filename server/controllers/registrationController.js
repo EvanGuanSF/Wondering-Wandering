@@ -143,9 +143,13 @@ async function mainRegistrationLoop (req, res) {
         httpOnly: true,
         sameSite: true,
         secure: true,
+        overwrite: true,
+        path: '/',
         maxAge: ms(process.env.COOKIE_EXPIRATION_TIME) / 1000
       }),
       cookie.serialize('UserName', userName, {
+        overwrite: true,
+        path: '/',
         maxAge: ms(process.env.COOKIE_EXPIRATION_TIME) / 1000
       })
     ]
