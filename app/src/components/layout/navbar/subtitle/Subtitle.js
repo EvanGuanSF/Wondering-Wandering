@@ -37,14 +37,6 @@ export default class Subtitle extends Component {
   }
 
   async componentDidMount () {
-    // Add event listeners to check whether or not the tab has focus.
-    // If the tab does not have focus, then the subtitle animation should pause.
-    document.addEventListener('visibilitychange', this.handleActivity)
-    document.addEventListener('blur', () => this.handleActivity(false))
-    window.addEventListener('blur', () => this.handleActivity(false))
-    window.addEventListener('focus', () => this.handleActivity(true))
-    document.addEventListener('focus', () => this.handleActivity(true))
-
     // Update the subtitle on a set interval.
     this.getNewSubtitle()
   }
@@ -52,12 +44,6 @@ export default class Subtitle extends Component {
   componentWillUnmount () {
     clearInterval(this.loadNewSubtitleInterval)
     clearInterval(this.writeSubtitleInterval)
-
-    window.removeEventListener('blur', this.handleActivity)
-    document.removeEventListener('blur', this.handleActivity)
-    window.removeEventListener('focus', this.handleActivity)
-    document.removeEventListener('focus', this.handleActivity)
-    document.removeEventListener('visibilitychange', this.handleActivity)
   }
   
   handleActivity = (forcedFlag) => {
@@ -76,22 +62,18 @@ export default class Subtitle extends Component {
     const subtitleShowingTime = this.state.subtitleShowingTime
     try {
       this.loadNewSubtitleInterval = setInterval(async () => {
-        if(this.state.windowIsActive) {
-          this.setState({ currentDisplayedSubtitle: '' })
-          await fetch('/getRandomSubtitle')
-            // Unwrap response.
-            .then(fetchResponse => fetchResponse.json())
-            // Access and store response.
-            .then(subtitleResponse => {
-              if(this.state.windowIsActive) {
-                console.log('Setting new subtitle to state.')
-                this.setState({ subtitle: subtitleResponse[0].subtitle }, () => {
-                  // Write out the subtitle to the component state.
-                  this.writeSubtitle()
-                })
-              }
+        this.setState({ currentDisplayedSubtitle: '' })
+        await fetch('/getRandomSubtitle')
+          // Unwrap response.
+          .then(fetchResponse => fetchResponse.json())
+          // Access and store response.
+          .then(subtitleResponse => {
+            this.setState({ subtitle: subtitleResponse[0].subtitle }, () => {
+              // Write out the subtitle to the component state.
+              clearInterval(this.writeSubtitleInterval)
+              this.writeSubtitle()
             })
-        }
+          })
       }, subtitleShowingTime * 1000)
     } catch (error) {
       console.log(error)
@@ -106,7 +88,6 @@ export default class Subtitle extends Component {
 
     // Destructure the subtitle.
     var subtitle = this.state.subtitle
-    console.log(subtitle, subtitle.length)
     // Calculate the time needed to write every subtitle letter.
     var secondsToWriteSubtitle = subtitleShowingTime / 5
     var timeBetweenLetters = secondsToWriteSubtitle / subtitle.length
@@ -118,19 +99,16 @@ export default class Subtitle extends Component {
         // If the character to be added is a space, do not pause before writing it.
         if(i === subtitle.length) {
           return null
-        } else if (this.state.windowIsActive) {
-          if(character === ' ') {
-            while(character === ' ') {
-              this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
-              i++
-              character = subtitle[i]
-            }
-          } else {
+        }
+        if(character === ' ') {
+          while(character === ' ') {
             this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
             i++
+            character = subtitle[i]
           }
-        } else if (!this.state.windowIsActive) {
-          i--
+        } else {
+          this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
+          i++
         }
       }, timeBetweenLetters * 1000)
     } catch (error) {
