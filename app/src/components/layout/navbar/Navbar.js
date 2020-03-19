@@ -5,10 +5,15 @@ import { NavLink } from 'react-router-dom'
 // Components
 import Subtitle from './subtitle/Subtitle'
 
+// Contexts
+import PortfolioContext from '../../../context/PortfolioState'
+
 // CSS
 import './Navbar.css'
 
 export class Navbar extends Component {
+  static contextType = PortfolioContext
+
   render () {
     return (
       <nav id='navbar' className='navbar navbar-expand-md navbar-dark sticky-top ml-auto shadow'>
@@ -28,7 +33,9 @@ export class Navbar extends Component {
               }}
             >Wondering Wandering
             </NavLink>
+
             <Subtitle />
+
           </div>
         </div>
 
@@ -39,8 +46,10 @@ export class Navbar extends Component {
         <div className='collapse navbar-collapse' id='navbarSupportedContent'>
           <span className='navbar-nav ml-auto'>
             <li className='nav-item'>
+
               <a className='navbar-link' rel='noreferrer noopener external' href='/files/resume.pdf' target='_blank'><b>Resume</b></a>
               <label />
+
               <NavLink
                 exact to='/guestbook'
                 className='navbar-link'
@@ -54,8 +63,9 @@ export class Navbar extends Component {
                 }}
               >Guestbook
               </NavLink>
+
               <label />
-              {/* <button className='navbar-link' onClick={this.props.setIsShowingAboutMe.bind(this, true)}><b>About Me</b></button> */}
+
               <NavLink
                 exact to='/'
                 className='navbar-link'
@@ -63,7 +73,8 @@ export class Navbar extends Component {
                   // Prevent redirect if already on the homepage.
                   if (window.location.pathname === '/') {
                     clickEvent.preventDefault()
-                    this.props.setIsShowingAboutMe(true)
+                    this.context.setFocusedProjectID(0)
+                    this.context.setIsShowingAboutMe(true)
                   }
                 }}
                 style={{
@@ -72,6 +83,7 @@ export class Navbar extends Component {
                 }}
               >About Me
               </NavLink>
+
             </li>
           </span>
         </div>

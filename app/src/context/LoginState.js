@@ -6,7 +6,7 @@ import LoginReducer from './LoginReducer'
 
 // Initial login state.
 const initialState = {
-  userName: null,
+  userName: '',
   isClientLoggedIn: false
 }
 
@@ -19,7 +19,6 @@ export const LoginProvider = ({ children }) => {
 
   // State operations
   function updateLoginInfo () {
-    console.log('updateLoginInfo called.')
     dispatch({
       type: 'UPDATE_FROM_COOKIE'
     })

@@ -1,8 +1,13 @@
+// NPM modules
 import React, { Component } from 'react'
 import './DetailContent.css'
 import PropTypes from 'prop-types'
 
+// Contexts
+import PortfolioContext from '../../../../context/PortfolioState'
+
 export class DetailContent extends Component {
+  static contextType = PortfolioContext
 
   /**
    * Constructor for the portfolio page.
@@ -64,10 +69,10 @@ export class DetailContent extends Component {
   render () {
     if (this.props.projects === null) {
       return <div />
-    } else if (this.props.focusedProjectID === 0) {
+    } else if (this.context.state.focusedProjectID === 0) {
       return (<div dangerouslySetInnerHTML={{ __html: this.state.aboutMeHTML }} />)
     } else {
-      const project = this.props.projects.filter(project => this.props.focusedProjectID === project.projectID)[0]
+      const project = this.props.projects.filter(project => this.context.state.focusedProjectID === project.projectID)[0]
       var primaryImageHTML = this.createMediaElementWithFileName(project.projectImage, 'largeCard')
       // Create the secondary image/video if necessary.
       var secondaryImageHTML
@@ -159,8 +164,7 @@ export class DetailContent extends Component {
 
 // PropTypes
 DetailContent.propTypes = {
-  projects: PropTypes.array.isRequired,
-  focusedProjectID: PropTypes.number.isRequired
+  projects: PropTypes.array.isRequired
 }
 
 export default DetailContent

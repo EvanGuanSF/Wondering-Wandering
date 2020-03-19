@@ -80,7 +80,6 @@ class ProjectCategories extends Component {
                     project={project}
                     highlightCard={this.props.highlightCard}
                     showCardDetails={this.props.showCardDetails}
-                    setIsShowingAboutMe={this.props.setIsShowingAboutMe}
                   />
                 )
               })

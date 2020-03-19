@@ -6,22 +6,31 @@ import PortfolioReducer from './PortfolioReducer'
 
 // Initial portfolio state.
 const initialState = {
-  isShowingAboutMe: true
+  isShowingAboutMe: true,
+  focusedProjectID: 0,
+  previouslyClickedCardID: 0
 }
 
 // Create login context
 export const PortfolioContext = createContext(initialState)
 
 // Create the provider for the context so that other components can use it.
-export const LoginProvider = ({ children }) => {
+export const PortfolioProvider = ({ children }) => {
   const [state, dispatch] = useReducer(PortfolioReducer, initialState)
 
   // State operations
-  function updateIsShowingAboutMe (bool) {
-    console.log('updateLoginInfo called.')
+  function setIsShowingAboutMe (bool) {
     dispatch({
-      type: 'UPDATE_ABOUT_ME',
+      type: 'SET_IS_SHOWING_ABOUT_ME',
       payload: bool
+    })
+  }
+
+  // State operations
+  function setFocusedProjectID (projectID) {
+    dispatch({
+      type: 'SET_FOCUSED_PROJECT_ID',
+      payload: projectID
     })
   }
 
@@ -29,7 +38,8 @@ export const LoginProvider = ({ children }) => {
     <PortfolioContext.Provider
       value={{
         state,
-        updateIsShowingAboutMe
+        setIsShowingAboutMe,
+        setFocusedProjectID
       }}
     >
       {children}

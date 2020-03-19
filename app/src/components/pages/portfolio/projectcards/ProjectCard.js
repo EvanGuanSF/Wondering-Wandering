@@ -1,9 +1,14 @@
-import React from 'react'
+// NPM modules
+import React, { useContext } from 'react'
 import './ProjectCard.css'
 import PropTypes from 'prop-types'
 
+// Contexts
+import PortfolioContext from '../../../../context/PortfolioState'
+
 export const ProjectCard = (props) => {
   const project = props.project
+  const portfolioState = useContext(PortfolioContext)
 
   // Do not render unless the component has projects to go through.
   if (project === undefined) {
@@ -17,7 +22,8 @@ export const ProjectCard = (props) => {
         onClick={() => {
           props.showCardDetails(project.projectID)
           props.highlightCard(project.projectID)
-          props.setIsShowingAboutMe(false)
+          portfolioState.setIsShowingAboutMe(false)
+          portfolioState.setFocusedProjectID(project.projectID)
         }}
       >
 

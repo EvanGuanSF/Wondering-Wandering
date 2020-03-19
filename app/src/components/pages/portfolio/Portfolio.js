@@ -5,6 +5,9 @@ import React, { Component } from 'react'
 import ProjectCategories from './projectcategories/ProjectCategories'
 import DetailContent from './detailcontent/DetailContent'
 
+// Contexts
+import PortfolioContext from '../../../context/PortfolioState'
+
 // Function libraries.
 import { calculateUsableDimensions } from '../../../libraries/pageWindowFunctions'
 
@@ -12,6 +15,8 @@ import { calculateUsableDimensions } from '../../../libraries/pageWindowFunction
 import './Portfolio.css'
 
 export default class Portfolio extends Component {
+  static contextType = PortfolioContext
+
   /**
    * Constructor for the portfolio page.
    * Fetch big things like project information.
@@ -22,7 +27,7 @@ export default class Portfolio extends Component {
 
     this.state = {
       projectInfo: null,
-      focusedProjectID: 0,
+      previouslyClickedCardID: 0,
 
       usableHeight: 0,
       usableWidth: 0
@@ -38,10 +43,7 @@ export default class Portfolio extends Component {
   }
 
   componentDidUpdate () {
-    if (this.props.isShowingAboutMe && this.state.focusedProjectID !== 0) {
-      this.highlightCard(0)
-      this.setState({ focusedProjectID: 0 })
-    }
+    this.updateCardState()
   }
 
   componentDidMount () {
@@ -53,6 +55,18 @@ export default class Portfolio extends Component {
   componentWillUnmount () {
     // Remove the event listener when we are done.
     window.removeEventListener('resize', this.updateDimensions.bind(this))
+    this.context.setFocusedProjectID(0)
+    this.context.setIsShowingAboutMe(false)
+  }
+
+  updateCardState = () => {
+    // Reset the background color on the previously clicked card if applicable.
+    var prevID = this.context.state.previouslyClickedCardID
+    var curID = this.context.state.focusedProjectID
+
+    if (prevID > 0 && prevID !== curID) {
+      document.getElementById('card-' + prevID).style.backgroundColor = 'var(--whiteish)'
+    }
   }
 
   updateDimensions = () => {
@@ -66,41 +80,28 @@ export default class Portfolio extends Component {
    * Highlight the clicked card and un-highlight the previously clicked card if applicable.
    */
   highlightCard = (projectID) => {
-    const previouslyClickedCardID = this.state.focusedProjectID
+    const previouslyClickedCardID = this.context.state.focusedProjectID
     var cardID = 'card-' + projectID
-    var previousCardID = 'card-' + previouslyClickedCardID
 
     // If the clicked card and the previously clicked card are the same, we have nothing to do.
     if (projectID === previouslyClickedCardID) {
       return
-    }
-
-    // Otherwise...
-    // Chenge the color of the clicked card.
-    if (projectID > 0) {
+    } else if (projectID > 0) {
+      // Otherwise...
+      // Chenge the color of the clicked card.
       document.getElementById(cardID).style.backgroundColor = 'var(--lavenderish)'
     }
-    // Reset the color of the previously clicked card.
-    if (previouslyClickedCardID > 0) {
-      document.getElementById(previousCardID).style.backgroundColor = 'var(--whiteish)'
-    }
-
-    // Update the previouslyClickedCardID
-    this.setState({ previouslyClickedCardID: projectID })
   }
 
   /**
    * Gets and displays project info on the left/top column.
    */
   showCardDetails = (projectID) => {
-    const previouslyClickedCardID = this.state.focusedProjectID
+    const previouslyClickedCardID = this.context.state.focusedProjectID
     // If the clicked card and the previously clicked card are the same, we have nothing to do.
     if (projectID === previouslyClickedCardID) {
       return
     }
-
-    // Update the state to reflect the projectID of the card that was clicked.
-    this.setState({ focusedProjectID: projectID })
   }
 
   render () {
@@ -112,10 +113,8 @@ export default class Portfolio extends Component {
 
           <div style={{ width:`${this.state.usableWidth}px`, height: `${this.state.usableHeight}px` }} id='details-col' className='col-lg-6 content-col'>
             <div className='d-flex flex-column flex-row'>
-              {/* <div id='detailContents' className='card-container' dangerouslySetInnerHTML={{ __html: this.state.currentDetails }} /> */}
               <div id='detailContents' className='card-container'>
                 <DetailContent
-                  focusedProjectID={this.state.focusedProjectID}
                   projects={this.state.projectInfo}
                 />
               </div>
@@ -129,7 +128,6 @@ export default class Portfolio extends Component {
                 projects={this.state.projectInfo}
                 highlightCard={this.highlightCard}
                 showCardDetails={this.showCardDetails}
-                setIsShowingAboutMe={this.props.setIsShowingAboutMe}
               />
             </div>
           </div>
