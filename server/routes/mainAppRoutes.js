@@ -85,7 +85,7 @@ mainAppRouter.get('/getProjectInfo', (req, res) => {
   if (process.env.ENV === 'production') {
     mysqlApiLimiter(req, res)
   }
-  console.log('Project info request endpoint.')
+  console.log('Getting project info.')
   index.selectProjectInfo(req, res)
 })
 
