@@ -46,6 +46,7 @@ services:
     command: >
       /bin/bash -c "
       && npm install
+      && npm run build
       && npm start"
 
   # Our Nginx reverse proxy.
