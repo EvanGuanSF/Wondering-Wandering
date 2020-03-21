@@ -17,7 +17,7 @@ export const ProjectCard = (props) => {
     return (
       <div
         key={project.projectID} id={`card-${project.projectID}`}
-        className={`collapse card show card-bg project-card shadow justify-content-center text-center project-category-${props.categoryIndex}`}
+        className={`collapse show card card-bg project-card shadow justify-content-center text-center project-category-${props.categoryIndex}`}
         style={{ backgroundColor: 'var(--whiteish)' }}
         onClick={() => {
           props.showCardDetails(project.projectID)
@@ -28,23 +28,33 @@ export const ProjectCard = (props) => {
       >
 
         <div className='container-fluid p-0 m-0'>
-          <div className='row p-0 m-0 content-col-row'>
+          <div className='row content-col-row p-0 m-0'>
 
             <div className='col-6 p-0 m-0'>
               <div className='content-grid-unit'>
                 <img
                   alt={project.projectName}
                   src={`/img/${project.projectImage}`}
-                  className='card-img-top project-card-image justify-content-center text-center p-0 m-0'
+                  className='card-img-top project-card-image p-0 m-0'
                   referrerPolicy='no-referrer'
                 />
               </div>
             </div>
 
-            <div className='card-body project-card-body col-6 p-0 m-0'>
-              <p className='card-title project-card-title p-0 m-0'><b>{project.projectName}</b> </p>
-              <p className='card-text project-card-text text-lef'>{project.projectDetails}</p>
-              <p className='card-title project-card-title p-0 m-0'><b>Click this card for more details</b></p>
+            <div className='project-card-body col-6 p-0 m-0'>
+
+              <div className='project-card-banner-container'>
+                <p className='project-card-banner-text'>{project.projectName}</p>
+              </div>
+              <div className='project-card-text-container'>
+                <p className='project-card-text vertical-center'>{project.projectSummary.length > 400 ? project.projectSummary.substring(0, 50).trim() + '...' : project.projectSummary}</p>
+              </div>
+              <div className='project-card-banner-container'>
+                <div className='project-card-banner-text'>
+                  <p>Click this card for details</p>
+                </div>
+              </div>
+
             </div>
 
           </div>

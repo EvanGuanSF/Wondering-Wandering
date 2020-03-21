@@ -35,6 +35,9 @@ ALABASTER
   --gold: #CBA135;
   --khaki: #BFB48F;
   --whiteish: #F2EFE9;
+  
+  --projectCardHeight: 10rem;
+  --projectDetailsCardHeight: 20rem;
 }
 
 * {

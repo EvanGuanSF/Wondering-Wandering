@@ -61,13 +61,13 @@ class ProjectCategories extends Component {
                 </div>
 
                 <div className='col-6 text-right p-0 m-0'>
-                  <button
+                  {/* <button
                     className='categoryContainer category-collapse-button p-0 m-0' data-toggle='collapse'
                     data-target={`.project-category-${index}`}
                     aria-expanded='true' aria-controls='collapse'
                   >
                     <b>Toggle Category</b>
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

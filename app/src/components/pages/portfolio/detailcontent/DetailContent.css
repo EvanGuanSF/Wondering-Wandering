@@ -1,0 +1,8 @@
+.card-img-top-large {
+  background-color: var(--whiteish);
+  height: var(--projectDetailsCardHeight);
+  width: 100%;
+  padding: 0rem;
+  margin: 0rem;
+  object-fit:scale-down;
+}

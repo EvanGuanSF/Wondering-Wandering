@@ -45,9 +45,10 @@ services:
       - wondering-wandering
     command: >
       /bin/bash -c "
-      && npm install
+      npm install
       && npm run build
-      && npm start"
+      && npm install -g serve
+      && serve -s build -l 80"
 
   # Our Nginx reverse proxy.
   nginx:

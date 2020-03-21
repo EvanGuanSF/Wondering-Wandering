@@ -1,67 +1,26 @@
-/*
-Color Scheme:
-
-:Darkest:
-NAVY PURPLE
-#8A4FFF
-BLUE JEANS
-#5BC0EB
-SATIN SHEEN GOLD
-#CBA135
-#F3EFE0
-:Lightest:
-
-:Darker:
-RAISIN BLACK
-#252627
-BLEU DE FRANCE
-#3C91E6
-ROSE TAUPE
-#904E55
-PALE CORNFLOWER BLUE
-#ADBDFF
-KHAKI (HTML/CSS) (KHAKI)
-#BFB48F
-ALABASTER
-#F2EFE9
-:Lighter:
-*/
-:root {
-  --blackish: #252627;
-  --purply: #8A4FFF;
-  --dblueish: #5BC0EB;
-  --lavenderish: #ADBDFF;
-  --rosey: #904E55;
-  --gold: #CBA135;
-  --khaki: #BFB48F;
-  --whiteish: #F2EFE9;
-
-  --commentCardHeight: 100px;
-}
-
 .comment-card {
   height: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border-radius: 0px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0rem;
 }
 
 .comment-card-body > h5, p, a {
-  font-size: 14px;
-  padding: 0px;
-  margin: 0px;
+  font-size: 0.9rem;
+  padding: 0rem;
+  margin: 0rem;
 }
 
 .comment-card-title {
-  margin: 0px;
+  margin: 0rem;
   overflow-x: auto;
   text-overflow: ellipsis;
 }
 
 .comment-card-text {
   width: stretch;
-  margin: 10px;
-  margin-bottom: 10px;
+  margin: 1rem;
+  margin-bottom: 1rem;
   overflow-x: auto;
   text-overflow: ellipsis;
 }

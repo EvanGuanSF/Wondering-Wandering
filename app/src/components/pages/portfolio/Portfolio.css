@@ -1,69 +1,33 @@
-/*
-Color Scheme:
-
-:Darkest:
-NAVY PURPLE
-#8A4FFF
-BLUE JEANS
-#5BC0EB
-SATIN SHEEN GOLD
-#CBA135
-#F3EFE0
-:Lightest:
-
-:Darker:
-RAISIN BLACK
-#252627
-BLEU DE FRANCE
-#3C91E6
-ROSE TAUPE
-#904E55
-PALE CORNFLOWER BLUE
-#ADBDFF
-KHAKI (HTML/CSS) (KHAKI)
-#BFB48F
-ALABASTER
-#F2EFE9
-:Lighter:
-*/
-:root {
-  --blackish: #252627;
-  --purply: #8A4FFF;
-  --dblueish: #5BC0EB;
-  --lavenderish: #ADBDFF;
-  --rosey: #904E55;
-  --gold: #CBA135;
-  --khaki: #BFB48F;
-  --whiteish: #F2EFE9;
-}
-
-
 #details-col {
-  padding: 10px;
-  padding-right: 5px;
+  padding: 1rem;
+  padding-right: 1rem;
   overflow-y: auto;
   display: 'flex';
   flex-direction: column;
   overflow-x: hidden;
+  z-index: 2;
+  position: relative;
 }
 
 #contentRow {
   background-color: var(--whiteish);
+  z-index: 1;
+  position: relative;
 }
 
 #scrollable-col {
-  padding: 10px;
-  padding-left: 5px;
+  padding: 1rem;
+  padding-left: 1rem;
   overflow-y: auto;
   display: 'flex';
   flex-direction: column;
   overflow-x: hidden;
+  z-index: 3;
+  position: relative;
 }
 
 .content-col {
-  /* Diagnostic border */
-  /* border: 1px solid red; */
-  padding: 15px;
+  padding: 1rem;
 }
 
 .content-col-row:hover {
@@ -71,8 +35,7 @@ ALABASTER
 }
 
 .content-grid-unit{
-  height: var(--pixelHeight);
-  max-height: 300px;
+  height: var(--projectCardHeight);
 }
 
 .content-col-row:hover {

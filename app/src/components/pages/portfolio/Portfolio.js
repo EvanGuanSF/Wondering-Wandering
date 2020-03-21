@@ -121,7 +121,7 @@ export default class Portfolio extends Component {
             </div>
           </div>
 
-          <div style={{ width:`${this.state.usableWidth}px`, height: `${this.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center content-col'>
+          <div style={{ width:`${this.state.usableWidth}px`, height: `${this.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center scrollable-col'>
             <div className='d-flex flex-column flex-row'>
               <div id='cardContainer' className='card-container' />
               <ProjectCategories
