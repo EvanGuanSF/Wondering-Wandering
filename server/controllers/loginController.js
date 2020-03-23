@@ -12,6 +12,8 @@ const userValidation = require('../controllers/userVerificationUtilities.js')
 const argon2 = require('argon2')
 
 exports.userLogin = function (req, res) {
+  console.log(req.body)
+
   // Execute the async function to log in a user.
   if (process.env.ENV === 'dev') {
     verifyUserDev(req, res)

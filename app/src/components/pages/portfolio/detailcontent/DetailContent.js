@@ -1,19 +1,17 @@
 // NPM modules
 import React, { Component } from 'react'
-import './DetailContent.css'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 
 // Contexts
 import PortfolioContext from '../../../../context/PortfolioState'
 
-export class DetailContent extends Component {
+// CSS
+import './DetailContent.css'
+
+export default class DetailContent extends Component {
   static contextType = PortfolioContext
 
-  /**
-   * Constructor for the portfolio page.
-   * Fetch big things like about me and project information.
-   * @param {*} props
-   */
   constructor (props) {
     super(props)
 
@@ -22,12 +20,31 @@ export class DetailContent extends Component {
       currentDetails: []
     }
 
+    this.getAboutMe()
+  }
+
+  componentWillUnmount () {
+    // Cancel requests.
+    if (this.cancelRequests !== null) {
+      this.cancelRequests()
+    }
+  }
+
+  getAboutMe = () => {
     // Get and set AboutMe html.
-    window.fetch('/AboutMe.txt')
-      .then(fetchResponse => fetchResponse.text())
+    axios.get('/AboutMe.txt', {
+      cancelToken: new axios.CancelToken ((executorC) => {
+        this.cancelRequests = executorC
+      })
+    })
       .then(aboutTextResponse => {
-        // console.log('About text', aboutTextResponse)
-        this.setState({ aboutMeHTML: aboutTextResponse, currentDetails: aboutTextResponse })
+        // console.log('About text', aboutTextResponse.data)
+        this.setState({ aboutMeHTML: aboutTextResponse.data, currentDetails: aboutTextResponse.data })
+      })
+      .catch(err => {
+        if (!axios.isCancel(err)) {
+          console.log(err)
+        }
       })
   }
 
@@ -166,5 +183,3 @@ export class DetailContent extends Component {
 DetailContent.propTypes = {
   projects: PropTypes.array.isRequired
 }
-
-export default DetailContent

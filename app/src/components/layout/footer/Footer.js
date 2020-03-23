@@ -1,5 +1,8 @@
 // NPM modules
-import React from 'react'
+import React, { useContext } from 'react'
+
+// Contexts
+import LayoutContext from '../../../context/LayoutState'
 
 // Components
 import PrivacyPolicyPopup from './privacypolicypopup/PrivacyPolicyPopup'
@@ -10,8 +13,14 @@ import UserGreeting from './usergreeting/UserGreeting'
 import './Footer.css'
 
 export const Footer = () => {
+  const layoutState = useContext(LayoutContext)
+
   return (
-    <footer id='footer' className='text-center justify-content-center fixed-bottom'>
+    <footer
+      id='footer'
+      className='text-center justify-content-center fixed-bottom'
+      onLoad={layoutState.updateUsableDimensions.bind(this)}
+    >
       <div className='container-fluid'>
         <div className='row'>
 

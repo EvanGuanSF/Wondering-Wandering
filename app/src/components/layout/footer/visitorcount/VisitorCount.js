@@ -1,20 +1,45 @@
 // NPM modules
 import React, { Component } from 'react'
+import axios from 'axios'
 
 export default class VisitorCount extends Component {
-  state = {
-    visitorCount: 0
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      visitorCount: 0
+    }
+
+    this.getVisitorCount()
   }
 
-  render() {
+  componentWillUnmount () {
+    // Cancel requests.
+    if (this.cancelRequests !== null) {
+      this.cancelRequests()
+    }
+  }
+
+  getVisitorCount = () => {
+    axios.get('/getVisitorCount', {
+      cancelToken: new axios.CancelToken ((executorC) => {
+        this.cancelRequests = executorC
+      })
+    })
+      // Access and store response.
+      .then(visitorCountResponse => {
+        // console.log('Visitor count:', visitorCountResponse.data[0].visitorCount)
+        this.setState({ visitorCount: visitorCountResponse.data[0].visitorCount })
+      })
+      .catch(err => {
+        if (!axios.isCancel(err)) {
+          console.log(err)
+        }
+      })
+  }
+
+  render () {
     if (this.state.visitorCount === 0) {
-      window.fetch('/getVisitorCount')
-        // Unwrap response.
-        .then(fetchResponse => fetchResponse.json())
-        // Access and store response.
-        .then(visitorCountResponse => {
-          this.setState({ visitorCount: visitorCountResponse[0].visitorCount })
-        })
       return null
     } else {
       return (

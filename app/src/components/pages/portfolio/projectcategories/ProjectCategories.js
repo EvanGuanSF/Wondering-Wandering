@@ -1,9 +1,19 @@
+// NPM modules
 import React, { Component } from 'react'
-import './ProjectCategories.css'
-import ProjectCard from '../projectcards/ProjectCard'
 import PropTypes from 'prop-types'
 
-class ProjectCategories extends Component {
+// Components
+import ProjectCard from '../projectcards/ProjectCard'
+
+// Contexts
+import PortfolioContext from '../../../../context/PortfolioState'
+
+// CSS
+import './ProjectCategories.css'
+
+export default class ProjectCategories extends Component {
+  static contextType = PortfolioContext
+
   constructor (props) {
     super(props)
 
@@ -12,8 +22,30 @@ class ProjectCategories extends Component {
     }
   }
 
+  componentDidUpdate () {
+    this.updateCardState()
+  }
+
   componentDidMount () {
     this.setUniqueProjectCategoriesState()
+  }
+  
+  updateCardState = () => {
+    // Reset the background color on the previously clicked card if applicable.
+    var prevID = this.context.state.previouslyClickedCardID
+    var curID = this.context.state.focusedProjectID
+
+    if (curID === prevID) {
+      return
+    }
+    if (curID > 0) {
+      // Otherwise...
+      // Chenge the color of the clicked card.
+      document.getElementById('card-' + curID).style.backgroundColor = 'var(--lavenderish)'
+    }
+    if (prevID > 0) {
+      document.getElementById('card-' + prevID).style.backgroundColor = 'var(--whiteish)'
+    }
   }
 
   /**
@@ -78,8 +110,6 @@ class ProjectCategories extends Component {
                     key={project.projectID}
                     categoryIndex={index.toString()}
                     project={project}
-                    highlightCard={this.props.highlightCard}
-                    showCardDetails={this.props.showCardDetails}
                   />
                 )
               })
@@ -95,5 +125,3 @@ class ProjectCategories extends Component {
 ProjectCategories.propTypes = {
   projects: PropTypes.array.isRequired
 }
-
-export default ProjectCategories

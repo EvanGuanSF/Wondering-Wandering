@@ -20,8 +20,6 @@ export const ProjectCard = (props) => {
         className={`collapse show card card-bg project-card shadow justify-content-center text-center project-category-${props.categoryIndex}`}
         style={{ backgroundColor: 'var(--whiteish)' }}
         onClick={() => {
-          props.showCardDetails(project.projectID)
-          props.highlightCard(project.projectID)
           portfolioState.setIsShowingAboutMe(false)
           portfolioState.setFocusedProjectID(project.projectID)
         }}
@@ -51,7 +49,7 @@ export const ProjectCard = (props) => {
               </div>
               <div className='project-card-banner-container'>
                 <div className='project-card-banner-text'>
-                  <p>Click this card for details</p>
+                  <p>Click for details</p>
                 </div>
               </div>
 

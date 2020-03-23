@@ -1,22 +1,20 @@
 // NPM modules
 import React, { Component } from 'react'
+import axios from 'axios'
 
 // Components
 import GuestbookCard from './guestbookcard/GuestbookCard'
 import CommentSubmissionForm from './commentsubmissionform/CommentSubmissionForm'
 
+// Contexts
+import LayoutContext from '../../../context/LayoutState'
+
 // CSS
 import './Guestbook.css'
 
-// Function libraries.
-import { calculateUsableDimensions } from '../../../libraries/pageWindowFunctions'
-
 export default class Guestbook extends Component {
-  /**
-   * Constructor for the guestbook page.
-   * Fetch big things like the comment information.
-   * @param {*} props
-   */
+  static contextType = LayoutContext
+
   constructor (props) {
     super(props)
 
@@ -26,29 +24,27 @@ export default class Guestbook extends Component {
       usableWidth: 0
     }
 
+
     // Get and set comment card information.
-    window.fetch('/getComments')
-      .then(fetchResponse => fetchResponse.text())
-      .then(commentResponse => {
-        this.setState({ commentData: commentResponse })
-      })
+    this.updateCommentCards()
   }
 
   componentDidMount () {
+    // Update render dimensions.
+    this.context.updateUsableDimensions()
+
     // Add the window resize event listener.
-    this.updateDimensions()
-    window.addEventListener('resize', this.updateDimensions.bind(this))
+    window.addEventListener('resize', this.context.updateUsableDimensions.bind(this))
   }
 
   componentWillUnmount () {
     // Remove the event listener when we are done.
-    window.removeEventListener('resize', this.updateDimensions.bind(this))
-  }
+    window.removeEventListener('resize', this.context.updateUsableDimensions.bind(this))
 
-  updateDimensions = () => {
-    var dimensions = calculateUsableDimensions()
-    this.setState({ usableWidth: dimensions[0] })
-    this.setState({ usableHeight: dimensions[1] })
+    // Cancel requests.
+    if (this.cancelRequests !== null) {
+      this.cancelRequests()
+    }
   }
 
   /**
@@ -56,10 +52,19 @@ export default class Guestbook extends Component {
    */
   updateCommentCards = () => {
     // Get and set comment card information.
-    window.fetch('/getComments')
-      .then(fetchResponse => fetchResponse.text())
+    axios.get('/getComments', {
+      cancelToken: new axios.CancelToken ((executorC) => {
+        this.cancelRequests = executorC
+      })
+    })
       .then(commentResponse => {
-        this.setState({ commentData: commentResponse })
+        // console.log('Comments:', commentResponse.data)
+        this.setState({ commentData: commentResponse.data })
+      })
+      .catch(err => {
+        if (!axios.isCancel(err)) {
+          console.log(err)
+        }
       })
   }
 
@@ -70,7 +75,7 @@ export default class Guestbook extends Component {
     return (
       <div 
         id='comment-container-col'
-        style={{ height: `${this.state.usableHeight}px` }}
+        style={{ height: `${this.context.state.usableHeight}px` }}
       >
         <div className='row'>
           {/* <!--- Padding column ---> */}
@@ -88,7 +93,7 @@ export default class Guestbook extends Component {
             <div className='d-flex flex-column flex-row'>
               <div id='cardContainer' className='card-container' />
               {
-                JSON.parse(comments).map((comment, index) => {
+                comments.map((comment, index) => {
                   return (
                     <GuestbookCard key={index} commentInformation={comment}></GuestbookCard>
                   )

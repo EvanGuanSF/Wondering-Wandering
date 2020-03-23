@@ -1,20 +1,13 @@
 // NPM modules
 import React, { Component } from 'react'
+import axios from 'axios'
 
 // CSS
 import './Subtitle.css'
 
 export default class Subtitle extends Component {
-  /**
-   * Constructor for the subtitle.
-   * Fetch static assets.
-   * @param {*} props
-   */
   constructor (props) {
     super(props)
-
-    var loadNewSubtitleInterval = null
-    var writeSubtitleInterval = null
 
     this.state = {
       subtitle: '',
@@ -23,17 +16,7 @@ export default class Subtitle extends Component {
       windowIsActive: true
     }
 
-    // Get and set subtitle.
-    window.fetch('/getRandomSubtitle')
-      // Unwrap response.
-      .then(fetchResponse => fetchResponse.json())
-      // Access and store response.
-      .then(subtitleResponse => { 
-        this.setState({ subtitle: subtitleResponse[0].subtitle })
-      })
-      .then(() => {
-        this.writeSubtitle()
-      })
+    this.getInitialSubtitle()
   }
 
   async componentDidMount () {
@@ -42,16 +25,37 @@ export default class Subtitle extends Component {
   }
 
   componentWillUnmount () {
+    // Clear the wait intervals using the refs we made in the constructor.
     clearInterval(this.loadNewSubtitleInterval)
-    clearInterval(this.writeSubtitleInterval)
-  }
-  
-  handleActivity = (forcedFlag) => {
-    if (typeof forcedFlag === 'boolean') {
-      forcedFlag ? this.setState({ windowIsActive: true }) : this.setState({ windowIsActive: false })
-    } else {
-      document.hidden ? this.setState({ windowIsActive: false }) : this.setState({ windowIsActive: true })
+    clearInterval(this.writeCurSubtitleInterval)
+
+    // Cancel requests.
+    if (this.cancelRequests !== null) {
+      this.cancelRequests()
     }
+  }
+
+  async getInitialSubtitle () {
+    // Get and set subtitle.
+    axios.get('/getRandomSubtitle', {
+      cancelToken: new axios.CancelToken((executorC) => {
+        this.cancelRequests = executorC
+      })
+    })
+      // Access and store response.
+      .then(subtitleResponse => {
+        this.setState({ subtitle: subtitleResponse.data[0].subtitle }, () => {
+          // console.log('Subtitle:', this.state.subtitle)
+        })
+      })
+      .then(() => {
+        this.writeSubtitle()
+      })
+      .catch(err => {
+        if (!axios.isCancel(err)) {
+          console.log(err)
+        }
+      })
   }
 
   /**
@@ -63,16 +67,24 @@ export default class Subtitle extends Component {
     try {
       this.loadNewSubtitleInterval = setInterval(async () => {
         this.setState({ currentDisplayedSubtitle: '' })
-        await fetch('/getRandomSubtitle')
-          // Unwrap response.
-          .then(fetchResponse => fetchResponse.json())
+        axios.get('/getRandomSubtitle', {
+          cancelToken: new axios.CancelToken((executorC) => {
+            this.cancelRequests = executorC
+          })
+        })
           // Access and store response.
           .then(subtitleResponse => {
-            this.setState({ subtitle: subtitleResponse[0].subtitle }, () => {
+            this.setState({ subtitle: subtitleResponse.data[0].subtitle }, () => {
+              // console.log('Subtitle:', this.state.subtitle)
               // Write out the subtitle to the component state.
-              clearInterval(this.writeSubtitleInterval)
+              clearInterval(this.writeCurSubtitleInterval)
               this.writeSubtitle()
             })
+          })
+          .catch(err => {
+            if (!axios.isCancel(err)) {
+              console.log(err)
+            }
           })
       }, subtitleShowingTime * 1000)
     } catch (error) {
@@ -94,14 +106,14 @@ export default class Subtitle extends Component {
     var i = 0
 
     try {
-      this.writeSubtitleInterval = setInterval(async () => {
+      this.writeCurSubtitleInterval = setInterval(async () => {
         var character = subtitle[i]
         // If the character to be added is a space, do not pause before writing it.
-        if(i === subtitle.length) {
+        if (i === subtitle.length) {
           return null
         }
-        if(character === ' ') {
-          while(character === ' ') {
+        if (character === ' ') {
+          while (character === ' ') {
             this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
             i++
             character = subtitle[i]

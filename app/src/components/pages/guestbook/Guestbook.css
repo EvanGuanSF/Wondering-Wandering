@@ -1,6 +1,6 @@
 #comment-container-col {
   background-color: var(--whiteish);
-  padding: 2rem;
+  padding: 1rem;
   overflow-y: auto;
   overflow-x: hidden;
 }

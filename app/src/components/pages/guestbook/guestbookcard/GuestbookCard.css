@@ -19,8 +19,8 @@
 
 .comment-card-text {
   width: stretch;
-  margin: 1rem;
-  margin-bottom: 1rem;
+  margin: 0.25rem;
+  margin-bottom: 0rem;
   overflow-x: auto;
   text-overflow: ellipsis;
 }

@@ -13,10 +13,6 @@ import './LoginSubmissionForm.css'
 export default class LoginSubmissionForm extends Component {
   static contextType = LoginContext
 
-  /**
-   * Constructor for the login form.
-   * @param {*} props
-   */
   constructor (props) {
     super(props)
 
@@ -156,8 +152,7 @@ export default class LoginSubmissionForm extends Component {
 
   render () {
     if(this.state.redirectURL !== '') {
-      console.log('Redirecting to:', this.state.redirectURL)
-      return <Redirect push to={this.state.redirectURL.toString} />
+      return <Redirect push to={new URL(this.state.redirectURL).pathname} />
     } else {
       return (
         <form id='registration-form' action='/register' method='post' encType='application/json'>

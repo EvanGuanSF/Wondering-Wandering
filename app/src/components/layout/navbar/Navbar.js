@@ -7,16 +7,22 @@ import Subtitle from './subtitle/Subtitle'
 
 // Contexts
 import PortfolioContext from '../../../context/PortfolioState'
+import LayoutContext from '../../../context/LayoutState'
 
 // CSS
 import './Navbar.css'
 
 export const Navbar = () => {
   const portfolioState = useContext(PortfolioContext)
+  const layoutState = useContext(LayoutContext)
   const location = useLocation()
 
   return (
-    <nav id='navbar' className='navbar navbar-expand-md navbar-dark sticky-top ml-auto shadow'>
+    <nav
+      id='navbar'
+      className='navbar navbar-expand-md navbar-dark sticky-top ml-auto shadow'
+      onChange={layoutState.updateUsableDimensions.bind(this)}
+    >
       <div className='row'>
         <div className='col-6'>
 

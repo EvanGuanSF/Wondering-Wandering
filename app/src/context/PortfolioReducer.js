@@ -14,12 +14,6 @@ export default (state, action) => {
         focusedProjectID: action.payload
       }
     }
-    case 'SET_PREVIOUSLY_CLICKED_CARD_ID': {
-      return {
-        ...state,
-        previouslyClickedCardID: action.payload
-      }
-    }
     default: {
       return state
     }

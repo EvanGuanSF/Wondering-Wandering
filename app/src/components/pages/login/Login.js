@@ -4,48 +4,33 @@ import React, { Component } from 'react'
 // Components
 import LoginSubmissionForm from './loginsubmissionform/LoginSubmissionForm'
 
+// Contexts
+import LayoutContext from '../../../context/LayoutState'
+
 // CSS
 import './Login.css'
 
-// Function libraries.
-import { calculateUsableDimensions } from '../../../libraries/pageWindowFunctions'
-
 export default class Login extends Component {
-  /**
-   * Constructor for the login page.
-   * @param {*} props
-   */
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      usableHeight: 0,
-      usableWidth: 0
-    }
-  }
+  static contextType = LayoutContext
 
   componentDidMount () {
+    // Update render dimensions.
+    this.context.updateUsableDimensions()
+
     // Add the window resize event listener.
-    this.updateDimensions()
-    window.addEventListener('resize', this.updateDimensions.bind(this))
+    window.addEventListener('resize', this.context.updateUsableDimensions.bind(this))
   }
 
   componentWillUnmount () {
     // Remove the event listener when we are done.
-    window.removeEventListener('resize', this.updateDimensions.bind(this))
-  }
-
-  updateDimensions = () => {
-    var dimensions = calculateUsableDimensions()
-    this.setState({ usableWidth: dimensions[0] })
-    this.setState({ usableHeight: dimensions[1] })
+    window.removeEventListener('resize', this.context.updateUsableDimensions.bind(this))
   }
 
   render () {
     return (
       <div
         id='login-container-col'
-        style={{ height: `${this.state.usableHeight}px` }}
+        style={{ height: `${this.context.state.usableHeight}px` }}
       >
         <div className='row'>
           {/* <!--- Padding column ---> */}

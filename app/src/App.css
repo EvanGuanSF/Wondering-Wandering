@@ -40,6 +40,47 @@ ALABASTER
   --projectDetailsCardHeight: 20rem;
 }
 
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0.25rem var(--blackish);
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0.74rem;
+}
+
+::-webkit-scrollbar-thumb {
+  scrollbar-highlight-color: var(--lavenderish);
+  background-color: var(--rosey);
+}
+
+::-webkit-scrollbar-button {
+  background-color: var(--whiteish);
+}
+
+/* Up/down arrow buttons */
+::-webkit-scrollbar-button:single-button {
+  background-color: var(--whiteish);
+  display: block;
+  border-style: solid;
+  height: 1rem;
+  width: 0.5rem;
+}
+
+/* Up arrow */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--blackish) transparent;
+}
+
+/* Down arrow */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-width: 6px 6px 0 6px;
+  border-color: var(--blackish) transparent transparent transparent;
+}
+
+
 * {
   margin: 0;
   padding: 0;
