@@ -9,6 +9,7 @@ import Portfolio from './components/pages/portfolio/Portfolio'
 import Guestbook from './components/pages/guestbook/Guestbook'
 import Login from './components/pages/login/Login'
 import Registration from './components/pages/registration/Registration'
+import PageNotFound from './components/pages/PageNotFound'
 
 // Contexts
 import { LoginProvider, LoginContext } from './context/LoginState'
@@ -28,55 +29,46 @@ export default class App extends Component {
   render () {
     return (
       <div className='container col-12' style={{ margin: '0 0 0 0', padding: '0 0 0 0', width: '100%' }}>
-        {/* These routes can all make use of login state information. */}
         <Router>
         
           <LayoutProvider>
             <LoginProvider>
+              <PortfolioProvider>
 
-              {/* Always show the navbar. */}
-              <Switch>
+                <Route path='*' component={Navbar} />
 
-                {/* Conditionally show a same-context navbar and
-                Portfolio based on route. */}
-                <Route
-                  exact path='/'
-                  render={() => 
-                    <PortfolioProvider>
-                      <Navbar />
-                      <Portfolio />
-                    </PortfolioProvider>
-                  }
-                />
+                <Switch>
+                  <Route
+                    exact path='/'
+                    render={() => 
+                        <Portfolio />
+                    }
+                  />
 
-                {/* Always show the navbar. */}
-                <Route to='*' component={Navbar} />
-                
-              </Switch>
+                  <Route
+                    exact path='/guestbook'
+                    component={Guestbook}
+                  />
 
-              <Switch>
-                {/* Conditionally show the guestbook page based on route. */}
-                <Route
-                  exact path='/guestbook'
-                  component={Guestbook}
-                />
+                  <Route
+                    exact path='/login'
+                    component={Login}
+                  />
 
-                {/* Conditionally show the login page based on route. */}
-                <Route
-                  exact path='/login'
-                  component={Login}
-                />
+                  <Route
+                    exact path='/register'
+                    component={Registration}
+                  />
 
-                {/* Conditionally show the registration page based on route. */}
-                <Route
-                  exact path='/register'
-                  component={Registration}
-                />
-              </Switch>
+                  <Route
+                    path='/*'
+                    component={PageNotFound}
+                  />
+                </Switch>
 
-              {/* Always show the footer. */}
-              <Footer />
+                <Footer />
 
+              </PortfolioProvider>
             </LoginProvider>
           </LayoutProvider>
 
