@@ -26,39 +26,39 @@ services:
       && npm install
       && npm start"
       
-  # app:
-  #   container_name: app-container
-  #   hostname: app
-  #   restart: always
-  #   build:
-  #     context: ./app
-  #     dockerfile: Dockerfile
-  #   mem_limit: 500m
-  #   # Do not expose ports; we rely on nginx to proxy traffic to
-  #   # this container from within the container network.
-  #   # ports:
-  #   volumes:
-  #     # Map our spp folder in to the container's server folder.
-  #     - ./app:/usr/src/app
-  #     - /app/node_modules
-  #   networks:
-  #     - wondering-wandering
-  #   command: >
-  #     /bin/bash -c "
-  #     npm install
-  #     && npm run build
-  #     && npm install -g serve
-  #     && serve -s build -l 80"
+  app:
+    container_name: app-container
+    hostname: app
+    restart: always
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    mem_limit: 500m
+    # Do not expose ports; we rely on nginx to proxy traffic to
+    # this container from within the container network.
+    # ports:
+    volumes:
+      # Map our spp folder in to the container's server folder.
+      - ./app:/usr/src/app
+      - /app/node_modules
+    networks:
+      - wondering-wandering
+    command: >
+      /bin/bash -c "
+      npm install
+      && npm run build
+      && npm install -g serve
+      && serve -s build -l 80"
 
-  # Our Nginx reverse proxy + web app server.
+  # Our Nginx reverse proxy.
   nginx:
     container_name: nginx-container
     image: nginx
     hostname: nginx
     build:
-      context: ./
-      dockerfile: ./nginx/Dockerfile
-    mem_limit: 500m
+      context: ./nginx
+      dockerfile: Dockerfile
+    mem_limit: 200m
     ports:
       - '80:80'
       - '443:443'
