@@ -1,6 +1,8 @@
 # Wondering Wandering
 Portfolio webpage based on SFSU Software Engineering course work.
-
+<br></br>
+### **!!! Readme not yet updated for React implementation !!!**
+<br></br>
 Meant to run in Docker containers on a cloud provider (AWS EC2 for example). There are four containers running:
  - Node.js with Express as the core of the webapp with endpoint handling and fileserver functions.
  - Nginx running as a reverse proxy for serving https certificates and guaranteeing https-only connections to the container network.
