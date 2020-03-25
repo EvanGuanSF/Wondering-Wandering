@@ -1,0 +1,43 @@
+#details-col {
+  padding: 1rem;
+  padding-right: 1rem;
+  overflow-y: auto;
+  display: 'flex';
+  flex-direction: column;
+  overflow-x: hidden;
+  z-index: 2;
+  position: relative;
+}
+
+#contentRow {
+  background-color: var(--whiteish);
+  z-index: 1;
+  position: relative;
+}
+
+#scrollable-col {
+  padding: 1rem;
+  padding-left: 1rem;
+  overflow-y: auto;
+  display: 'flex';
+  flex-direction: column;
+  overflow-x: hidden;
+  z-index: 3;
+  position: relative;
+}
+
+.content-col {
+  padding: 1rem;
+}
+
+.content-col-row:hover {
+  background-color: var(--gold);
+}
+
+.content-grid-unit{
+  height: var(--projectCardHeight);
+}
+
+.content-col-row:hover {
+  cursor: pointer;
+}

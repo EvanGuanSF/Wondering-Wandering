@@ -1,0 +1,34 @@
+.collapsing {
+    -webkit-transition: none;
+    transition: none !important;
+    display: none;
+}
+
+.category-collapse-button:hover {
+    color: var(--lavenderish) !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.category-collapse-button {
+    background-color: transparent;
+    border: none;
+    outline:none;
+    color: var(--rosey) !important;
+    font-size: 0.85rem;
+    text-decoration: none;
+    cursor: pointer;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.category-collapse-button:focus {
+    text-decoration: none;
+    outline:none;
+    cursor: pointer;
+}
+
+.project-category-identifier {
+    color: var(--blackish);
+    max-width: 100%;
+}

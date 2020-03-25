@@ -1,0 +1,12 @@
+# Misc
+/ignore folder
+
+# Authentication
+auth/cert.pem
+auth/key.pem
+
+# Images
+/views/public/img/*
+
+# Files
+/views/public/files/*

@@ -14,8 +14,8 @@ server {
 
     # Unless it matches this request/challenege for Certbot.
     location ~ /.well-known/acme-challenge {
-            allow all;
-            root ${NGINX_WEBROOT_PATH};
+        allow all;
+        root ${NGINX_WEBROOT_PATH};
     }
 }
 
@@ -25,18 +25,33 @@ server {
     listen [::]:${NGINX_HTTPS_PORT} ssl http2 default_server;
     server_name ${NGINX_DOMAINS_OR_IP_ADDRESSES};
 
+    include /etc/nginx/mime.types;
+
     # Include our custom ssl configuration from ./snippets/ssl-params.conf
     include ${NGINX_SSL_PARAMS_SNIPPET_PATH};
 
-    # Finally, add some headers and redirect to our nodejs app.
+    # Set the root of the app directory.
+    root ${NGINX_WEB_APP_PATH};
+
+    # Add ref to the main app index file.
+    index index.html index.htm;
+
+    # Match any other routes and serve the index.
+    # Takes care of the SPA not loading specific pages with manual navigation.
     location / {
+       try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.html;
+    }
+
+    # Forward api requests to the backend express server.
+    location /api/ {
         proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
         proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
         proxy_set_header Host ${DOLLAR}host;
+        proxy_set_header X-Forwarded-Server ${DOLLAR}host;
         proxy_set_header X-Forwarded-Host ${DOLLAR}host;
         proxy_set_header X-Forwarded-Port ${DOLLAR}server_port;
         
-        proxy_pass http://app:80;
+        proxy_pass http://server:3001;
     }
 }

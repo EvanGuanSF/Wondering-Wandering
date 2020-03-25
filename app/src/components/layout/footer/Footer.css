@@ -1,0 +1,54 @@
+#footer {
+  background-color: var(--rosey);
+  margin: 0;
+  min-height: 1.5rem;
+  max-height: 100%;
+  font-size: 1rem;
+}
+
+#userGreeting {
+  font-weight: bold;
+  vertical-align: middle;
+  margin: 0;
+  font-size: 1rem;
+}
+
+#uniqueVisitorsCounter {
+  font-weight: bold;
+  vertical-align: middle;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+#privacyPolicyLink {
+  background-color: transparent;
+  border: none;
+  color: var(--blackish) !important;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+#privacyPolicyPopup {
+  text-align: left;
+}
+
+#privacyPolicyLink:hover {
+  color: var(--lavenderish) !important;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.modal-backdrop {
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--whiteish);
+  color: var(--blackish);
+  margin: 0;
+  font-size: 0.9rem;
+}

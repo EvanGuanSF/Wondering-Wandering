@@ -1,0 +1,100 @@
+/*
+Color Scheme:
+
+:Darkest:
+NAVY PURPLE
+#8A4FFF
+BLUE JEANS
+#5BC0EB
+SATIN SHEEN GOLD
+#CBA135
+#F3EFE0
+:Lightest:
+
+:Darker:
+RAISIN BLACK
+#252627
+BLEU DE FRANCE
+#3C91E6
+ROSE TAUPE
+#904E55
+PALE CORNFLOWER BLUE
+#ADBDFF
+KHAKI (HTML/CSS) (KHAKI)
+#BFB48F
+ALABASTER
+#F2EFE9
+:Lighter:
+*/
+:root {
+  --blackish: #252627;
+  --purply: #8A4FFF;
+  --dblueish: #5BC0EB;
+  --lavenderish: #ADBDFF;
+  --rosey: #904E55;
+  --gold: #CBA135;
+  --khaki: #BFB48F;
+  --whiteish: #F2EFE9;
+  
+  --projectCardHeight: 10rem;
+  --projectDetailsCardHeight: 20rem;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 0.25rem var(--blackish);
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0.74rem;
+}
+
+::-webkit-scrollbar-thumb {
+  scrollbar-highlight-color: var(--lavenderish);
+  background-color: var(--rosey);
+}
+
+::-webkit-scrollbar-button {
+  background-color: var(--whiteish);
+}
+
+/* Up/down arrow buttons */
+::-webkit-scrollbar-button:single-button {
+  background-color: var(--whiteish);
+  display: block;
+  border-style: solid;
+  height: 1rem;
+  width: 0.5rem;
+}
+
+/* Up arrow */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--blackish) transparent;
+}
+
+/* Down arrow */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-width: 6px 6px 0 6px;
+  border-color: var(--blackish) transparent transparent transparent;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--whiteish);
+}
+
+a {
+  text-decoration: none;
+}

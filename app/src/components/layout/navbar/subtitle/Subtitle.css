@@ -1,0 +1,12 @@
+#subtitle {
+  color: var(--whiteish);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  padding-top: 0;
+  padding-bottom: 0.25rem;
+}
+
+#subtitle:after {
+  content:' ';
+  display:inline-block;
+}

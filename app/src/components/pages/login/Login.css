@@ -1,0 +1,6 @@
+#login-container-col {
+  background-color: var(--whiteish);
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

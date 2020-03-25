@@ -1,0 +1,91 @@
+.category-collapse-button:hover {
+    color: var(--lavenderish) !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.category-collapse-button {
+    color: var(--rosey);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.project-card {
+    height: var(--projectCardHeight) !important;
+    margin-top: 0rem;
+    margin-bottom: 2rem;
+    border-radius: 0rem;
+}
+
+.project-category-identifier {
+    color: var(--blackish);
+    max-width: 100%;
+}
+
+.project-card-image {
+    height: var(--projectCardHeight) !important;
+    width: 100%;
+    padding: 0rem;
+    margin: 0rem;
+    border: 0rem;
+    object-fit:scale-down;
+}
+
+.card-video {
+    width: 100%;
+    height: var(--projectCardHeight) !important;
+}
+
+.project-card-body {
+    padding: 1rem;
+    margin: 1rem;
+    height: var(--projectCardHeight) !important;
+}
+
+.project-card-body > h5, p, a {
+    font-size: 0.9rem;
+    padding: 0rem;
+    margin: 0rem;
+}
+
+.project-card-banner-container {
+    width: stretch;
+    height: 15%;
+    overflow-x: auto;
+    text-overflow: ellipsis;
+    line-height: 1.5 !important;
+
+    display: table;
+}
+
+.project-card-banner-text {
+    font-size: 0.9rem;
+    font-weight: bold;
+    
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.project-card-text-container {
+    width: stretch;
+    height: 70%;
+    overflow-x: auto;
+    text-overflow: ellipsis;
+    line-height: 1.5 !important;
+
+    display: table;
+}
+
+.project-card-text {
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: table-cell;
+    vertical-align: middle;
+}
