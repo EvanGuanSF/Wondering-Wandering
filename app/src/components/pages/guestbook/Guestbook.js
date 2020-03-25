@@ -52,7 +52,7 @@ export default class Guestbook extends Component {
    */
   updateCommentCards = () => {
     // Get and set comment card information.
-    axios.get('/getComments', {
+    axios.get('/api/getComments', {
       cancelToken: new axios.CancelToken ((executorC) => {
         this.cancelRequests = executorC
       })

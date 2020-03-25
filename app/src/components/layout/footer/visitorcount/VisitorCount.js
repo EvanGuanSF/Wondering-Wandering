@@ -21,7 +21,7 @@ export default class VisitorCount extends Component {
   }
 
   getVisitorCount = () => {
-    axios.get('/getVisitorCount', {
+    axios.get('/api/getVisitorCount', {
       cancelToken: new axios.CancelToken ((executorC) => {
         this.cancelRequests = executorC
       })

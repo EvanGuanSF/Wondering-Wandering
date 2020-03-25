@@ -49,10 +49,10 @@ const mysqlApiLimiter = process.env.ENV === 'dev' ? null : rateLimit({
 })
 
 // GET index.
-mainAppRouter.get('/', userValidation.refreshLoginToken, (req, res) => {
-  if (process.env.ENV === 'production') {
-    pageLimiter(req, res)
-  }
+mainAppRouter.get('/', userValidation.refreshLoginToken, pageLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   pageLimiter(req, res)
+  // }
   // Log the request.
   console.log('GET request for the homepage over: ' + req.protocol)
 
@@ -63,10 +63,10 @@ mainAppRouter.get('/', userValidation.refreshLoginToken, (req, res) => {
 })
 
 // GET guestbook.
-mainAppRouter.get('/guestbook', (req, res) => {
-  if (process.env.ENV === 'production') {
-    pageLimiter(req, res)
-  }
+mainAppRouter.get('/api/guestbook', pageLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   pageLimiter(req, res)
+  // }
   // Log the request.
   console.log('GET request for guestbook')
   // Return successful get request status.
@@ -81,10 +81,10 @@ mainAppRouter.get('/guestbook', (req, res) => {
  * @param none
  * @return {JSON} {projectID, projectName, projectURL, projectSecondaryURL, projectTertiaryURL, projectImage, projectDetails, projectLanguagesAndTechnologies, projectRole}
  */
-mainAppRouter.get('/getProjectInfo', (req, res) => {
-  if (process.env.ENV === 'production') {
-    mysqlApiLimiter(req, res)
-  }
+mainAppRouter.get('/api/getProjectInfo', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   mysqlApiLimiter(req, res)
+  // }
   console.log('Getting project info.')
   index.selectProjectInfo(req, res)
 })
@@ -95,10 +95,10 @@ mainAppRouter.get('/getProjectInfo', (req, res) => {
  * @param {JSON} {guestName, guestComment, reCAPTCHAToken}
  * @return {URL} {guestBookURL}
  */
-mainAppRouter.post('/submitComment', (req, res) => {
-  if (process.env.ENV === 'production') {
-    mysqlApiLimiter(req, res)
-  }
+mainAppRouter.post('/api/submitComment', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   mysqlApiLimiter(req, res)
+  // }
   console.log('Comment submission endpoint.')
   guestbook.insertComment(req, res)
 })
@@ -109,10 +109,10 @@ mainAppRouter.post('/submitComment', (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-mainAppRouter.get('/getComments', (req, res) => {
-  if (process.env.ENV === 'production') {
-    mysqlApiLimiter(req, res)
-  }
+mainAppRouter.get('/api/getComments', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   mysqlApiLimiter(req, res)
+  // }
   console.log('Getting comments.')
   guestbook.selectComments(req, res)
 })
@@ -123,10 +123,10 @@ mainAppRouter.get('/getComments', (req, res) => {
  * @param {}
  * @return {JSON} {guestName, guestComment}
  */
-mainAppRouter.get('/getRandomSubtitle', (req, res) => {
-  if (process.env.ENV === 'production') {
-    mysqlApiLimiter(req, res)
-  }
+mainAppRouter.get('/api/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   mysqlApiLimiter(req, res)
+  // }
   console.log('Getting random subtitle.')
   navbar.getRandomSubtitle(req, res)
 })
@@ -137,10 +137,10 @@ mainAppRouter.get('/getRandomSubtitle', (req, res) => {
  * @param {}
  * @return {JSON} {visitorCount}
  */
-mainAppRouter.get('/getVisitorCount', (req, res) => {
-  if (process.env.ENV === 'production') {
-    mysqlApiLimiter(req, res)
-  }
+mainAppRouter.get('/api/getVisitorCount', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   mysqlApiLimiter(req, res)
+  // }
   console.log('Getting visitor count.')
   visitorCount.getVisitorCount(req, res)
 })

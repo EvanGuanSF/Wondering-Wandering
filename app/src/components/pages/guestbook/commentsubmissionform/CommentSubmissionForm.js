@@ -41,7 +41,7 @@ export default class commentSubmissionForm extends Component {
     // Check the user input.
     if (this.validateInput()) {
       // If the user input is valid, fire a post request.
-      window.fetch('/submitComment', {
+      window.fetch('/api/submitComment', {
         method: 'POST',
         mode: 'same-origin',
         cache: 'no-cache',
@@ -133,7 +133,7 @@ export default class commentSubmissionForm extends Component {
    * Validate reCAPTCHA status.
    */
   isReCAPTCHAValid = () => {
-    if (this.state['g-recaptcha-response'] && this.state['g-recaptcha-response'] > 0) {
+    if (this.state['g-recaptcha-response'] && this.state['g-recaptcha-response'].length > 0) {
       // Captcha checked
       // Be sure to empty the field of past errors if there were any.
       document.getElementById('captchaValidity').textContent = ''

@@ -55,7 +55,7 @@ export default class RegistrationSubmissionForm extends Component {
       if (this.validateInput()) {
         // If the user input is valid, fire a post request.
         console.log('calling registration endpoint.')
-        window.fetch('/register', {
+        window.fetch('/api/register', {
           method: 'POST',
           mode: 'same-origin',
           cache: 'no-cache',

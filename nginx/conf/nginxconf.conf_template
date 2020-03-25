@@ -1,10 +1,5 @@
 # We are ok just adding on to the default /etc/nginx/nginx.conf for the time being.
 
-# Specify our backend server.
-upstream backend {
-    server localhost:3001;
-}
-
 # Server block for handling http traffic.
 # Redirects all non-secure http traffic to the secure https 443 port.
 server {
@@ -30,6 +25,8 @@ server {
     listen [::]:${NGINX_HTTPS_PORT} ssl http2 default_server;
     server_name ${NGINX_DOMAINS_OR_IP_ADDRESSES};
 
+    include /etc/nginx/mime.types;
+
     # Include our custom ssl configuration from ./snippets/ssl-params.conf
     include ${NGINX_SSL_PARAMS_SNIPPET_PATH};
 
@@ -39,20 +36,22 @@ server {
     # Add ref to the main app index file.
     index index.html index.htm;
 
-    # Add a location handler for static content.
-    # location ~* ^/(img|files|js)/.* {
-    #     root ${NGINX_WEBROOT_PATH};
-    # }
+    # Match any other routes and serve the index.
+    # Takes care of the SPA not loading specific pages with manual navigation.
+    location / {
+       try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.html;
+    }
 
-    # Finally, add some headers and redirect to our nodejs app.
-    # location / {
-    #     proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
-    #     proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
-    #     proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
-    #     proxy_set_header Host ${DOLLAR}host;
-    #     proxy_set_header X-Forwarded-Host ${DOLLAR}host;
-    #     proxy_set_header X-Forwarded-Port ${DOLLAR}server_port;
+    # Forward api requests to the backend express server.
+    location /api/ {
+        proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
+        proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto ${DOLLAR}scheme;
+        proxy_set_header Host ${DOLLAR}host;
+        proxy_set_header X-Forwarded-Server ${DOLLAR}host;
+        proxy_set_header X-Forwarded-Host ${DOLLAR}host;
+        proxy_set_header X-Forwarded-Port ${DOLLAR}server_port;
         
-    #     proxy_pass http://app:80;
-    # }
+        proxy_pass http://server:3001;
+    }
 }

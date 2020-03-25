@@ -37,7 +37,7 @@ export default class Subtitle extends Component {
 
   async getInitialSubtitle () {
     // Get and set subtitle.
-    axios.get('/getRandomSubtitle', {
+    axios.get('/api/getRandomSubtitle', {
       cancelToken: new axios.CancelToken((executorC) => {
         this.cancelRequests = executorC
       })
@@ -67,7 +67,7 @@ export default class Subtitle extends Component {
     try {
       this.loadNewSubtitleInterval = setInterval(async () => {
         this.setState({ currentDisplayedSubtitle: '' })
-        axios.get('/getRandomSubtitle', {
+        axios.get('/api/getRandomSubtitle', {
           cancelToken: new axios.CancelToken((executorC) => {
             this.cancelRequests = executorC
           })

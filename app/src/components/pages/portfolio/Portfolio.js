@@ -46,7 +46,7 @@ export default class Portfolio extends Component {
 
   getProjectInfo = () => {
     // Get and set project information.
-    axios.get('/getProjectInfo', {
+    axios.get('/api/getProjectInfo', {
       cancelToken: new axios.CancelToken ((executorC) => {
         this.cancelRequests = executorC
       })

@@ -13,7 +13,7 @@ RUN npm install
 
 COPY ./app/ /temp/app/
 
-RUN npm start
+RUN npm run build
 
 ###
 # STAGE 2: Use created react build in nginx container.

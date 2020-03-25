@@ -50,7 +50,7 @@ export default class LoginSubmissionForm extends Component {
       // Check the user input.
       if (this.validateInput()) {
         // If the user input is valid, fire a post request.
-        window.fetch('/login', {
+        window.fetch('/api/login', {
           method: 'POST',
           mode: 'same-origin',
           cache: 'no-cache',
