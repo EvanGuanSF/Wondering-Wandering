@@ -110,16 +110,17 @@ export default class Subtitle extends Component {
         var character = subtitle[i]
         // If the character to be added is a space, do not pause before writing it.
         if (i === subtitle.length) {
+          this.setState({ currentDisplayedSubtitle: subtitle.substr(0, subtitle.length) })
           return null
         }
         if (character === ' ') {
           while (character === ' ') {
-            this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
             i++
             character = subtitle[i]
           }
+          this.setState({ currentDisplayedSubtitle: subtitle.substr(0, i) })
         } else {
-          this.setState({ currentDisplayedSubtitle: this.state.currentDisplayedSubtitle + character })
+          this.setState({ currentDisplayedSubtitle: subtitle.substr(0, i) })
           i++
         }
       }, timeBetweenLetters * 1000)

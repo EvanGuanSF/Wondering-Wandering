@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 services:
   # Our Node.js with Express webserver.
   server:
@@ -8,7 +8,6 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    mem_limit: 250m
     depends_on:
       - redis-server
     networks:
@@ -22,14 +21,13 @@ services:
     build:
       context: ./
       dockerfile: ./nginx/Dockerfile
-    mem_limit: 500m
     ports:
       - '80:80'
       - '443:443'
-    # Nginx does not support .env environment variable substituation by default,
+    # Nginx does not support .env environment variable passthrough by default,
     # so we must generate our own .conf files.
     environment:
-      # For these variables, see the ./.env file for more details.
+      # See ./.env for more details on these variables.
       - NGINX_DOMAINS_OR_IP_ADDRESSES=${NGINX_DOMAINS_OR_IP_ADDRESSES}
       - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
       - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
@@ -38,14 +36,12 @@ services:
       - NGINX_SSL_DHPARAM_PATH=${NGINX_SSL_DHPARAM_PATH}
       - CERTBOT_CERTIFICATES_PATH=${CERTBOT_CERTIFICATES_PATH}
       - NGINX_WEB_APP_PATH=${NGINX_WEB_APP_PATH}
-      # Note that we need to do some trickery to replace '$' literals in the .conf files.
-      # If you need to use a literal '$' in one of the upcoming files, you must replace it with ${DOLLAR}
       # Docker-compose treats '$' as a special character, so it must be escaped via '$$'.
       - DOLLAR=$$
-      # Move the keys we copied over from the Dockerfile to their final destination.
-      # envsubst will generate proper .conf files for us from the templates and the .env file.
-      # Then, we test and start up nginx.
-      # Finally, we start a loop to check for renewed ssl cert+key every 12 hours.
+    # Move the keys we copied over from the Dockerfile to their final destination.
+    # envsubst will generate proper .conf files for us from the templates and the .env file.
+    # Then, we test and start up nginx.
+    # Finally, we start a loop to check for renewed ssl cert+key every 12 hours.
     command: > 
       /bin/bash -c "
       envsubst < /etc/nginx/conf.d/nginxconf.conf_template >| /etc/nginx/conf.d/nginx.conf
@@ -58,9 +54,8 @@ services:
       - web-root:${NGINX_WEBROOT_PATH}
       # Our bound ssl credentials folder.
       - ./ssl_creds:/ssl_creds
-    # There seems to be an intermittent compose issue if the nginx container goes up
-    # before the backend server does.
-    # Force the nginx container to wait for the backend server to solve.
+    # There is an intermittent compose issue if the nginx container goes up before the backend server does.
+    # Force the nginx container to wait for the backend server to resolve this issue.
     depends_on:
       - server
     networks:
@@ -74,7 +69,6 @@ services:
     build:
       context: ./redis-server
       dockerfile: Dockerfile
-    mem_limit: 200m
     networks:
       - wondering-wandering
 
@@ -87,7 +81,6 @@ services:
       dockerfile: ./certbot/Dockerfile
       args:
         - CERTBOT_YOUR_PRIMARY_SITE_DOMAIN=${CERTBOT_YOUR_PRIMARY_SITE_DOMAIN}
-    mem_limit: 100m
     # Have this container listen to port 6379 internally.
     volumes:
       # The following will allow for nginx to pass on certbot authentication challenges.
