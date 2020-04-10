@@ -1,5 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
+import { CSSTransitionGroup } from 'react-transition-group'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 
@@ -87,7 +88,19 @@ export default class DetailContent extends Component {
     if (this.props.projects === null) {
       return <div />
     } else if (this.context.state.focusedProjectID === 0) {
-      return (<div dangerouslySetInnerHTML={{ __html: this.state.aboutMeHTML }} />)
+      return (
+        <div>
+          <CSSTransitionGroup
+          transitionName="detail-column-content"
+          transitionAppear={true}
+          transitionAppearTimeout={300}
+          transitionEnter={true}
+          transitionEnterTimeout={300}
+          transitionLeave={false}>
+            <div dangerouslySetInnerHTML={{ __html: this.state.aboutMeHTML }} />
+          </CSSTransitionGroup>
+        </div>
+      )
     } else {
       const project = this.props.projects.filter(project => this.context.state.focusedProjectID === project.projectID)[0]
       var primaryImageHTML = this.createMediaElementWithFileName(project.projectImage, 'largeCard')
@@ -134,45 +147,55 @@ export default class DetailContent extends Component {
       }
 
       return (
-        <div className='card shadow justify-content-center text-center'>
-          <div className='container-fluid justify-content-center text-center p-0 m-0'>
-            <div className='row p-0 m-0'>
+        <div>
+          <CSSTransitionGroup
+          transitionName="detail-column-content"
+          transitionAppear={true}
+          transitionAppearTimeout={300}
+          transitionEnter={true}
+          transitionEnterTimeout={300}
+          transitionLeave={false}>
+            <div key={this.context.state.focusedProjectID} className='card shadow justify-content-center text-center'>
+              <div className='container-fluid justify-content-center text-center p-0 m-0'>
+                <div className='row p-0 m-0'>
 
-              <div className='col-12 p-0 m-0'>
-                <div className='content-grid-unit'>
-                  <div dangerouslySetInnerHTML={{ __html: primaryImageHTML }} />
-                  <div className='container-fluid' style={{ overflow: 'auto' }}>
-                    <b><h1 className='p-0 m-0'>{project.projectName}</h1></b>
-                    <br />
-                    <p className='text-left p-0 m-0'>{project.projectDetails}</p>
-                    <br />
-                    <div
-                      className='text-left p-0 m-0'
-                      style={{ fontSize: '14px' }}
-                    >
-                      <b>Personal reponsibilities and role(s):</b>
-                      <p dangerouslySetInnerHTML={{ __html: projectRoles }} />
+                  <div className='col-12 p-0 m-0'>
+                    <div className='content-grid-unit'>
+                      <div dangerouslySetInnerHTML={{ __html: primaryImageHTML }} />
+                      <div className='container-fluid' style={{ overflow: 'auto' }}>
+                        <b><h1 className='p-0 m-0'>{project.projectName}</h1></b>
+                        <br />
+                        <p className='text-left p-0 m-0'>{project.projectDetails}</p>
+                        <br />
+                        <div
+                          className='text-left p-0 m-0'
+                          style={{ fontSize: '14px' }}
+                        >
+                          <b>Personal reponsibilities and role(s):</b>
+                          <p dangerouslySetInnerHTML={{ __html: projectRoles }} />
+                        </div>
+                        <br />
+                        <div
+                          className='text-left p-0 m-0'
+                          style={{ fontSize: '14px' }}
+                        >
+                          <b>Languages and technologies personally used in project:</b>
+                          <br />
+                          <p dangerouslySetInnerHTML={{ __html: projectLanguagesAndTechnologies }} />
+                        </div>
+                        <br />
+                        <div dangerouslySetInnerHTML={{ __html: secondaryImageHTML }} />
+                        <div dangerouslySetInnerHTML={{ __html: secondaryURLHTML }} />
+                        <div dangerouslySetInnerHTML={{ __html: tertiaryURLHTML }} />
+                        <div dangerouslySetInnerHTML={{ __html: primaryURLHTML }} />
+                      </div>
                     </div>
-                    <br />
-                    <div
-                      className='text-left p-0 m-0'
-                      style={{ fontSize: '14px' }}
-                    >
-                      <b>Languages and technologies personally used in project:</b>
-                      <br />
-                      <p dangerouslySetInnerHTML={{ __html: projectLanguagesAndTechnologies }} />
-                    </div>
-                    <br />
-                    <div dangerouslySetInnerHTML={{ __html: secondaryImageHTML }} />
-                    <div dangerouslySetInnerHTML={{ __html: secondaryURLHTML }} />
-                    <div dangerouslySetInnerHTML={{ __html: tertiaryURLHTML }} />
-                    <div dangerouslySetInnerHTML={{ __html: primaryURLHTML }} />
                   </div>
+
                 </div>
               </div>
-
             </div>
-          </div>
+          </CSSTransitionGroup>
         </div>
       )
     }

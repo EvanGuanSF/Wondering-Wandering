@@ -52,9 +52,11 @@ export const Navbar = () => {
       <div className='collapse navbar-collapse' id='navbarSupportedContent'>
         <span className='navbar-nav ml-auto'>
           <li className='nav-item'>
+            <a className='navbar-link' rel='noreferrer noopener external' href='https://www.linkedin.com/in/evan-guan'><i className='fab fa-linkedin' /></a>
+            <a className='navbar-link' rel='noreferrer noopener external' href='https://twitter.com/EvanGuanSF'><i className='fab fa-twitter-square' /></a>
+            <a className='navbar-link' rel='noreferrer noopener external' href='https://github.com/JammyPajamies'><i className='fab fa-github' /></a>
 
             <a className='navbar-link' rel='noreferrer noopener external' href='/files/resume.pdf'><b>Resume</b></a>
-            <label />
 
             <NavLink
               exact to='/guestbook'
@@ -69,8 +71,6 @@ export const Navbar = () => {
               }}
             >Guestbook
             </NavLink>
-
-            <label />
 
             <NavLink
               exact to='/'

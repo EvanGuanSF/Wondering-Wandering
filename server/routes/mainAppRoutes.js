@@ -21,7 +21,7 @@ const visitorCount = require('../controllers/visitorCountController.js')
 const userValidation = require('../controllers/userVerificationUtilities.js')
 
 // Limiter for webpages.
-const pageLimiter = process.env.ENV === 'dev' ? null : rateLimit({
+const pageLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return next() } : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -35,7 +35,7 @@ const pageLimiter = process.env.ENV === 'dev' ? null : rateLimit({
 })
 
 // Limiter for MySQL APIs.
-const mysqlApiLimiter = process.env.ENV === 'dev' ? null : rateLimit({
+const mysqlApiLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return next() } : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -114,7 +114,7 @@ mainAppRouter.get('/api/getComments', mysqlApiLimiter, (req, res) => {
   //   mysqlApiLimiter(req, res)
   // }
   console.log('Getting comments.')
-  guestbook.selectComments(req, res)
+  guestbook.getComments(req, res)
 })
 
 /**

@@ -1,5 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
+import { CSSTransitionGroup } from 'react-transition-group'
 import axios from 'axios'
 
 // Components
@@ -73,39 +74,59 @@ export default class Guestbook extends Component {
     const comments = this.state.commentData
 
     return (
-      <div 
-        id='comment-container-col'
-        style={{ height: `${this.context.state.usableHeight}px` }}
-      >
-        <div className='row'>
-          {/* <!--- Padding column ---> */}
-          <div className='col-3 justify-content-center text-center' />
+      <CSSTransitionGroup
+      transitionName="guestbook-page"
+      transitionAppear={true}
+      transitionAppearTimeout={300}
+      transitionEnter={true}
+      transitionEnterTimeout={300}
+      transitionLeave={false}>
+      
+        <div 
+          id='comment-container-col'
+          style={{ height: `${this.context.state.usableHeight}px` }}
+        >
+          <div className='row'>
+            {/* <!--- Padding column ---> */}
+            <div className='col-3 justify-content-center text-center' />
 
-          {/* <!--- Primary column ---> */}
-          <div className='col-6 justify-content-center text-center'>
-            <br />
-            <h1>Guestbook</h1>
-            <br />
-            <div><b>Please feel free to leave a comment below.</b></div>
-            {/* <!-- Guestbook entry form. --> */}
-            <CommentSubmissionForm updateCommentCards={this.updateCommentCards}/>
-            <hr />
-            <div className='d-flex flex-column flex-row'>
-              <div id='cardContainer' className='card-container' />
-              {
-                comments.map((comment, index) => {
-                  return (
-                    <GuestbookCard key={index} commentInformation={comment}></GuestbookCard>
-                  )
-                })
-              }
+            {/* <!--- Primary column ---> */}
+            <div className='col-6 justify-content-center text-center'>
+              <br />
+              <h1>Guestbook</h1>
+              <br />
+              <div><b>Please feel free to leave a comment below.</b></div>
+              {/* <!-- Guestbook entry form. --> */}
+              <CommentSubmissionForm updateCommentCards={this.updateCommentCards}/>
+              <hr />
+              <div className='d-flex flex-column flex-row'>
+              
+                <div id='cardContainer' className='card-container' />
+
+                <CSSTransitionGroup
+                transitionName="guestbook-card"
+                transitionAppear={true}
+                transitionAppearTimeout={300}
+                transitionEnter={true}
+                transitionEnterTimeout={300}
+                transitionLeave={false}>
+                  {
+                    comments.map((comment, index) => {
+                      return (
+                        <GuestbookCard key={index} commentInformation={comment}></GuestbookCard>
+                      )
+                    })
+                  }
+                </CSSTransitionGroup>
+
+              </div>
             </div>
-          </div>
 
-          {/* <!--- Padding column ---> */}
-          <div className='col-3 justify-content-center text-center' />
+            {/* <!--- Padding column ---> */}
+            <div className='col-3 justify-content-center text-center' />
+          </div>
         </div>
-      </div>
+      </CSSTransitionGroup>
     )
   }
 }

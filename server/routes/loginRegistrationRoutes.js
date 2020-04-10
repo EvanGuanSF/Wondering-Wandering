@@ -19,7 +19,7 @@ const loginController = require('../controllers/loginController.js')
 const registrationController = require('../controllers/registrationController.js')
 
 // Limiter for webpages.
-const pageLimiter = process.env.ENV === 'dev' ? null : rateLimit({
+const pageLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return next() } : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',
@@ -33,7 +33,7 @@ const pageLimiter = process.env.ENV === 'dev' ? null : rateLimit({
 })
 
 // Limiter for MySQL APIs.
-const mysqlApiLimiter = process.env.ENV === 'dev' ? null : rateLimit({
+const mysqlApiLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return next() } : rateLimit({
   store: new redisStore({
     client: redis.createClient({
       host: 'redis-server',

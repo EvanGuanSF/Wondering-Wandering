@@ -1,5 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
+import { CSSTransitionGroup } from 'react-transition-group'
 import axios from 'axios'
 
 // Components
@@ -67,30 +68,42 @@ export default class Portfolio extends Component {
     if (this.state.projectInfo === null) { return <div /> }
 
     return (
-      <div id='contentContainer' className='container-fluid'>
-        <div id='contentRow' className='row'>
+      <CSSTransitionGroup
+      transitionName="portfolio-page"
+      transitionAppear={true}
+      transitionAppearTimeout={300}
+      transitionEnter={true}
+      transitionEnterTimeout={300}
+      transitionLeave={false}>
 
-          <div style={{ width:`${this.context.state.usableWidth}px`, height: `${this.context.state.usableHeight}px` }} id='details-col' className='col-lg-6 content-col'>
-            <div className='d-flex flex-column flex-row'>
-              <div id='detailContents' className='card-container'>
-                <DetailContent
-                  projects={this.state.projectInfo}
-                />
+        <div id='contentContainer' className='container-fluid'>
+          <div id='contentRow' className='row'>
+
+              <div style={{ width:`${this.context.state.usableWidth}px`, height: `${this.context.state.usableHeight}px` }} id='details-col' className='col-lg-6 content-col'>
+                <div className='d-flex flex-column flex-row'>
+                    <div id='detailContents' className='card-container'>
+                      <div>
+                          <DetailContent
+                            projects={this.state.projectInfo}
+                          />
+                      </div>
+                    </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div style={{ width:`${this.context.state.usableWidth}px`, height: `${this.context.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center scrollable-col'>
-            <div className='d-flex flex-column flex-row'>
-              <div id='cardContainer' className='card-container' />
-              <ProjectCategories
-                projects={this.state.projectInfo}
-              />
-            </div>
-          </div>
+              <div style={{ width:`${this.context.state.usableWidth}px`, height: `${this.context.state.usableHeight}px` }} id='scrollable-col' className='col-lg-6 justify-content-center text-center scrollable-col'>
+                <div className='d-flex flex-column flex-row'>
+                  <div id='cardContainer' className='card-container' />
+                  <ProjectCategories
+                    projects={this.state.projectInfo}
+                  />
+                </div>
+              </div>
 
+          </div>
         </div>
-      </div>
+
+      </CSSTransitionGroup>
     )
   }
 }

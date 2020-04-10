@@ -49,7 +49,6 @@ export default class commentSubmissionForm extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          redirect: 'follow',
           referrerPolicy: 'no-refferer'
         },
         // Stringify the needed data for a post to the endpoint.

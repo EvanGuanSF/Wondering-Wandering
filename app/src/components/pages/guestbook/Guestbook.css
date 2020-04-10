@@ -4,3 +4,58 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.detail-column-content-appear {
+    opacity: 0.01;
+}
+
+.detail-column-content-appear.detail-column-content-appear-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+
+.detail-column-content-enter {
+    opacity: 0.01;
+}
+
+.detail-column-content-enter.detail-column-content-enter-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+
+.guestbook-page-appear {
+    opacity: 0.01;
+}
+
+.guestbook-page-appear.guestbook-page-appear-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+
+.guestbook-page-enter {
+    opacity: 0.01;
+}
+
+.guestbook-page-enter.guestbook-page-enter-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+
+.guestbook-card-appear {
+    opacity: 0.01;
+}
+
+.guestbook-card-appear.guestbook-card-appear-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+
+.guestbook-card-enter {
+    opacity: 0.01;
+}
+
+.guestbook-card-enter.guestbook-card-enter-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+

@@ -37,7 +37,7 @@ exports.insertComment = function (req, res) {
         .then(result => {
           console.log('Comment from ' + req.connection.remoteAddress + ' created successfully.\n')
           res.status(200)
-          res.redirect('guestbook')
+          res.end()
         })
         .catch(err => {
           console.log('Error creating commen from ' + req.connection.remoteAddress + '.\n', err)
@@ -51,7 +51,7 @@ exports.insertComment = function (req, res) {
     })
 }
 
-exports.selectComments = function (req, res) {
+exports.getComments = function (req, res) {
   // Build the query.
   var sql = 'SELECT ??, ?? FROM  ?? ORDER BY ?? DESC'
   var inserts = ['guestName', 'guestComment', 'guestbook', 'guestID']

@@ -32,3 +32,21 @@
     color: var(--blackish);
     max-width: 100%;
 }
+
+.card-appear {
+    opacity: 0.01;
+}
+
+.card-appear.card-appear-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
+
+.card-enter {
+    opacity: 0.01;
+}
+
+.card-enter.card-enter-active {
+    opacity: 1;
+    transition: all 300ms ease-in;
+}
