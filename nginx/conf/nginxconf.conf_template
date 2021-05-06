@@ -39,7 +39,7 @@ server {
     # Match any other routes and serve the index.
     # Takes care of the SPA not loading specific pages with manual navigation.
     location / {
-        try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.html;
+       try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.html;
     }
 
     # Forward api requests to the backend express server.
