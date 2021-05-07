@@ -63,7 +63,7 @@ mainAppRouter.get('/', userValidation.refreshLoginToken, pageLimiter, (req, res)
 })
 
 // GET guestbook.
-mainAppRouter.get('/api/guestbook', pageLimiter, (req, res) => {
+mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
   // if (process.env.ENV === 'production') {
   //   pageLimiter(req, res)
   // }
@@ -86,7 +86,7 @@ mainAppRouter.get('/api/getProjectInfo', mysqlApiLimiter, (req, res) => {
   //   mysqlApiLimiter(req, res)
   // }
   console.log('Getting project info.')
-  index.selectProjectInfo(req, res)
+  index.getProjectInfo(req, res)
 })
 
 /**
