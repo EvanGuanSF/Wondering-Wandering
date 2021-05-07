@@ -1,0 +1,26 @@
+.link-card {
+  height: auto;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  border-radius: 0rem;
+}
+
+.link-card-body > h5, p, a {
+  font-size: 0.9rem;
+  padding: 0rem;
+  margin: 0rem;
+}
+
+.link-card-title {
+  margin: 0rem;
+  overflow-x: auto;
+  text-overflow: ellipsis;
+}
+
+.link-card-text {
+  width: stretch;
+  margin: 0.1rem;
+  margin-bottom: 0rem;
+  overflow-x: auto;
+  text-overflow: ellipsis;
+}

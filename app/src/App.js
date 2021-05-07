@@ -9,6 +9,7 @@ import Portfolio from './components/pages/portfolio/Portfolio'
 import Guestbook from './components/pages/guestbook/Guestbook'
 import Login from './components/pages/login/Login'
 import Registration from './components/pages/registration/Registration'
+import ExternalLinks from './components/pages/externallinks/ExternalLinks'
 import PageNotFound from './components/pages/PageNotFound'
 
 // Contexts
@@ -58,6 +59,11 @@ export default class App extends Component {
                   <Route
                     exact path='/register'
                     component={Registration}
+                  />
+
+                  <Route
+                    exact path='/external-links'
+                    component={ExternalLinks}
                   />
 
                   <Route

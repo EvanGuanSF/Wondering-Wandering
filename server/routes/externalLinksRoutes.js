@@ -40,7 +40,7 @@ const mysqlApiLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return
   message: 'Please wait to perform more actions.'
 })
 
-// GET login page.
+// GET external links page.
 externalLinksRoutes.get('/external-links', pageLimiter, (req, res) => {
   // if (process.env.ENV === 'production') {
   //   pageLimiter(req, res)
@@ -50,8 +50,8 @@ externalLinksRoutes.get('/external-links', pageLimiter, (req, res) => {
   res.sendFile(path.resolve('views/public/external-links.html'))
 })
 
-// GET login page.
-externalLinksRoutes.get('/api/getExternalLinkInfo', pageLimiter, (req, res) => {
+// GET external links data.
+externalLinksRoutes.get('/api/getExternalLinkInfo', mysqlApiLimiter, (req, res) => {
   // if (process.env.ENV === 'production') {
   //   pageLimiter(req, res)
   // }

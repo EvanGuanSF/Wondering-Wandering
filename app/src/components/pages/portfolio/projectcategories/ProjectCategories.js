@@ -1,6 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
 // Components
@@ -107,7 +107,7 @@ export default class ProjectCategories extends Component {
             {
               this.createCategorizedProjectsJSON(category).map(project => {
                 return (
-                  <CSSTransitionGroup
+                  <CSSTransition
                   key={project.projectID}
                   transitionName="card"
                   transitionAppear={true}
@@ -120,7 +120,7 @@ export default class ProjectCategories extends Component {
                       categoryIndex={index.toString()}
                       project={project}
                     />
-                  </CSSTransitionGroup>
+                  </CSSTransition>
                 )
               })
             }
