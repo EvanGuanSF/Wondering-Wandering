@@ -24,7 +24,6 @@ export default class ExternalLinks extends Component {
       usableWidth: 0
     }
 
-
     // Get and set comment card information.
     this.updateCommentCards()
   }
@@ -73,6 +72,12 @@ export default class ExternalLinks extends Component {
     const links = this.state.linkData
 
     return (
+      <CSSTransition
+        in={true}
+        appear={true}
+        timeout={1500}
+        classNames="defaultTransition"
+      >
         <div 
           id='link-container-col'
           style={{ height: `${this.context.state.usableHeight}px` }}
@@ -85,27 +90,32 @@ export default class ExternalLinks extends Component {
             <div className='col-6 justify-content-center text-center'>
               <br />
               <h1>External Links</h1>
-              <br />
               <hr />
-              <div className='d-flex flex-column flex-row'>
-              
-                <div id='cardContainer' className='card-container' />
+              <div id='cardContainer' className='card-container' />
+                
+              {
+                links.map((link, index) => {
+                  return (
+                    <CSSTransition
+                      in={true}
+                      appear={true}
+                      key={index}
+                      timeout={1500}
+                      classNames="defaultTransition"
+                    >
+                      <ExternalLinkCard key={index} linkInformation={link}></ExternalLinkCard>
+                    </CSSTransition>
+                  )
+                })
+              }
 
-                  {
-                    links.map((link, index) => {
-                      return (
-                        <ExternalLinkCard key={index} linkInformation={link}></ExternalLinkCard>
-                      )
-                    })
-                  }
-
-              </div>
             </div>
 
             {/* <!--- Padding column ---> */}
             <div className='col-3 justify-content-center text-center' />
           </div>
         </div>
+      </CSSTransition>
     )
   }
 }

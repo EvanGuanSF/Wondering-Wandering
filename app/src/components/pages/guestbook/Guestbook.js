@@ -74,6 +74,12 @@ export default class Guestbook extends Component {
     const comments = this.state.commentData
 
     return (
+      <CSSTransition
+        in={true}
+        appear={true}
+        timeout={1500}
+        classNames="defaultTransition"
+      >
         <div 
           id='comment-container-col'
           style={{ height: `${this.context.state.usableHeight}px` }}
@@ -98,7 +104,15 @@ export default class Guestbook extends Component {
                   {
                     comments.map((comment, index) => {
                       return (
-                        <GuestbookCard key={index} commentInformation={comment}></GuestbookCard>
+                        <CSSTransition
+                          in={true}
+                          appear={true}
+                          key={index}
+                          timeout={1500}
+                          classNames="defaultTransition"
+                        >
+                          <GuestbookCard key={index} commentInformation={comment}></GuestbookCard>
+                        </CSSTransition>
                       )
                     })
                   }
@@ -110,6 +124,7 @@ export default class Guestbook extends Component {
             <div className='col-3 justify-content-center text-center' />
           </div>
         </div>
+      </CSSTransition>
     )
   }
 }

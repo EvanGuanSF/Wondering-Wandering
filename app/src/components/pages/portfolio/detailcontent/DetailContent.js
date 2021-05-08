@@ -91,12 +91,11 @@ export default class DetailContent extends Component {
       return (
         <div>
           <CSSTransition
-          transitionName="detail-column-content"
-          transitionAppear={true}
-          transitionAppearTimeout={300}
-          transitionEnter={true}
-          transitionEnterTimeout={300}
-          transitionLeave={false}>
+          in={true}
+          appear={true}
+          timeout={1500}
+          classNames="defaultTransition"
+          >
             <div dangerouslySetInnerHTML={{ __html: this.state.aboutMeHTML }} />
           </CSSTransition>
         </div>
@@ -149,12 +148,11 @@ export default class DetailContent extends Component {
       return (
         <div>
           <CSSTransition
-          transitionName="detail-column-content"
-          transitionAppear={true}
-          transitionAppearTimeout={300}
-          transitionEnter={true}
-          transitionEnterTimeout={300}
-          transitionLeave={false}>
+            in={true}
+            appear={true}
+            timeout={1500}
+            classNames="defaultTransition"
+          >
             <div key={this.context.state.focusedProjectID} className='card shadow justify-content-center text-center'>
               <div className='container-fluid justify-content-center text-center p-0 m-0'>
                 <div className='row p-0 m-0'>

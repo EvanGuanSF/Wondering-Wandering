@@ -1,4 +1,4 @@
-export default (state, action) => {
+ const PortfolioReducer = (state, action) => {
   switch (action.type) {
     case 'SET_IS_SHOWING_ABOUT_ME': {
       return {
@@ -19,3 +19,5 @@ export default (state, action) => {
     }
   }
 }
+
+export default PortfolioReducer

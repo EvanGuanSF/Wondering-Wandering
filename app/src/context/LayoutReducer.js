@@ -1,4 +1,4 @@
-export default (state, action) => {
+const LayoutReducer =  (state, action) => {
   switch (action.type) {
     case 'UPDATE_USABLE_DIMENSIONS':
       var newNavbarHeight =
@@ -59,3 +59,5 @@ export default (state, action) => {
     }
   }
 }
+
+export default LayoutReducer

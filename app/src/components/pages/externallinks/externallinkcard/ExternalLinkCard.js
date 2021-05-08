@@ -5,27 +5,17 @@ import PropTypes from 'prop-types'
 // CSS
 import './ExternalLinkCard.css'
 
-export const GuestbookCard = (props) => {
+export const LinkCard = (props) => {
   return (
-    <div className='card-bg card link-card justify-content-center text-center' style={{ backgroundColor: 'var(--khaki)' }}>
-      <div className='container-fluid p-0 m-0'>
-        <div className='row p-0 m-0'>
-
-          <div className='card-body link-card-body col-12 p-0 m-0'>
-            <b>
-              <a href={props.linkInformation.link}>{props.linkInformation.text}</a>
-            </b>
-          </div>
-
-        </div>
-      </div>
-    </div>
+    <b className='card link-card justify-content-center text-center' style={{ backgroundColor: 'var(--whiteish)' }}>
+      <a href={props.linkInformation.link}>{props.linkInformation.text}</a>
+    </b>
   )
 }
 
 // PropTypes
-GuestbookCard.propTypes = {
+LinkCard.propTypes = {
   linkInformation: PropTypes.object.isRequired
 }
 
-export default GuestbookCard
+export default LinkCard

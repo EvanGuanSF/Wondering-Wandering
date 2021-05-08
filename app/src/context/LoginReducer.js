@@ -1,7 +1,7 @@
 // NPM modules
 import Cookies from 'universal-cookie'
 
-export default (state, action) => {
+const LoginReducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_FROM_COOKIE': {
       const cookies = new Cookies()
@@ -19,3 +19,5 @@ export default (state, action) => {
     }
   }
 }
+
+export default LoginReducer

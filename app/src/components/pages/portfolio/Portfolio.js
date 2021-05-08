@@ -69,13 +69,11 @@ export default class Portfolio extends Component {
 
     return (
       <CSSTransition
-      transitionName="portfolio-page"
-      transitionAppear={true}
-      transitionAppearTimeout={300}
-      transitionEnter={true}
-      transitionEnterTimeout={300}
-      transitionLeave={false}>
-
+        in={true}
+        appear={true}
+        timeout={1500}
+        classNames="defaultTransition"
+      >
         <div id='contentContainer' className='container-fluid'>
           <div id='contentRow' className='row'>
 
@@ -102,7 +100,6 @@ export default class Portfolio extends Component {
 
           </div>
         </div>
-
       </CSSTransition>
     )
   }

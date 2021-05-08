@@ -94,13 +94,13 @@ export default class ProjectCategories extends Component {
                 </div>
 
                 <div className='col-6 text-right p-0 m-0'>
-                  {/* <button
+                  <button
                     className='categoryContainer category-collapse-button p-0 m-0' data-toggle='collapse'
                     data-target={`.project-category-${index}`}
                     aria-expanded='true' aria-controls='collapse'
                   >
                     <b>Toggle Category</b>
-                  </button> */}
+                  </button>
                 </div>
               </div>
             </div>
@@ -108,13 +108,12 @@ export default class ProjectCategories extends Component {
               this.createCategorizedProjectsJSON(category).map(project => {
                 return (
                   <CSSTransition
-                  key={project.projectID}
-                  transitionName="card"
-                  transitionAppear={true}
-                  transitionAppearTimeout={300}
-                  transitionEnter={true}
-                  transitionEnterTimeout={300}
-                  transitionLeave={false}>
+                    in={true}
+                    appear={true}
+                    key={project.projectID}
+                    timeout={1500}
+                    classNames="defaultTransition"
+                  >
                     <ProjectCard
                       key={project.projectID}
                       categoryIndex={index.toString()}
