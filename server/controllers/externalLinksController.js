@@ -2,13 +2,13 @@
 const mysql = require('mysql')
 
 // Our controllers/endpoints.
-const dbQuery = require('../controllers/dbQuery.js')
+const dbQuery = require('./dbQuery.js')
 
-exports.getProjectInfo = function (req, res) {
+exports.getExternalLinkInfo = function (req, res) {
   // Build the query.
-  var orderByClause = 'projectCategory ASC'
+  var orderByClause = 'id ASC'
   var sql = 'SELECT * FROM ?? ORDER BY ' + orderByClause
-  var inserts = ['projects']
+  var inserts = ['externalLinks']
   var query = mysql.format(sql, inserts)
 
   // Execute.
@@ -19,7 +19,7 @@ exports.getProjectInfo = function (req, res) {
       var newIndex = 1
 
       result.forEach(item => {
-        item.projectID = newIndex
+        item.id = newIndex
         newIndex++
       })
 
@@ -29,6 +29,6 @@ exports.getProjectInfo = function (req, res) {
     .catch(err => {
       console.log(err)
       res.status(404)
-      res.send('Failed to receive project data.')
+      res.send('Failed to receive external link data.')
     })
 }

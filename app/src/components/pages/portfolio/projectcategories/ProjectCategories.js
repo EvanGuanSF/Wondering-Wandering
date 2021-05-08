@@ -1,6 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 import PropTypes from 'prop-types'
 
 // Components
@@ -94,33 +94,32 @@ export default class ProjectCategories extends Component {
                 </div>
 
                 <div className='col-6 text-right p-0 m-0'>
-                  {/* <button
+                  <button
                     className='categoryContainer category-collapse-button p-0 m-0' data-toggle='collapse'
                     data-target={`.project-category-${index}`}
                     aria-expanded='true' aria-controls='collapse'
                   >
                     <b>Toggle Category</b>
-                  </button> */}
+                  </button>
                 </div>
               </div>
             </div>
             {
               this.createCategorizedProjectsJSON(category).map(project => {
                 return (
-                  <CSSTransitionGroup
-                  key={project.projectID}
-                  transitionName="card"
-                  transitionAppear={true}
-                  transitionAppearTimeout={300}
-                  transitionEnter={true}
-                  transitionEnterTimeout={300}
-                  transitionLeave={false}>
+                  <CSSTransition
+                    in={true}
+                    appear={true}
+                    key={project.projectID}
+                    timeout={1500}
+                    classNames="defaultTransition"
+                  >
                     <ProjectCard
                       key={project.projectID}
                       categoryIndex={index.toString()}
                       project={project}
                     />
-                  </CSSTransitionGroup>
+                  </CSSTransition>
                 )
               })
             }

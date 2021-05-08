@@ -1,6 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
 
 // Components
@@ -68,14 +68,12 @@ export default class Portfolio extends Component {
     if (this.state.projectInfo === null) { return <div /> }
 
     return (
-      <CSSTransitionGroup
-      transitionName="portfolio-page"
-      transitionAppear={true}
-      transitionAppearTimeout={300}
-      transitionEnter={true}
-      transitionEnterTimeout={300}
-      transitionLeave={false}>
-
+      <CSSTransition
+        in={true}
+        appear={true}
+        timeout={1500}
+        classNames="defaultTransition"
+      >
         <div id='contentContainer' className='container-fluid'>
           <div id='contentRow' className='row'>
 
@@ -102,8 +100,7 @@ export default class Portfolio extends Component {
 
           </div>
         </div>
-
-      </CSSTransitionGroup>
+      </CSSTransition>
     )
   }
 }

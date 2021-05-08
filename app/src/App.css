@@ -97,3 +97,15 @@ body {
 a {
   text-decoration: none;
 }
+
+/* Global transition settings. */
+.defaultTransition-appear {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.defaultTransition-appear-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 500ms;
+}

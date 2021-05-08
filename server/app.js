@@ -1,4 +1,5 @@
 // Initialize the application and set listening port.
+require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
@@ -29,6 +30,9 @@ app.use(mainAppRouter)
 // The login and registration pages for admin use.
 const loginRegistrationRoutes = require('./routes/loginRegistrationRoutes.js')
 app.use(loginRegistrationRoutes)
+// The link page and link info api.
+const externalLinksRoutes = require('./routes/externalLinksRoutes.js')
+app.use(externalLinksRoutes)
 
 // Start the http server by listening on predefined port.
 app.listen(httpPort, function () {

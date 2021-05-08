@@ -4,27 +4,25 @@ import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
 
 // Components
-import GuestbookCard from './guestbookcard/GuestbookCard'
-import CommentSubmissionForm from './commentsubmissionform/CommentSubmissionForm'
+import ExternalLinkCard from './externallinkcard/ExternalLinkCard'
 
 // Contexts
 import LayoutContext from '../../../context/LayoutState'
 
 // CSS
-import './Guestbook.css'
+import './ExternalLinks.css'
 
-export default class Guestbook extends Component {
+export default class ExternalLinks extends Component {
   static contextType = LayoutContext
 
   constructor (props) {
     super(props)
 
     this.state = {
-      commentData: null,
+      linkData: null,
       usableHeight: 0,
       usableWidth: 0
     }
-
 
     // Get and set comment card information.
     this.updateCommentCards()
@@ -53,14 +51,14 @@ export default class Guestbook extends Component {
    */
   updateCommentCards = () => {
     // Get and set comment card information.
-    axios.get('/api/getComments', {
+    axios.get('/api/getExternalLinkInfo', {
       cancelToken: new axios.CancelToken ((executorC) => {
         this.cancelRequests = executorC
       })
     })
-      .then(commentResponse => {
+      .then(linkDataResponse => {
         // console.log('Comments:', commentResponse.data)
-        this.setState({ commentData: commentResponse.data })
+        this.setState({ linkData: linkDataResponse.data })
       })
       .catch(err => {
         if (!axios.isCancel(err)) {
@@ -70,8 +68,8 @@ export default class Guestbook extends Component {
   }
 
   render () {
-    if (this.state.commentData === null || this.state.commentData === undefined) { return <div /> }
-    const comments = this.state.commentData
+    if (this.state.linkData === null || this.state.linkData === undefined) { return <div /> }
+    const links = this.state.linkData
 
     return (
       <CSSTransition
@@ -81,7 +79,7 @@ export default class Guestbook extends Component {
         classNames="defaultTransition"
       >
         <div 
-          id='comment-container-col'
+          id='link-container-col'
           style={{ height: `${this.context.state.usableHeight}px` }}
         >
           <div className='row'>
@@ -91,33 +89,26 @@ export default class Guestbook extends Component {
             {/* <!--- Primary column ---> */}
             <div className='col-6 justify-content-center text-center'>
               <br />
-              <h1>Guestbook</h1>
-              <br />
-              <div><b>Please feel free to leave a comment below.</b></div>
-              {/* <!-- Guestbook entry form. --> */}
-              <CommentSubmissionForm updateCommentCards={this.updateCommentCards}/>
+              <h1>External Links</h1>
               <hr />
-              <div className='d-flex flex-column flex-row'>
-              
-                <div id='cardContainer' className='card-container' />
+              <div id='cardContainer' className='card-container' />
+                
+              {
+                links.map((link, index) => {
+                  return (
+                    <CSSTransition
+                      in={true}
+                      appear={true}
+                      key={index}
+                      timeout={1500}
+                      classNames="defaultTransition"
+                    >
+                      <ExternalLinkCard key={index} linkInformation={link}></ExternalLinkCard>
+                    </CSSTransition>
+                  )
+                })
+              }
 
-                  {
-                    comments.map((comment, index) => {
-                      return (
-                        <CSSTransition
-                          in={true}
-                          appear={true}
-                          key={index}
-                          timeout={1500}
-                          classNames="defaultTransition"
-                        >
-                          <GuestbookCard key={index} commentInformation={comment}></GuestbookCard>
-                        </CSSTransition>
-                      )
-                    })
-                  }
-
-              </div>
             </div>
 
             {/* <!--- Padding column ---> */}

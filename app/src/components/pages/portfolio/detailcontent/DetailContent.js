@@ -1,6 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 
@@ -90,15 +90,14 @@ export default class DetailContent extends Component {
     } else if (this.context.state.focusedProjectID === 0) {
       return (
         <div>
-          <CSSTransitionGroup
-          transitionName="detail-column-content"
-          transitionAppear={true}
-          transitionAppearTimeout={300}
-          transitionEnter={true}
-          transitionEnterTimeout={300}
-          transitionLeave={false}>
+          <CSSTransition
+          in={true}
+          appear={true}
+          timeout={1500}
+          classNames="defaultTransition"
+          >
             <div dangerouslySetInnerHTML={{ __html: this.state.aboutMeHTML }} />
-          </CSSTransitionGroup>
+          </CSSTransition>
         </div>
       )
     } else {
@@ -148,13 +147,12 @@ export default class DetailContent extends Component {
 
       return (
         <div>
-          <CSSTransitionGroup
-          transitionName="detail-column-content"
-          transitionAppear={true}
-          transitionAppearTimeout={300}
-          transitionEnter={true}
-          transitionEnterTimeout={300}
-          transitionLeave={false}>
+          <CSSTransition
+            in={true}
+            appear={true}
+            timeout={1500}
+            classNames="defaultTransition"
+          >
             <div key={this.context.state.focusedProjectID} className='card shadow justify-content-center text-center'>
               <div className='container-fluid justify-content-center text-center p-0 m-0'>
                 <div className='row p-0 m-0'>
@@ -195,7 +193,7 @@ export default class DetailContent extends Component {
                 </div>
               </div>
             </div>
-          </CSSTransitionGroup>
+          </CSSTransition>
         </div>
       )
     }
