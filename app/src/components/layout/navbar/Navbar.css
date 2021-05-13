@@ -13,14 +13,14 @@ nav {
 .navbar-link:hover {
   color: var(--lavenderish) !important;
   text-decoration: none;
-  outline:none;
+  outline: none;
   cursor: pointer;
 }
 
 .navbar-link {
   background-color: transparent;
   border: none;
-  outline:none;
+  outline: none;
   color: var(--blackish);
   font-size: 0.85rem;
   text-decoration: none;

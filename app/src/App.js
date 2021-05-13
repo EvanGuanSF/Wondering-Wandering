@@ -72,7 +72,7 @@ export default class App extends Component {
                   />
                 </Switch>
 
-                <Footer />
+                <Route path='*' component={Footer} />
 
               </PortfolioProvider>
             </LoginProvider>

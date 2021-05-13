@@ -38,6 +38,8 @@ ALABASTER
   
   --projectCardHeight: 10rem;
   --projectDetailsCardHeight: 20rem;
+  
+  --linkCardHeight: 3rem;
 }
 
 ::-webkit-scrollbar-track {

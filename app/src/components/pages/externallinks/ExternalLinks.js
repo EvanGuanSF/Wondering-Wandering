@@ -7,14 +7,11 @@ import axios from 'axios'
 import ExternalLinkCard from './externallinkcard/ExternalLinkCard'
 
 // Contexts
-import LayoutContext from '../../../context/LayoutState'
 
 // CSS
 import './ExternalLinks.css'
 
 export default class ExternalLinks extends Component {
-  static contextType = LayoutContext
-
   constructor (props) {
     super(props)
 
@@ -29,17 +26,9 @@ export default class ExternalLinks extends Component {
   }
 
   componentDidMount () {
-    // Update render dimensions.
-    this.context.updateUsableDimensions()
-
-    // Add the window resize event listener.
-    window.addEventListener('resize', this.context.updateUsableDimensions.bind(this))
   }
 
   componentWillUnmount () {
-    // Remove the event listener when we are done.
-    window.removeEventListener('resize', this.context.updateUsableDimensions.bind(this))
-
     // Cancel requests.
     if (this.cancelRequests !== null) {
       this.cancelRequests()
@@ -80,39 +69,40 @@ export default class ExternalLinks extends Component {
       >
         <div 
           id='link-container-col'
-          style={{ height: `${this.context.state.usableHeight}px` }}
         >
           <div className='row'>
             {/* <!--- Padding column ---> */}
-            <div className='col-3 justify-content-center text-center' />
+            <div className='col-3 justify-content-center text-center p-0 m-0' />
 
             {/* <!--- Primary column ---> */}
-            <div className='col-6 justify-content-center text-center'>
+            <div className='col-6 justify-content-center text-center p-0 m-0'>
               <br />
               <h1>External Links</h1>
               <hr />
-              <div id='cardContainer' className='card-container' />
-                
-              {
-                links.map((link, index) => {
-                  return (
-                    <CSSTransition
-                      in={true}
-                      appear={true}
-                      key={index}
-                      timeout={1500}
-                      classNames="defaultTransition"
-                    >
-                      <ExternalLinkCard key={index} linkInformation={link}></ExternalLinkCard>
-                    </CSSTransition>
-                  )
-                })
-              }
-
-            </div>
+              <div id='cardContainer'/>
+                <div className='row justify-content-center'>
+                  <div className='col-6 p-0 m-0'>
+                    {
+                      links.map((link, index) => {
+                        return (
+                          <CSSTransition
+                            in={true}
+                            appear={true}
+                            key={index}
+                            timeout={1500}
+                            classNames="defaultTransition"
+                          >
+                            <ExternalLinkCard key={index} linkInformation={link}></ExternalLinkCard>
+                          </CSSTransition>
+                        )
+                      })
+                    }
+                  </div>
+                </div>
+              </div>
 
             {/* <!--- Padding column ---> */}
-            <div className='col-3 justify-content-center text-center' />
+            <div className='col-3 justify-content-center text-center p-0 m-0' />
           </div>
         </div>
       </CSSTransition>
