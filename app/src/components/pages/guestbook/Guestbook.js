@@ -8,14 +8,11 @@ import GuestbookCard from './guestbookcard/GuestbookCard'
 import CommentSubmissionForm from './commentsubmissionform/CommentSubmissionForm'
 
 // Contexts
-import LayoutContext from '../../../context/LayoutState'
 
 // CSS
 import './Guestbook.css'
 
 export default class Guestbook extends Component {
-  static contextType = LayoutContext
-
   constructor (props) {
     super(props)
 
@@ -31,17 +28,9 @@ export default class Guestbook extends Component {
   }
 
   componentDidMount () {
-    // Update render dimensions.
-    this.context.updateUsableDimensions()
-
-    // Add the window resize event listener.
-    window.addEventListener('resize', this.context.updateUsableDimensions.bind(this))
-  }
+    }
 
   componentWillUnmount () {
-    // Remove the event listener when we are done.
-    window.removeEventListener('resize', this.context.updateUsableDimensions.bind(this))
-
     // Cancel requests.
     if (this.cancelRequests !== null) {
       this.cancelRequests()
@@ -82,7 +71,6 @@ export default class Guestbook extends Component {
       >
         <div 
           id='comment-container-col'
-          style={{ height: `${this.context.state.usableHeight}px` }}
         >
           <div className='row'>
             {/* <!--- Padding column ---> */}
