@@ -6,7 +6,7 @@
 }
 
 .link-card-row:hover {
-  background-color: var(--gold);
+  background-color: var(--rosey);
 }
 
 .link-grid-unit{
@@ -16,8 +16,8 @@
 .link-card-image {
   height: var(--linkCardHeight);
   width: 100%;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   margin: 0rem;
   border: 0;
   object-fit: contain;
@@ -33,7 +33,7 @@
 }
 
 .external-link:hover {
-  color: var(--rosey) !important;
+  color: var(--lavenderish) !important;
   text-decoration: none;
   outline: none;
   cursor: pointer;
