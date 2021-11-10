@@ -12,7 +12,7 @@ export default class Subtitle extends Component {
     this.state = {
       subtitle: '',
       currentDisplayedSubtitle: '',
-      subtitleShowingTime: 10,
+      subtitleShowingTimeSeconds: 10,
       windowIsActive: true
     }
 
@@ -42,20 +42,20 @@ export default class Subtitle extends Component {
         this.cancelRequests = executorC
       })
     })
-      // Access and store response.
-      .then(subtitleResponse => {
-        this.setState({ subtitle: subtitleResponse.data[0].subtitle }, () => {
-          // console.log('Subtitle:', this.state.subtitle)
-        })
+    // Access and store response.
+    .then(subtitleResponse => {
+      this.setState({ subtitle: subtitleResponse.data[0].subtitle }, () => {
+        // console.log('Subtitle:', this.state.subtitle)
       })
-      .then(() => {
-        this.writeSubtitle()
-      })
-      .catch(err => {
-        if (!axios.isCancel(err)) {
-          console.log(err)
-        }
-      })
+    })
+    .then(() => {
+      this.writeSubtitle()
+    })
+    .catch(err => {
+      if (!axios.isCancel(err)) {
+        console.log(err)
+      }
+    })
   }
 
   /**
@@ -63,29 +63,39 @@ export default class Subtitle extends Component {
    */
   async getNewSubtitle () {
     // Update the subtitle on a set interval.
-    const subtitleShowingTime = this.state.subtitleShowingTime
+    const subtitleShowingTime = this.state.subtitleShowingTimeSeconds
+    console.log(`${new Date().toLocaleTimeString()}: Getting new subtitle`)
     try {
       this.loadNewSubtitleInterval = setInterval(async () => {
-        this.setState({ currentDisplayedSubtitle: '' })
-        axios.get('/api/getRandomSubtitle', {
-          cancelToken: new axios.CancelToken((executorC) => {
-            this.cancelRequests = executorC
+        do {
+          var newSubtitleFound = false
+          await axios.get('/api/getRandomSubtitle', {
+            cancelToken: new axios.CancelToken((executorC) => {
+              this.cancelRequests = executorC
+            })
           })
-        })
           // Access and store response.
           .then(subtitleResponse => {
-            this.setState({ subtitle: subtitleResponse.data[0].subtitle }, () => {
-              // console.log('Subtitle:', this.state.subtitle)
-              // Write out the subtitle to the component state.
-              clearInterval(this.writeCurSubtitleInterval)
-              this.writeSubtitle()
-            })
+            if(this.state.subtitle != subtitleResponse.data[0].subtitle) {
+              this.setState({ currentDisplayedSubtitle: '' })
+              // console.log(`${new Date().toLocaleTimeString()}: New subtitle: ${subtitleResponse.data[0].subtitle}`)
+              this.setState({ subtitle: subtitleResponse.data[0].subtitle }, () => {
+                // Write out the subtitle to the component state.
+                clearInterval(this.writeCurSubtitleInterval)
+                this.writeSubtitle()
+              })
+              // console.log(`${new Date().toLocaleTimeString()}: New subtitle: ${this.state.subtitle}`)
+              newSubtitleFound = true
+            } else {
+              // console.log(`${new Date().toLocaleTimeString()}: Subtitles are the same: ${subtitleResponse.data[0].subtitle} == ${this.state.subtitle}`)
+            }
           })
           .catch(err => {
             if (!axios.isCancel(err)) {
               console.log(err)
             }
           })
+        } while (!newSubtitleFound)
       }, subtitleShowingTime * 1000)
     } catch (error) {
       console.log(error)
@@ -96,7 +106,7 @@ export default class Subtitle extends Component {
    * Writes the subtitle to the state, one character at a time on a timer.
    */
   async writeSubtitle () {
-    const subtitleShowingTime = this.state.subtitleShowingTime
+    const subtitleShowingTime = this.state.subtitleShowingTimeSeconds
 
     // Destructure the subtitle.
     var subtitle = this.state.subtitle

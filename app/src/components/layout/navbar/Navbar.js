@@ -1,6 +1,6 @@
 // NPM modules
 import React, { useContext } from 'react'
-import { useLocation, NavLink } from 'react-router-dom'
+import { useLocation, NavLink, Link } from 'react-router-dom'
 
 // Components
 import Subtitle from './subtitle/Subtitle'
@@ -26,19 +26,16 @@ export const Navbar = () => {
       <div className='row'>
         <div className='col-6'>
 
-          <NavLink
-            exact to='/'
+          <Link
+            end='true'
+            to='/'
             className='navbar-brand'
-            activeStyle={{
-              color: 'var(--whiteish)',
-              textDecoration: 'underline'
-            }}
             style={{
-              fontWeight: 'bold',
-              color: 'var(--blackish)'
+              color: 'var(--blackish)',
+              fontWeight: 'bold'
             }}
           >Wondering Wandering
-          </NavLink>
+          </Link>
 
           <Subtitle />
 
@@ -61,35 +58,32 @@ export const Navbar = () => {
             <a className='navbar-link' rel='noreferrer noopener external' href='/files/resume.pdf'><b>Resume</b></a>
 
             <NavLink
-              exact to='/external-links'
+              end='true'
+              to='/external-links'
               className='navbar-link'
-              activeStyle={{
-                color: 'var(--whiteish)',
-                textDecoration: 'underline'
-              }}
               style={{
-                fontWeight: 'bold',
-                color: 'var(--blackish)'
+                color: 'var(--blackish)',
+                fontWeight: 'bold'
               }}
             >Links
             </NavLink>
 
             <NavLink
-              exact to='/guestbook'
+              end='true'
+              to='/guestbook'
               className='navbar-link'
-              activeStyle={{
-                color: 'var(--whiteish)',
-                textDecoration: 'underline'
-              }}
               style={{
-                fontWeight: 'bold',
-                color: 'var(--blackish)'
+                color: 'var(--blackish)',
+                fontWeight: 'bold'
               }}
             >Guestbook
             </NavLink>
 
             <NavLink
-              exact to='/'
+              end='true'
+              to='/'
+              caseSensitive
+              end
               className='navbar-link'
               onClick={(clickEvent) => {
                 // Prevent redirect if already on the homepage.
@@ -100,8 +94,8 @@ export const Navbar = () => {
                 }
               }}
               style={{
-                fontWeight: 'bold',
-                color: 'var(--blackish)'
+                color: 'var(--blackish)',
+                fontWeight: 'bold'
               }}
             >{location.pathname === '/' ? 'About Me' : 'Home'}
             </NavLink>

@@ -19,6 +19,8 @@ const guestbook = require('../controllers/guestbookController.js')
 const navbar = require('../controllers/navbarController.js')
 const visitorCount = require('../controllers/visitorCountController.js')
 const userValidation = require('../controllers/userVerificationUtilities.js')
+const externalLinks = require('../controllers/externalLinksController.js')
+const piSensorData = require('../controllers/piSensorDataController.js')
 
 // Limiter for webpages.
 const pageLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return next() } : rateLimit({
@@ -73,6 +75,16 @@ mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
   res.status(200)
   // Send the index file via path relative to the one we defined above.
   res.sendFile(path.resolve('views/public/guestbook.html'))
+})
+
+// GET external links page.
+mainAppRouter.get('/external-links', pageLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   pageLimiter(req, res)
+  // }
+  // Log the request.
+  res.status(200)
+  res.sendFile(path.resolve('views/public/external-links.html'))
 })
 
 /**
@@ -143,6 +155,36 @@ mainAppRouter.get('/api/getVisitorCount', mysqlApiLimiter, (req, res) => {
   // }
   console.log('Getting visitor count.')
   visitorCount.getVisitorCount(req, res)
+})
+
+/**
+ * This endpoint gets external link data from the database.
+ *
+ * @param {}
+ * @return {JSON} {external link data}
+ */
+ mainAppRouter.get('/api/getExternalLinkInfo', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   pageLimiter(req, res)
+  // }
+  // Log the request.
+  res.status(200)
+  externalLinks.getExternalLinkInfo(req,res)
+})
+
+/**
+ * This endpoint gets pi sensor data from the database.
+ *
+ * @param {}
+ * @return {JSON} {sensor data}
+ */
+ mainAppRouter.get('/api/piGetTempHumData', mysqlApiLimiter, (req, res) => {
+  // if (process.env.ENV === 'production') {
+  //   pageLimiter(req, res)
+  // }
+  // Log the request.
+  res.status(200)
+  piSensorData.piGetTempHumData(req,res)
 })
 
 module.exports = mainAppRouter

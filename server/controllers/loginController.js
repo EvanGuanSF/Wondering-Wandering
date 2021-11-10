@@ -5,7 +5,7 @@ const cookie = require('cookie')
 const ms = require('ms')
 
 // Our controllers/endpoints.
-const dbQuery = require('./dbQuery.js')
+const mySQLdb = require('./QueryMySQL.js')
 const captcha = require('../controllers/captchaController.js')
 const userValidation = require('../controllers/userVerificationUtilities.js')
 // State of the art password hashing algorithm.
@@ -109,7 +109,7 @@ async function mainLoginLoop (req, res) {
     var query = mysql.format(sql, inserts)
 
     // Execute.
-    var userDetails = await dbQuery.executeQuery(query)
+    var userDetails = await mySQLdb.executeQuery(query)
 
     var existingHashedPassword = userDetails[0].password
 

@@ -1,5 +1,6 @@
 # Misc
 /ignore folder
+/.vscode*
 
 # Authentication
 auth/dbConfig.js

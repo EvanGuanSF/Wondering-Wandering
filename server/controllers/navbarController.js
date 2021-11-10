@@ -2,7 +2,7 @@
 const mysql = require('mysql')
 
 // Our controllers/endpoints.
-const dbQuery = require('../controllers/dbQuery.js')
+const mySQLdb = require('../controllers/QueryMySQL.js')
 
 exports.getRandomSubtitle = function (req, res) {
   // Build the query.
@@ -12,14 +12,14 @@ exports.getRandomSubtitle = function (req, res) {
   var query = mysql.format(sql, inserts)
 
   // Execute
-  dbQuery.executeQuery(query)
-    .then(result => {
-      res.status(200)
-      res.send(result)
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(404)
-      res.send('Failed to receive subtitle data.')
-    })
+  mySQLdb.executeQuery(query)
+  .then(result => {
+    res.status(200)
+    res.send(result)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(404)
+    res.send('Failed to receive subtitle data.')
+  })
 }

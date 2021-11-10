@@ -5,7 +5,7 @@ const cookie = require('cookie')
 const ms = require('ms')
 
 // Our controllers/endpoints.
-const dbQuery = require('./dbQuery.js')
+const mySQLdb = require('./QueryMySQL.js')
 const captcha = require('../controllers/captchaController.js')
 const userValidation = require('../controllers/userVerificationUtilities.js')
 // State of the art password hashing algorithm.
@@ -125,7 +125,7 @@ async function mainRegistrationLoop (req, res) {
     var query = mysql.format(sql, inserts)
 
     try {
-      console.log(await dbQuery.executeQuery(query))
+      console.log(await mySQLdb.executeQuery(query))
     } catch (err) {
       console.log('Error with creating new user in DB: ', err)
       res.status(500)

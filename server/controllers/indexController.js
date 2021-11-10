@@ -2,7 +2,7 @@
 const mysql = require('mysql')
 
 // Our controllers/endpoints.
-const dbQuery = require('../controllers/dbQuery.js')
+const mySQLdb = require('../controllers/QueryMySQL.js')
 
 exports.getProjectInfo = function (req, res) {
   // Build the query.
@@ -12,7 +12,7 @@ exports.getProjectInfo = function (req, res) {
   var query = mysql.format(sql, inserts)
 
   // Execute.
-  dbQuery.executeQuery(query)
+  mySQLdb.executeQuery(query)
     .then(result => {
       // Since we are sorting results in a way such that the projectID in the database may not necessarily match the
       // project ordering in the client side, we need to give the projects new IDs to reduce confusion.

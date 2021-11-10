@@ -1,5 +1,5 @@
 // Add additional middleware imports.
-var request = require('request')
+var axios = require('axios')
 
 exports.getCaptchaValidationStatus = function (params) {
   return new Promise((resolve, reject) => {
@@ -12,20 +12,35 @@ exports.getCaptchaValidationStatus = function (params) {
         'https://www.google.com/recaptcha/api/siteverify?secret=' + process.env.RECAPTCHA_SECRET_KEY +
         '&response=' + captchaToken + '&remoteip=' + userIPAdress
 
-    // Send verification request to Google. Response will be true/false for pass/fail respectively.
-    request(verificationUrl, (error, response, body) => {
-      body = JSON.parse(body)
-      if (!body.success) {
-        // If the response we get is telling us that there is an error, notify the user.
+    axios.post(
+      verificationUrl,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+        },
+      }
+    )
+    .then ((result) => {
+      var data = result.data || {};
+      if(!data.success) {
         console.log('Captacha token invalid!')
+        throw({
+            success: false,
+            error: 'response not valid'
+        })
+        
         reject(new Error(error))
         return
+      } else {
+        // Token is valid.
+        console.log('Captacha token valid!')
+        var retval = { valid: true }
+        resolve(retval)
       }
-      console.log('Captacha token valid!')
-      var result = { valid: true }
 
-      resolve(result)
-      // If we get past the above if statement then the token is valid and the report will post.
+    }, (error) => {
+      console.log(error)
     })
   })
 }

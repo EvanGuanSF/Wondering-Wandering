@@ -6,7 +6,7 @@ const ms = require('ms')
 const cookie = require('cookie')
 
 // Our controllers/endpoints.
-const dbQuery = require('./dbQuery.js')
+const mySQLdb = require('./QueryMySQL.js')
 
 /**
  * Determines if the given email exists in the database, along with possible error messages.
@@ -31,7 +31,7 @@ exports.checkUserEmailExists = function (email) {
     var query = mysql.format(sql, inserts)
 
     // Execute.
-    dbQuery.executeQuery(query)
+    mySQLdb.executeQuery(query)
       .then(result => {
         // if the result is > 0, then the email already exists.
         console.log('Email matches: ' + result[0].emailMatches)
@@ -61,7 +61,7 @@ exports.generateLoginJWTFromEmail = function (email) {
     var query = mysql.format(sql, inserts)
 
     // Execute.
-    return dbQuery.executeQuery(query)
+    return mySQLdb.executeQuery(query)
       .then(result => {
         const jwtTokenData = {
           uuid: result[0].uuid
@@ -101,7 +101,7 @@ exports.getUserRoleFromUUID = function (uuid) {
     var query = mysql.format(sql, inserts)
 
     // Execute.
-    return dbQuery.executeQuery(query)
+    return mySQLdb.executeQuery(query)
       .then(result => {
         resolve(result[0].role)
       })
@@ -155,7 +155,7 @@ exports.refreshLoginToken = async function (req, res, next) {
     var query = mysql.format(sql, inserts)
 
     // Execute.
-    var userDetails = await dbQuery.executeQuery(query)
+    var userDetails = await mySQLdb.executeQuery(query)
 
     var refreshedToken = await exports.generateLoginJWTFromUUID(uuid)
 

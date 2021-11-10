@@ -4,7 +4,7 @@ const validator = require('validator')
 
 // Our controllers/endpoints.
 const captcha = require('../controllers/captchaController.js')
-const dbQuery = require('../controllers/dbQuery.js')
+const mySQLdb = require('../controllers/QueryMySQL.js')
 
 exports.insertComment = function (req, res) {
   // g-recaptcha-response is the token that is generated when the user succeeds in a captcha challenge.
@@ -33,7 +33,7 @@ exports.insertComment = function (req, res) {
       var inserts = ['guestbook', 'guestName', 'guestComment', guestName, guestComment]
       var query = mysql.format(sql, inserts)
 
-      dbQuery.executeQuery(query)
+      mySQLdb.executeQuery(query)
         .then(result => {
           console.log('Comment from ' + req.connection.remoteAddress + ' created successfully.\n')
           res.status(200)
@@ -58,7 +58,7 @@ exports.getComments = function (req, res) {
   var query = mysql.format(sql, inserts)
 
   // Execute
-  dbQuery.executeQuery(query)
+  mySQLdb.executeQuery(query)
     .then(result => {
       res.status(200)
       res.send(result)

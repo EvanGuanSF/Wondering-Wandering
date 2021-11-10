@@ -1,6 +1,6 @@
 // NPM modules
 import React, { Component } from 'react'
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
+import { Routes, BrowserRouter as Router, Route } from 'react-router-dom'
 
 // Components
 import Navbar from './components/layout/navbar/Navbar'
@@ -36,43 +36,37 @@ export default class App extends Component {
             <LoginProvider>
               <PortfolioProvider>
 
-                <Route path='*' component={Navbar} />
+                <Navbar />
 
-                <Switch>
+                <Routes>
+                  <Route  exact path="/" element={<Portfolio />} />
+
                   <Route
-                    exact path='/'
-                    render={() => 
-                        <Portfolio />
-                    }
+                    exact path="/guestbook"
+                    element={<Guestbook />}
                   />
 
                   <Route
-                    exact path='/guestbook'
-                    component={Guestbook}
+                    path="/login"
+                    element={<Login />}
                   />
 
                   <Route
-                    exact path='/login'
-                    component={Login}
+                    path="/register"
+                    element={<Registration />}
                   />
 
                   <Route
-                    exact path='/register'
-                    component={Registration}
+                    path="/external-links"
+                    element={<ExternalLinks />}
                   />
 
                   <Route
-                    exact path='/external-links'
-                    component={ExternalLinks}
+                    path="/*"
+                    element={<PageNotFound />}
                   />
-
-                  <Route
-                    path='/*'
-                    component={PageNotFound}
-                  />
-                </Switch>
-
-                <Route path='*' component={Footer} />
+                </Routes>
+                <Footer />
 
               </PortfolioProvider>
             </LoginProvider>
