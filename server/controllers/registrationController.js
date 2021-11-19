@@ -5,7 +5,7 @@ const cookie = require('cookie')
 const ms = require('ms')
 
 // Our controllers/endpoints.
-const mySQLdb = require('./QueryMySQL.js')
+const mySQLdb = require('./queryMySQL.js')
 const captcha = require('../controllers/captchaController.js')
 const userValidation = require('../controllers/userVerificationUtilities.js')
 // State of the art password hashing algorithm.

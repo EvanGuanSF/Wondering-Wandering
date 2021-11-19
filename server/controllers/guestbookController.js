@@ -4,7 +4,7 @@ const validator = require('validator')
 
 // Our controllers/endpoints.
 const captcha = require('../controllers/captchaController.js')
-const mySQLdb = require('../controllers/QueryMySQL.js')
+const mySQLdb = require('./queryMySQL.js')
 
 exports.insertComment = function (req, res) {
   // g-recaptcha-response is the token that is generated when the user succeeds in a captcha challenge.

@@ -2,7 +2,7 @@
 const mysql = require('mysql')
 
 // Our controllers/endpoints.
-const mySQLdb = require('../controllers/QueryMySQL.js')
+const mySQLdb = require('./queryMySQL.js')
 
 exports.getRandomSubtitle = function (req, res) {
   // Build the query.

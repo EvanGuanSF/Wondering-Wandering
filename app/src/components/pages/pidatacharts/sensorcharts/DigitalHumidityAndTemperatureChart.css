@@ -1,0 +1,36 @@
+.dht-chart {
+  /* Color palette for info. */
+  --tempColor: #FF6133;
+  --humColor: #1E88E5;
+}
+
+.dhtTooltip {
+  border: 2px solid #000;
+  background-color: white;
+  padding-bottom: 0%;
+}
+
+.dhtTooltip > .sampleDateString {
+  color: var(--rosey);
+  margin-left: 5px;
+  margin-right:5px;
+}
+
+.dhtTooltip > .temperature {
+  color: var(--tempColor);
+  margin-top: -5px;
+  top: 5px;
+}
+
+.dhtTooltip > .humidity {
+  color: var(--humColor);
+  margin-top: -5px;
+  top: 5px;
+}
+.temperature-chart-line {
+  stroke: var(--tempColor);
+}
+
+.humidity-chart-line {
+  stroke: var(--humColor);
+}

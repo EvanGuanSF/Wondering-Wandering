@@ -4,7 +4,7 @@ const mysql = require('mysql')
 const crypto = require('crypto')
 
 // Our controllers/endpoints.
-const mySQLdb = require('../controllers/QueryMySQL.js')
+const mySQLdb = require('./queryMySQL.js')
 
 exports.getVisitorCount = function (req, res) {
   // Hash the visitor's IP address, then send it off to the DB to see if the hash already exists in the DB.

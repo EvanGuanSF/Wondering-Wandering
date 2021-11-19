@@ -64,7 +64,7 @@ export default class Subtitle extends Component {
   async getNewSubtitle () {
     // Update the subtitle on a set interval.
     const subtitleShowingTime = this.state.subtitleShowingTimeSeconds
-    console.log(`${new Date().toLocaleTimeString()}: Getting new subtitle`)
+    // console.log(`${new Date().toLocaleTimeString()}: Getting new subtitle`)
     try {
       this.loadNewSubtitleInterval = setInterval(async () => {
         do {

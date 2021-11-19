@@ -67,6 +67,17 @@ export const Navbar = () => {
               }}
             >Links
             </NavLink>
+            
+            <NavLink
+              end='true'
+              to='/pi-data-charts'
+              className='navbar-link'
+              style={{
+                color: 'var(--blackish)',
+                fontWeight: 'bold'
+              }}
+            >Pi Data Charts
+            </NavLink>
 
             <NavLink
               end='true'

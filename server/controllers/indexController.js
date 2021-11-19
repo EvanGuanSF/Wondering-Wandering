@@ -2,7 +2,7 @@
 const mysql = require('mysql')
 
 // Our controllers/endpoints.
-const mySQLdb = require('../controllers/QueryMySQL.js')
+const mySQLdb = require('./queryMySQL.js')
 
 exports.getProjectInfo = function (req, res) {
   // Build the query.

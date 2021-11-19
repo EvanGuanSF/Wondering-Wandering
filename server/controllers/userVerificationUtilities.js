@@ -6,7 +6,7 @@ const ms = require('ms')
 const cookie = require('cookie')
 
 // Our controllers/endpoints.
-const mySQLdb = require('./QueryMySQL.js')
+const mySQLdb = require('./queryMySQL.js')
 
 /**
  * Determines if the given email exists in the database, along with possible error messages.
