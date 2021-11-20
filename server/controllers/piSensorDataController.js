@@ -3,10 +3,9 @@ const myMongoDB = require('../auth/MongoDBConfig.js')
 
 // For executing arbitrary queries.
 exports.piGetTempHumData = async function (req, res) {
-  const sensorDataDB = myMongoDB.db('pi_sensor_data')
-  const sensorDataCollection = sensorDataDB.collection('test1')
-  const hours = req.query.hours == null ? 24 : req.query.hours
-  const hours = req.query.hours == 0 ? 24 : req.query.hours
+  const sensorDataDB = myMongoDB.db(`${process.env.MONGODB_DB_TO_USE}`)
+  const sensorDataCollection = sensorDataDB.collection(`${process.env.MONGODB_DHT_COLLECTION}`)
+  var hours = req.query.hours == null ? 24 : req.query.hours
   console.log(`${new Date()}: Getting sensor data for past ${hours} hours.`)
 
   const data = await sensorDataCollection.find(

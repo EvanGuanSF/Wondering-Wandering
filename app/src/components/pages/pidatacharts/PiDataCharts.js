@@ -20,16 +20,6 @@ export default class PiDataCharts extends Component {
     }
   }
 
-  componentDidMount () {
-  }
-
-  componentWillUnmount () {
-    // Cancel requests.
-    if (this.cancelRequests !== null) {
-      this.cancelRequests()
-    }
-  }
-
   render () {
     return (
       <CSSTransition
