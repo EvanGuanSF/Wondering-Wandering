@@ -112,4 +112,3 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 dump.rdb
-server/package-lock.json
