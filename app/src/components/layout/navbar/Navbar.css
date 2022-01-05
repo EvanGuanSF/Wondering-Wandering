@@ -52,11 +52,6 @@ nav {
   padding-bottom: 0rem;
 }
 
-.active {
-  color: var(--whiteish) !important;
-  text-decoration: underline;
-}
-
 .nav-item > a {
   vertical-align: middle;
 }

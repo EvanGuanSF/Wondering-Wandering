@@ -52,9 +52,6 @@ const mysqlApiLimiter = process.env.ENV === 'dev' ? (req, res, next) => { return
 
 // GET index.
 mainAppRouter.get('/', userValidation.refreshLoginToken, pageLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   pageLimiter(req, res)
-  // }
   // Log the request.
   console.log('GET request for the homepage over: ' + req.protocol)
 
@@ -66,9 +63,6 @@ mainAppRouter.get('/', userValidation.refreshLoginToken, pageLimiter, (req, res)
 
 // GET guestbook.
 mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   pageLimiter(req, res)
-  // }
   // Log the request.
   console.log('GET request for guestbook')
   // Return successful get request status.
@@ -79,9 +73,6 @@ mainAppRouter.get('/guestbook', pageLimiter, (req, res) => {
 
 // GET external links page.
 mainAppRouter.get('/external-links', pageLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   pageLimiter(req, res)
-  // }
   // Log the request.
   res.status(200)
   res.sendFile(path.resolve('views/public/external-links.html'))
@@ -94,9 +85,6 @@ mainAppRouter.get('/external-links', pageLimiter, (req, res) => {
  * @return {JSON} {projectID, projectName, projectURL, projectSecondaryURL, projectTertiaryURL, projectImage, projectDetails, projectLanguagesAndTechnologies, projectRole}
  */
 mainAppRouter.get('/api/getProjectInfo', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   mysqlApiLimiter(req, res)
-  // }
   console.log('Getting project info.')
   index.getProjectInfo(req, res)
 })
@@ -108,9 +96,6 @@ mainAppRouter.get('/api/getProjectInfo', mysqlApiLimiter, (req, res) => {
  * @return {URL} {guestBookURL}
  */
 mainAppRouter.post('/api/submitComment', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   mysqlApiLimiter(req, res)
-  // }
   console.log('Comment submission endpoint.')
   guestbook.insertComment(req, res)
 })
@@ -122,9 +107,6 @@ mainAppRouter.post('/api/submitComment', mysqlApiLimiter, (req, res) => {
  * @return {JSON} {guestName, guestComment}
  */
 mainAppRouter.get('/api/getComments', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   mysqlApiLimiter(req, res)
-  // }
   console.log('Getting comments.')
   guestbook.getComments(req, res)
 })
@@ -136,9 +118,6 @@ mainAppRouter.get('/api/getComments', mysqlApiLimiter, (req, res) => {
  * @return {JSON} {guestName, guestComment}
  */
 mainAppRouter.get('/api/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   mysqlApiLimiter(req, res)
-  // }
   console.log('Getting random subtitle.')
   navbar.getRandomSubtitle(req, res)
 })
@@ -150,9 +129,6 @@ mainAppRouter.get('/api/getRandomSubtitle', mysqlApiLimiter, (req, res) => {
  * @return {JSON} {visitorCount}
  */
 mainAppRouter.get('/api/getVisitorCount', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   mysqlApiLimiter(req, res)
-  // }
   console.log('Getting visitor count.')
   visitorCount.getVisitorCount(req, res)
 })
@@ -163,12 +139,8 @@ mainAppRouter.get('/api/getVisitorCount', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {external link data}
  */
- mainAppRouter.get('/api/getExternalLinkInfo', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   pageLimiter(req, res)
-  // }
+mainAppRouter.get('/api/getExternalLinkInfo', mysqlApiLimiter, (req, res) => {
   // Log the request.
-  res.status(200)
   externalLinks.getExternalLinkInfo(req,res)
 })
 
@@ -178,12 +150,8 @@ mainAppRouter.get('/api/getVisitorCount', mysqlApiLimiter, (req, res) => {
  * @param {}
  * @return {JSON} {sensor data}
  */
- mainAppRouter.get('/api/piGetTempHumData', mysqlApiLimiter, (req, res) => {
-  // if (process.env.ENV === 'production') {
-  //   pageLimiter(req, res)
-  // }
+mainAppRouter.get('/api/piGetTempHumData', mysqlApiLimiter, (req, res) => {
   // Log the request.
-  res.status(200)
   piSensorData.piGetTempHumData(req,res)
 })
 

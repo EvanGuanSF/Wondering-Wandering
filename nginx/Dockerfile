@@ -8,15 +8,12 @@ WORKDIR /temp/app
 COPY ./app/package*.json ./
 
 RUN apt-get update
-RUN npm update -g npm
-RUN npm install -g node-gyp npm-check-updates
-RUN ncu -u
+RUN npm install -g node-gyp
 RUN npm install
 
 COPY ./app/ /temp/app/
 
-WORKDIR /temp/app/
-RUN npm run build --prod
+RUN npm run build
 
 ###
 # STAGE 2: Use created react build in nginx container.

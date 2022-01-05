@@ -1,6 +1,7 @@
 # Misc
 /ignore folder
 /.vscode*
+*/package-lock.json
 
 # Authentication
 auth/dbConfig.js
@@ -111,3 +112,4 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 dump.rdb
+server/package-lock.json
