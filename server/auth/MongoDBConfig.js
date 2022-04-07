@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb')
 // Setup uri components.
 const username = encodeURIComponent(process.env.MONGODB_USER)
 const password = encodeURIComponent(process.env.MONGODB_PASSWORD)
-const hostname = process.env.MONGODB_HOST
+const hostname = encodeURIComponent(process.env.MONGODB_HOST)
 const authMechanism = "DEFAULT"
 const mongodbURI = `mongodb://${username}:${password}@${hostname}/?authMechanism=${authMechanism}`
 // console.log(`mongodb://${username}:${password}@${hostname}/?authMechanism=${authMechanism}`)

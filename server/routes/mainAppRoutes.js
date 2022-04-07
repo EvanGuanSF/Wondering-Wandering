@@ -3,6 +3,7 @@ const express = require('express')
 const mainAppRouter = express.Router()
 
 // Add additional middleware imports.
+const cors = require('cors')
 const path = require('path')
 const rateLimit = require('express-rate-limit')
 const redisStore = require('rate-limit-redis')
@@ -145,14 +146,27 @@ mainAppRouter.get('/api/getExternalLinkInfo', mysqlApiLimiter, (req, res) => {
 })
 
 /**
- * This endpoint gets pi sensor data from the database.
+ * This endpoint gets historic pi sensor data from the database.
  *
  * @param {}
  * @return {JSON} {sensor data}
  */
-mainAppRouter.get('/api/piGetTempHumData', mysqlApiLimiter, (req, res) => {
+mainAppRouter.options('/api/piGetTempHumDataHistory', cors())
+mainAppRouter.get('/api/piGetTempHumDataHistory', cors(), mysqlApiLimiter, (req, res) => {
   // Log the request.
-  piSensorData.piGetTempHumData(req,res)
+  piSensorData.piGetTempHumDataHistory(req, res)
+})
+
+/**
+ * This endpoint gets current pi sensor data from the database.
+ *
+ * @param {}
+ * @return {JSON} {sensor data}
+ */
+mainAppRouter.options('/api/piGetTempHumDataCurrent', cors())
+mainAppRouter.get('/api/piGetTempHumDataCurrent', cors(), mysqlApiLimiter, (req, res) => {
+  // Log the request.
+  piSensorData.piGetTempHumDataCurrent(req, res)
 })
 
 module.exports = mainAppRouter

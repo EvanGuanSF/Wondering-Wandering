@@ -67,7 +67,7 @@ export default class DigitalHumidityAndTemperatureChart extends Component {
    */
   getSensorData = () => {
     // Get and set dht sensor data.
-    axios.get('/api/piGetTempHumData', {
+    axios.get('/api/piGetTempHumDataHistory', {
       cancelToken: new axios.CancelToken ((executorC) => {
         this.cancelRequests = executorC
       })
