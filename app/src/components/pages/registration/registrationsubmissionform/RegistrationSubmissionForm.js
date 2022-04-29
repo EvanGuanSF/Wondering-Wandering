@@ -198,7 +198,7 @@ export default class RegistrationSubmissionForm extends Component {
 
   render () {
     if(this.state.redirectURL !== '') {
-      return <Navigate push to={new URL(this.state.redirectURL).pathname} />
+      return <Navigate to={new URL(this.state.redirectURL).pathname} />
     } else {
       return (
         <form id='registration-form' action='/register' method='post' encType='application/json'>

@@ -8,7 +8,7 @@
 </style>
 <pre style='white-space: pre-wrap; margin-top: 15px; margin-bottom: 15px;''>
 <h2 class='text-center'><b>Hi, I'm Evan Guan.</b></h2>
-<h5 class='text-center'>You can find all of my public GitHub repositories <a href='https://github.com/JammyPajamies' target='_blank'><font size='+2'>Here</font></a>.</h5>
+<h5 class='text-center'>You can find all of my public GitHub repositories <a href='https://github.com/EvanGuanSF' target='_blank'><font size='+2'>Here</font></a>.</h5>
 This website is a resume and portfolio of sorts that highlights several projects that I have worked on.
 
 <h5><b>I...</b></h5>- acquired a Bachelor of Science Computer Science from San Francisco State University in August 2019.

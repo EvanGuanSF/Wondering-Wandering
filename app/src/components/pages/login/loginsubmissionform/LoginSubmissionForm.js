@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import validator from 'validator'
-import { Navigate } from 'react-router-dom'
+import { Navigate  } from 'react-router-dom'
 
 // Contexts
 import LoginContext from '../../../../context/LoginState'
@@ -152,7 +152,7 @@ export default class LoginSubmissionForm extends Component {
 
   render () {
     if(this.state.redirectURL !== '') {
-      return <Navigate push to={new URL(this.state.redirectURL).pathname} />
+      return <Navigate to={new URL(this.state.redirectURL).pathname} />
     } else {
       return (
         <form id='registration-form' action='/register' method='post' encType='application/json'>

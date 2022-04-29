@@ -32,52 +32,41 @@ export default class App extends Component {
     return (
       <div className='container col-12' style={{ margin: '0 0 0 0', padding: '0 0 0 0', width: '100%' }}>
         <Router>
-        
           <LayoutProvider>
             <LoginProvider>
               <PortfolioProvider>
-
                 <Navbar />
-
                 <Routes>
                   <Route  exact path="/" element={<Portfolio />} />
-
                   <Route
                     exact path="/guestbook"
                     element={<Guestbook />}
                   />
-
                   <Route
                     path="/login"
                     element={<Login />}
                   />
-
                   <Route
                     path="/register"
                     element={<Registration />}
                   />
-
                   <Route
                     path="/external-links"
                     element={<ExternalLinks />}
                   />
-
                   <Route
                     path="/pi-data-charts"
                     element={<PiDataCharts />}
                   />
-
                   <Route
                     path="/*"
                     element={<PageNotFound />}
                   />
                 </Routes>
                 <Footer />
-
               </PortfolioProvider>
             </LoginProvider>
           </LayoutProvider>
-
         </Router>
       </div>
     )

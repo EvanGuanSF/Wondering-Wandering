@@ -1,6 +1,7 @@
 # Misc
 /ignore folder
 /.vscode*
+*/package-lock.json
 
 # Authentication
 auth/dbConfig.js
